@@ -1,0 +1,11 @@
+function iabf()
+{
+	make install && rackboot.sh -b -c $1
+}
+
+function goto_fault_code()
+{
+	# $1==binary, $2=address
+	path=$(addr2line -e $1 $2)
+	vim $path
+}

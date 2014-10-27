@@ -1,0 +1,52 @@
+# make with core detection -- simon, 2013-07-26
+alias make='~/.local/bin/make-magic'
+
+#perlgrep
+alias pgrep="perl -npe"
+
+# alias for git send-email
+alias gsm="readpw | xargs -I{} git send-email --smtp-pass={}"
+
+alias pysh="ipython -profile pysh -nobanner -noconfirm_exit"
+
+alias fws="sed -ri 's/\s+$//' $*"
+
+alias psn="ps -eo pid,ni,args"
+
+# vless -- by nev
+if [ -d /usr/share/vim/vim73 ]; then
+	alias vless='/usr/share/vim/vim73/macros/less.sh'
+elif [ -d /usr/share/vim/vim74 ]; then
+	alias vless='/usr/share/vim/vim74/macros/less.sh'
+else
+	alias vless='less'
+fi
+alias vl=vless
+
+# unpack arbitrary archives
+alias x='atool -x'
+
+# ssh agent forwarding by default
+alias ssh='ssh -A'
+
+alias psu='ps -u gerbesim'
+
+# use git achievements
+alias git='git-achievements'
+
+# scc control
+alias scc-ctrl='ssh emmentaler telnet raclette-bmc 5010'
+alias scc-ssh='ssh user@tomme1.in.barrelfish.org'
+alias ssh-rebind='source ~/.local/bin/rebind-to-ssh-agent.sh'
+
+alias gcc="gcc $CFLAGS"
+
+alias sls='screen -ls'
+
+alias do-update='sudo aptitude update && sudo aptitude full-upgrade -y'
+
+alias pyc='python -c'
+
+alias telnet='telnet -e '
+
+[[ -f /local/gerbesim/.local/bash_aliases ]] && . /local/gerbesim/.local/bash_aliases
