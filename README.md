@@ -4,6 +4,7 @@ This is my collection of configuration files. Currently included are my
 * vim configuration
 * font configuration necessary for vim-airline to work
 * i3 window manager configuration (+i3status configuration and scripts)
+* git configuration
 
 License
 =======
