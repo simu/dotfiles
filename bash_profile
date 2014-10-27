@@ -3,16 +3,18 @@
 export ORIGPATH=$PATH
 
 # Get the aliases and functions
-if [ -f ~/.bashrc ]; then
+if [ -f ~/.dotfiles/bashrc ]; then
+	. ~/.dotfiles/bashrc
+elif [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
 
 # User specific environment and startup programs
 
-[[ -f ~/.bash/environment ]] && . ~/.bash/environment
+[[ -f ~/.dotfiles/bash/environment ]] && . ~/.dotfiles/bash/environment
 
 # user specific functions
-[[ -f ~/.bash/functions ]] && . ~/.bash/functions
+[[ -f ~/.dotfiles/bash/functions ]] && . ~/.dotfiles/bash/functions
 
 export PATH
 unset USERNAME
