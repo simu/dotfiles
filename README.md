@@ -10,5 +10,5 @@ License
 =======
 
 * Configurations are licensed under MIT license, see LICENSE
-* Adobe Source Code Pro fonts [fonts/ttf-sourcecode](fonts/ttf-sourcecode) are licensed under OFL
+* Adobe Source Code Pro fonts ([fonts/ttf-sourcecode](fonts/ttf-sourcecode)) are licensed under OFL
   1.1 (see corresponding [LICENSE.txt](fonts/ttf-sourcecode/LICENSE.txt)).
