@@ -1,3 +1,9 @@
+This is my collection of configuration files. Currently included are my
+
+* bash configuration
+* vim configuration
+* font configuration necessary for vim-airline to work
+
 License
 =======
 
