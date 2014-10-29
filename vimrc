@@ -46,6 +46,8 @@ Bundle 'wting/gitsessions.vim'
 Bundle 'bling/vim-airline'
 " fugitive
 Bundle 'tpope/vim-fugitive'
+" jedi: python autocompletion
+Bundle 'davidhalter/jedi-vim'
 
 "powerline setup
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
