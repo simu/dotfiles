@@ -87,7 +87,7 @@ hi Special    guifg=#70a0d0 gui=none
 
 hi Operator   guifg=#408010
 
-" color of <TAB>s etc...  
+" color of <TAB>s etc...
 "hi SpecialKey guifg=#d8a080 guibg=#e8e8e8
 hi SpecialKey guifg=#d0b0b0 guibg=#f0f0f0 gui=none
 
@@ -96,5 +96,11 @@ hi DiffChange guifg=NONE guibg=#e0e0e0 gui=bold
 hi DiffText guifg=NONE guibg=#f0c8c8 gui=bold
 hi DiffAdd guifg=NONE guibg=#c0e0d0 gui=bold
 hi DiffDelete guifg=NONE guibg=#f0e0b0 gui=bold
+
+" GitGutter
+hi GitGutterAdd guifg=#00aa00 guibg=#eeeeee
+hi GitGutterChange guifg=#a0a000 guibg=#eeeeee
+hi GitGutterDelete guifg=#aa0000 guibg=#eeeeee
+hi GitGutterChangeDelete guifg=#aa00aa guibg=#eeeeee
 
 
