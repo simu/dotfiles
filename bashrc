@@ -93,7 +93,7 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-[ -f ~/.bash/aliases ] && . ~/.bash/aliases
+[ -f ~/.dotfiles/bash/aliases ] && . ~/.dotfiles/bash/aliases
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
