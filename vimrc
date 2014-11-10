@@ -132,6 +132,8 @@ if has("autocmd")
     autocmd FileType text set nolist lbr
     autocmd FileType mixed set nowrap syntax=objdasm
     autocmd FileType c let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
+    "turn on highlighting for GNU C extensions
+    autocmd FileType c let c_gnu=1
     autocmd FileType h let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
     autocmd FileType rst set tw=80
     autocmd BufReadPost *
