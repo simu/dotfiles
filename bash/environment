@@ -10,7 +10,7 @@ export EDITOR=vim
 function prepend
 {
     PATH_VAR=$1
-    PPATH=$2    
+    PPATH=$2
     PATH_CONTENTS=${!PATH_VAR}
 
     if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
@@ -20,7 +20,7 @@ function prepend
 function append
 {
     PATH_VAR=$1
-    PPATH=$2    
+    PPATH=$2
     PATH_CONTENTS=${!PATH_VAR}
 
     if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
@@ -32,32 +32,25 @@ function append
 export VIM=/usr/share/vim
 
 # new barrelfish env
-xdir="/home/netos/tools/ubuntu-precise"
-xroot="$xdir/chroot.x86_64"
-xlibpath="$xroot/lib/x86_64-linux-gnu:$xroot/usr/lib/x86_64-linux-gnu/:$xroot/usr/lib"
-xghcpath="$xdir/ghc-7.4.1/"
-xgccpath="$xroot/usr/bin"
-ARM_GCC=/home/netos/tools/i686-pc-linux-gnu/arm-2012.03/bin
 
-prepend PATH $ARM_GCC
 prepend PATH /home/netos/tools/bin
+prepend PATH /home/netos/tools/gem5/gem5/build/ARM
 prepend PATH /home/gerbesim/.local/override-bin
 append PATH /home/gerbesim/.local/bin
 append PATH /home/gerbesim/.local/opt/fast-export
 append PATH /home/gerbesim/.local/opt/git-achievements
-append PATH /home/gerbesim/.local/opt/scctest
+
+# Xeon PHI gcc
+append PATH /opt/mpss/3.4/sysroots/x86_64-mpsssdk-linux/usr/bin/k1om-mpss-linux
 
 if [[ $HOSTNAME = emmentaler* ]]; then
-    prepend PATH /home/netos/tools/ubuntu-precise/bin64
     append PATH /local/gerbesim/.local/bin
 fi
 
 if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-    append PATH /local/gerbesim/tools/gem5/build/ARM
     append PATH /local/gerbesim/tools/arcanist/arcanist/bin
-    prepend PATH /local/gerbesim/tools/ghc-7.4.1/bin
     echo $DBUS_SESSION_BUS_ADDRESS > /local/gerbesim/.dbus_session_bus_address
-#    append PATH /local/gerbesim/.local/bin
+    #append PATH /local/gerbesim/.local/bin
 fi
 
 export CCACHE_DIR=/local/gerbesim/.ccache
@@ -78,6 +71,5 @@ export TIG_LS_REMOTE="/home/gerbesim/.local/bin/git-ls-remote-sane ."
 if [[  $HOSTNAME == "sgd-dalcoi7-09" ]]; then
     export WINEPREFIX=/local/gerbesim/wine32
     export LD_LIBRARY_PATH=/home/gerbesim/.local/lib
-    append PATH /opt/mpss/3.4/sysroots/x86_64-mpsssdk-linux/usr/bin/k1om-mpss-linux
     export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.4
 fi
