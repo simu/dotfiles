@@ -48,6 +48,8 @@ Bundle 'bling/vim-airline'
 Bundle 'tpope/vim-fugitive'
 " jedi: python autocompletion
 Bundle 'davidhalter/jedi-vim'
+" orgmode
+Bundle 'jceb/vim-orgmode'
 
 "powerline setup
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -104,6 +106,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.jhtml set ft=htmljinja
     autocmd BufNewFile,BufRead *.zsh-theme set ft=sh
     autocmd BufNewFile,BufRead SConstruct set ft=python
+    autocmd BufNewFile,BufRead *.wsgi,*.tac set ft=python
     autocmd BufNewFile,BufRead CMakeLists set ft=cmake
     autocmd BufNewFile,BufRead *.frag,*.vert,*.fp,*.vp,*.glsl,*.glslv,*.glslf setf glsl
     autocmd BufNewFile,BufRead *.if,*.dev setf c
@@ -115,6 +118,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.c set ft=c
     autocmd BufNewFile,BufRead *.h set ft=h
     autocmd BufNewFile,BufRead *.text set ft=mixed
+    autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
