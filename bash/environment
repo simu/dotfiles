@@ -78,3 +78,8 @@ fi
 # http://seclists.org/fulldisclosure/2014/Nov/74
 unset LESSOPEN
 unset LESSCLOSE
+
+# set CDPATH for workstation
+if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
+	export CDPATH=".:/local/gerbesim"
+fi
