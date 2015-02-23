@@ -117,6 +117,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.as set ft=gas
     autocmd BufNewFile,BufRead *.c set ft=c
     autocmd BufNewFile,BufRead *.h set ft=h
+    autocmd BufNewFile,BufRead *.cpp,*.cc set ft=cpp
+    autocmd BufNewFile,BufRead *.hpp,*.hh set ft=cpp
     autocmd BufNewFile,BufRead *.text set ft=mixed
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd Filetype xml set ts=8 et sts=2 sw=2
@@ -130,6 +132,7 @@ if has("autocmd")
     autocmd FileType htmljinja set ts=4 et sts=4 sw=4
     autocmd FileType c set ts=8 et sts=4 sw=4
     autocmd FileType h set ts=8 et sts=4 sw=4
+    autocmd FileType cpp set ts=8 et sts=4 sw=4
     autocmd FileType gas set ts=4 sw=4 sts=4 et
     autocmd FileType lhaskell set ts=8 sw=4 sts=4 et
     autocmd FileType haskell set ts=8 sw=4 sts=4 et
@@ -139,6 +142,9 @@ if has("autocmd")
     "turn on highlighting for GNU C extensions
     autocmd FileType c let c_gnu=1
     autocmd FileType h let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
+    autocmd FileType h let c_gnu=1
+    autocmd FileType cpp let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
+    autocmd FileType cpp let c_gnu=1
     autocmd FileType rst set tw=80
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
