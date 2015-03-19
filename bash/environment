@@ -80,6 +80,6 @@ unset LESSOPEN
 unset LESSCLOSE
 
 # set CDPATH for workstation
-if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-	export CDPATH=".:/local/gerbesim"
-fi
+#if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
+#	export CDPATH=".:/local/gerbesim"
+#fi
