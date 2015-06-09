@@ -49,6 +49,8 @@ fi
 
 if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
     append PATH /local/gerbesim/tools/arcanist/arcanist/bin
+# armv8 toolchain
+    append PATH /local/gerbesim/tools/apm-aarch64/8.0.5-le/bin
     echo $DBUS_SESSION_BUS_ADDRESS > /local/gerbesim/.dbus_session_bus_address
     #append PATH /local/gerbesim/.local/bin
 fi
@@ -83,3 +85,15 @@ unset LESSCLOSE
 #if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
 #	export CDPATH=".:/local/gerbesim"
 #fi
+
+# try to classify SSH connections for stuff like vim-airline etc
+if [ -n "$SSH_CONNECTION" ]; then
+	ssh_remote=$(echo $SSH_CONNECTION | cut -f 1 -d' ' | nslookup | grep "name =" | cut -d= -f2 | cut -d' ' -f2)
+	case $ssh_remote in
+		sgd-dalcoi7-09*) export TERM_HAS_AIRLINE_SYMS=1;;
+		*) export TERM_HAS_AIRLINE_SYMS=0;;
+	esac
+else
+	# local, assume we have airline syms.
+	export TERM_HAS_AIRLINE_SYMS=1
+fi
