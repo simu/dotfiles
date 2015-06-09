@@ -3,3 +3,6 @@ multicore
 multikernel
 #eterogenous
 heterogenous/!
+virtualization
+MMU
+Barrelfish's

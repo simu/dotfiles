@@ -50,6 +50,8 @@ Bundle 'tpope/vim-fugitive'
 Bundle 'davidhalter/jedi-vim'
 " orgmode
 Bundle 'jceb/vim-orgmode'
+" moinmoin syntax
+Bundle 'moin.vim'
 
 "powerline setup
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -57,11 +59,13 @@ Bundle 'jceb/vim-orgmode'
 " show statusline always
 set laststatus=2
 " fixup for fontconfig powerline fonts
-if !exists('g:airline_symbols')
-  let g:airline_symbols = {}
+if $TERM_HAS_AIRLINE_SYMS != 0 || has("gui_running")
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+  let g:airline_symbols.space = "\ua0"
+  let g:airline_powerline_fonts = 1
 endif
-let g:airline_symbols.space = "\ua0"
-let g:airline_powerline_fonts = 1
 " configure colorscheme -- solarized light works ok with my colorscheme
 let g:solarized_termcolors=256
 let g:airline_theme="solarized"
@@ -70,6 +74,8 @@ let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
 " configure gitgutter airline settings
 let g:airline#extensions#hunks#enabled = 1
+" gitgutter limits
+let g:gitgutter_max_signs = 5000
 " only show if we actually have changed lines (has the side-effect of hiding
 " it completely for files that aren't under vc).
 let g:airline#extensions#hunks#non_zero_only = 1
