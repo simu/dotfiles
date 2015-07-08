@@ -26,7 +26,7 @@ Bundle 'Rip-Rip/clang_complete'
 " guicolorscheme
 Bundle 'guicolorscheme.vim'
 " supertab
-Bundle 'SuperTab'
+Bundle 'ervandew/supertab'
 " cscope_maps
 Bundle 'simu/cscope_maps'
 " YouCompleteMe -- fancy autocompletion that combines clang_complete,
@@ -52,6 +52,12 @@ Bundle 'davidhalter/jedi-vim'
 Bundle 'jceb/vim-orgmode'
 " moinmoin syntax
 Bundle 'moin.vim'
+" Rust syntax highlighting
+Bundle 'rust-lang/rust.vim'
+" Rust completion (racer)
+Bundle 'phildawes/racer'
+" jump stack
+Bundle 'tommcdo/vim-kangaroo'
 
 "powerline setup
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
@@ -83,7 +89,6 @@ let g:airline#extensions#hunks#non_zero_only = 1
 " maybe fix for junk symbols in text
 let g:gitgutter_realtime=0
 
-
 " default text width 77 (allows for 3-digit line numbers on 80 column
 " terminals)
 " now 78, as with smart relnumbers we wont have 3-digit line numbers anymore
@@ -100,8 +105,9 @@ set number
 "  set number
 "endfunc
 
-let g:SuperTabDefaultCompletionType="<c-x><c-u>"
-let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
+" default to user completion
+let g:SuperTabDefaultCompletionType = 'context'
+let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 
 if has("autocmd")
   filetype plugin indent on
@@ -127,6 +133,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.hpp,*.hh set ft=cpp
     autocmd BufNewFile,BufRead *.text set ft=mixed
     autocmd BufNewFile,BufRead *.md set ft=markdown
+    autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -142,6 +149,9 @@ if has("autocmd")
     autocmd FileType gas set ts=4 sw=4 sts=4 et
     autocmd FileType lhaskell set ts=8 sw=4 sts=4 et
     autocmd FileType haskell set ts=8 sw=4 sts=4 et
+    autocmd FileType rust set ts=8 sw=4 sts=4 et
+    autocmd FileType rust nmap <c-t> <Plug>KangarooPop
+    "autocmd FileType rust let g:SuperTabContextDefaultCompletionType="<c-x><c-o>"
     autocmd FileType text set nolist lbr
     autocmd FileType mixed set nowrap syntax=objdasm
     autocmd FileType c let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
