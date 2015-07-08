@@ -35,10 +35,12 @@ export VIM=/usr/share/vim
 
 prepend PATH /home/netos/tools/bin
 prepend PATH /home/netos/tools/gem5/gem5/build/ARM
-prepend PATH /home/gerbesim/.local/override-bin
-append PATH /home/gerbesim/.local/bin
-append PATH /home/gerbesim/.local/opt/fast-export
-append PATH /home/gerbesim/.local/opt/git-achievements
+
+# ~/.local/ paths
+prepend PATH $HOME/.local/override-bin
+append PATH $HOME/.local/bin
+append PATH $HOME/.local/opt/fast-export
+append PATH $HOME/.local/opt/git-achievements
 
 # Xeon PHI gcc
 append PATH /opt/mpss/3.4/sysroots/x86_64-mpsssdk-linux/usr/bin/k1om-mpss-linux
@@ -49,10 +51,13 @@ fi
 
 if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
     append PATH /local/gerbesim/tools/arcanist/arcanist/bin
-# armv8 toolchain
+    # armv8 toolchain
     append PATH /local/gerbesim/tools/apm-aarch64/8.0.5-le/bin
+    append PATH /home/netos/tools/linaro/gcc-linaro-4.9-2014.11-x86_64_aarch64-elf/bin
     echo $DBUS_SESSION_BUS_ADDRESS > /local/gerbesim/.dbus_session_bus_address
     #append PATH /local/gerbesim/.local/bin
+    export RUST_SRC_PATH=/local/gerbesim/src/rust/src
+    prepend PATH /opt/openocd-potenza/bin
 fi
 
 export CCACHE_DIR=/local/gerbesim/.ccache
