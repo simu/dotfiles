@@ -102,3 +102,5 @@ else
 	# local, assume we have airline syms.
 	export TERM_HAS_AIRLINE_SYMS=1
 fi
+
+. ~/.local/bash_environment

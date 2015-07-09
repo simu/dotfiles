@@ -151,6 +151,7 @@ if has("autocmd")
     autocmd FileType haskell set ts=8 sw=4 sts=4 et
     autocmd FileType rust set ts=8 sw=4 sts=4 et
     autocmd FileType rust nmap <c-t> <Plug>KangarooPop
+    autocmd FileType rust set makeprg=cargo
     "autocmd FileType rust let g:SuperTabContextDefaultCompletionType="<c-x><c-o>"
     autocmd FileType text set nolist lbr
     autocmd FileType mixed set nowrap syntax=objdasm
