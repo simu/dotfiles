@@ -103,4 +103,4 @@ else
 	export TERM_HAS_AIRLINE_SYMS=1
 fi
 
-. ~/.local/bash_environment
+[[ -f ~/.local/bash_environment ]] && . ~/.local/bash_environment
