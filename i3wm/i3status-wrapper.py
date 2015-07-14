@@ -35,33 +35,44 @@ def get_governor():
 
 def get_dropbox_status():
     """ Get current status for dropbox. """
-    out = check_output(["dropbox", "status"])
-    return out.strip().replace('\n', '|')
+    try:
+        out = check_output(["dropbox", "status"])
+        return out.strip().replace('\n', '|')
+    except:
+        return "not installed"
 
 def get_current_kbmap():
-    out = check_output(["setxkbmap", "-print"])
-    for line in out.splitlines():
-        if line.find("symbols") > 0:
-            _, layout, _ = line.split('+', 2)
-            return layout
-    return ""
+    """ Get current keyboard layout """
+    try:
+        out = check_output(["setxkbmap", "-print"])
+        for line in out.splitlines():
+            if line.find("symbols") > 0:
+                _, layout, _ = line.split('+', 2)
+                return layout
+        return ""
+    except:
+        return "cannot parse kbd layout"
 
 def get_current_nuvola_song():
+    """ Get nuvolaplayer status """
     #def str_to_bool(input):
     #    return {'true': True, 'false': False}.get(input, False)
 
-    artist = check_output(["nuvolaplayer3ctl", "track-info", "artist"]).strip()
-    title = check_output(["nuvolaplayer3ctl", "track-info", "title"]).strip()
-    state = check_output(["nuvolaplayer3ctl", "track-info", "state"]).strip()
-    #thumbs_up = check_output(["nuvolaplayer3ctl", "action-state", "thumbs-up"]).strip()
-    #thumbsym = u""
-    #if str_to_bool(thumbs_up):
-    #    thumbsym = u"👍"
+    try:
+        artist = check_output(["nuvolaplayer3ctl", "track-info", "artist"]).strip()
+        title = check_output(["nuvolaplayer3ctl", "track-info", "title"]).strip()
+        state = check_output(["nuvolaplayer3ctl", "track-info", "state"]).strip()
+        #thumbs_up = check_output(["nuvolaplayer3ctl", "action-state", "thumbs-up"]).strip()
+        #thumbsym = u""
+        #if str_to_bool(thumbs_up):
+        #    thumbsym = u"👍"
 
-    if state == "playing" or state == "paused":
-        #return "[%s]%s %s - %s" % (state, thumbsym, artist, title)
-        return "[%s] %s - %s" % (state, artist, title)
-    else:
+        if state == "playing" or state == "paused":
+            #return "[%s]%s %s - %s" % (state, thumbsym, artist, title)
+            return "[%s] %s - %s" % (state, artist, title)
+        else:
+            return "[n/a]"
+    except:
         return "[n/a]"
     pass
 
