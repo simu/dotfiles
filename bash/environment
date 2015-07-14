@@ -31,54 +31,16 @@ function append
 # assume vim stuff is always in /usr/share/vim
 export VIM=/usr/share/vim
 
-# new barrelfish env
-
-prepend PATH /home/netos/tools/bin
-prepend PATH /home/netos/tools/gem5/gem5/build/ARM
-
 # ~/.local/ paths
 prepend PATH $HOME/.local/override-bin
 append PATH $HOME/.local/bin
 append PATH $HOME/.local/opt/fast-export
 append PATH $HOME/.local/opt/git-achievements
-
-# Xeon PHI gcc
-append PATH /opt/mpss/3.4/sysroots/x86_64-mpsssdk-linux/usr/bin/k1om-mpss-linux
-
-if [[ $HOSTNAME = emmentaler* ]]; then
-    append PATH /local/gerbesim/.local/bin
-fi
-
-if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-    append PATH /local/gerbesim/tools/arcanist/arcanist/bin
-    # armv8 toolchain
-    append PATH /local/gerbesim/tools/apm-aarch64/8.0.5-le/bin
-    append PATH /home/netos/tools/linaro/gcc-linaro-4.9-2014.11-x86_64_aarch64-elf/bin
-    echo $DBUS_SESSION_BUS_ADDRESS > /local/gerbesim/.dbus_session_bus_address
-    #append PATH /local/gerbesim/.local/bin
-    export RUST_SRC_PATH=/local/gerbesim/src/rust/src
-    prepend PATH /opt/openocd-potenza/bin
-fi
-
-export CCACHE_DIR=/local/gerbesim/.ccache
+# add .local/lib to LD_LIBRARY_PATH
+prepend LD_LIBRARY_PATH $HOME/.local/lib
 
 if [[ "$CFLAGS" != *"-std="* ]]; then
     export CFLAGS="$CFLAGS -std=gnu11 -O2 -Wall -Wshadow -Wmissing-field-initializers -Wredundant-decls -Wstrict-prototypes -Wold-style-definition -Werror"
-fi
-
-# git author name and email mostly for sudo -E
-if [[ $HOSTNAME == emmentaler* ]]; then
-    export GIT_AUTHOR_NAME="Simon Gerber"
-    export GIT_AUTHOR_EMAIL="simon.gerber@inf.ethz.ch"
-fi
-
-export TIG_LS_REMOTE="/home/gerbesim/.local/bin/git-ls-remote-sane ."
-
-# set wine prefix for workstation
-if [[  $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-    export WINEPREFIX=/local/gerbesim/wine32
-    export LD_LIBRARY_PATH=/home/gerbesim/.local/lib
-    export ASAN_SYMBOLIZER_PATH=/usr/bin/llvm-symbolizer-3.4
 fi
 
 # disable lesspipe stuff, avoids
