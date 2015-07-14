@@ -46,6 +46,16 @@ def get_current_kbmap():
             return layout
     return ""
 
+def get_current_nuvola_song():
+    artist = check_output(["nuvolaplayer3ctl", "track-info", "artist"]).strip()
+    title = check_output(["nuvolaplayer3ctl", "track-info", "title"]).strip()
+    state = check_output(["nuvolaplayer3ctl", "track-info", "state"]).strip()
+    if state == "playing" or state == "paused":
+        return "[%s] %s - %s" % (state, artist, title)
+    else:
+        return "[n/a]"
+    pass
+
 def print_line(message):
     """ Non-buffered printing to stdout. """
     sys.stdout.write(message + '\n')
@@ -83,5 +93,6 @@ if __name__ == '__main__':
         #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
         j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
+        j.insert(0, {'full_text' : get_current_nuvola_song(), 'name' : 'kbmap'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
