@@ -10,54 +10,7 @@ syn on
 filetype plugin on
 filetype plugin indent on
 
-" vundle setup
-set rtp+=~/.vim/bundle/vundle
-call vundle#rc()
-
-" vundle selfmanage
-Bundle 'gmarik/vundle'
-" seek
-Bundle 'simu/vim-seek'
-" file:line -- allows to open files with appended line and column info
-" (e.g. some-file.c:120:5:)
-Bundle 'file-line'
-" clang complete
-Bundle 'Rip-Rip/clang_complete'
-" guicolorscheme
-Bundle 'guicolorscheme.vim'
-" supertab
-Bundle 'ervandew/supertab'
-" cscope_maps
-Bundle 'simu/cscope_maps'
-" YouCompleteMe -- fancy autocompletion that combines clang_complete,
-" SuperTab and some others
-"Bundle 'Valloric/YouCompleteMe'
-" Syntastic -- in-editor compiler warnings etc.
-Bundle 'scrooloose/syntastic'
-" vim git gutter
-Bundle 'airblade/vim-gitgutter'
-" CoVim
-"Bundle 'FredKSchott/CoVim'
-" git sessions (restore vim context per branch)
-Bundle 'wting/gitsessions.vim'
-" powerline (statusline++)
-"Bundle 'Lokaltog/powerline'
-" airline (lightweight vim-only powerline
-Bundle 'bling/vim-airline'
-" fugitive
-Bundle 'tpope/vim-fugitive'
-" jedi: python autocompletion
-Bundle 'davidhalter/jedi-vim'
-" orgmode
-Bundle 'jceb/vim-orgmode'
-" moinmoin syntax
-Bundle 'moin.vim'
-" Rust syntax highlighting
-Bundle 'rust-lang/rust.vim'
-" Rust completion (racer)
-Bundle 'phildawes/racer'
-" jump stack
-Bundle 'tommcdo/vim-kangaroo'
+source ~/.vim/vimrc_bundle
 
 "powerline setup
 "set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
