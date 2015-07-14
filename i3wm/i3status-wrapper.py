@@ -47,11 +47,19 @@ def get_current_kbmap():
     return ""
 
 def get_current_nuvola_song():
+    def str_to_bool(input):
+        return {'true': True, 'false': False}.get(input, False)
+
     artist = check_output(["nuvolaplayer3ctl", "track-info", "artist"]).strip()
     title = check_output(["nuvolaplayer3ctl", "track-info", "title"]).strip()
     state = check_output(["nuvolaplayer3ctl", "track-info", "state"]).strip()
+    thumbs_up = check_output(["nuvolaplayer3ctl", "action-state", "thumbs-up"]).strip()
+    thumbsym = u""
+    if str_to_bool(thumbs_up):
+        thumbsym = u"👍"
+
     if state == "playing" or state == "paused":
-        return "[%s] %s - %s" % (state, artist, title)
+        return u"[%s]%s %s - %s" % (state, thumbsym, artist, title)
     else:
         return "[n/a]"
     pass
