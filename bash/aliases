@@ -26,9 +26,6 @@ alias vl=vless
 # unpack arbitrary archives
 alias x='atool -x'
 
-# ssh agent forwarding by default
-alias ssh='ssh -A'
-
 alias psu='ps -u gerbesim'
 
 # use git achievements
