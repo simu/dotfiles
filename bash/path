@@ -1,0 +1,12 @@
+. $DOTFILES/common
+
+# ~/.local/ paths
+prepend PATH $HOME/.local/override-bin
+append PATH $HOME/.local/bin
+append PATH $HOME/.local/opt/fast-export
+append PATH $HOME/.local/opt/git-achievements
+
+# add .local/lib to LD_LIBRARY_PATH
+prepend LD_LIBRARY_PATH $HOME/.local/lib
+
+[[ -f ~/.local/bash_path ]] && . ~/.local/bash_path

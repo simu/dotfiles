@@ -1,3 +1,4 @@
+. $DOTFILES/common
 # set terminal lang to something useful
 export LANG="en_US.utf8"
 export LC_ALL="en_US.utf8"
@@ -7,37 +8,8 @@ export LC_PAPER="de_CH.utf8"
 # set editor
 export EDITOR=vim
 
-function prepend
-{
-    PATH_VAR=$1
-    PPATH=$2
-    PATH_CONTENTS=${!PATH_VAR}
-
-    if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
-        eval export $PATH_VAR=$PPATH:$PATH_CONTENTS
-    fi
-}
-function append
-{
-    PATH_VAR=$1
-    PPATH=$2
-    PATH_CONTENTS=${!PATH_VAR}
-
-    if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
-        eval export $PATH_VAR=$PATH_CONTENTS:$PPATH
-    fi
-}
-
 # assume vim stuff is always in /usr/share/vim
 export VIM=/usr/share/vim
-
-# ~/.local/ paths
-prepend PATH $HOME/.local/override-bin
-append PATH $HOME/.local/bin
-append PATH $HOME/.local/opt/fast-export
-append PATH $HOME/.local/opt/git-achievements
-# add .local/lib to LD_LIBRARY_PATH
-prepend LD_LIBRARY_PATH $HOME/.local/lib
 
 if [[ "$CFLAGS" != *"-std="* ]]; then
     export CFLAGS="$CFLAGS -std=gnu11 -O2 -Wall -Wshadow -Wmissing-field-initializers -Wredundant-decls -Wstrict-prototypes -Wold-style-definition -Werror"

@@ -1,6 +1,10 @@
 # .bash_profile
 
+DOTFILES=~/.dotfiles/bash
+
 export ORIGPATH=$PATH
+
+[[ -f ~/.dotfiles/bash/path ]] && . ~/.dotfiles/bash/path
 
 # Get the aliases and functions
 if [ -f ~/.dotfiles/bashrc ]; then
