@@ -85,3 +85,7 @@ setup_vim
 setup_fonts
 
 setup_i3wm
+
+sudo aptitude install gksu
+
+echo 2 | sudo update-alternatives --config dmenu
