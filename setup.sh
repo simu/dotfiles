@@ -71,6 +71,8 @@ setup_vim() {
 	vim -u ~/.vim/vimrc_bundle +BundleInstall +qa
 }
 
+mkdir -p ~/.local/bin
+
 install_config "bash_profile"
 install_config "bashrc"
 install_config "inputrc"
