@@ -73,6 +73,7 @@ setup_vim() {
 
 mkdir -p ~/.local/bin
 
+install_config "profile"
 install_config "bash_profile"
 install_config "bashrc"
 install_config "inputrc"

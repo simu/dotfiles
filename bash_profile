@@ -4,7 +4,7 @@ DOTFILES=~/.dotfiles/bash
 
 export ORIGPATH=$PATH
 
-[[ -f ~/.dotfiles/bash/path ]] && . ~/.dotfiles/bash/path
+[[ -f $DOTFILES/path ]] && . $DOTFILES/path
 
 # Get the aliases and functions
 if [ -f ~/.dotfiles/bashrc ]; then
@@ -15,10 +15,10 @@ fi
 
 # User specific environment and startup programs
 
-[[ -f ~/.dotfiles/bash/environment ]] && . ~/.dotfiles/bash/environment
+[[ -f $DOTFILES/environment ]] && . $DOTFILES/environment
 
 # user specific functions
-[[ -f ~/.dotfiles/bash/functions ]] && . ~/.dotfiles/bash/functions
+[[ -f $DOTFILES/functions ]] && . $DOTFILES/functions
 
 export PATH
 unset USERNAME
