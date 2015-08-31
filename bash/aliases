@@ -28,9 +28,6 @@ alias x='atool -x'
 
 alias psu='ps -u gerbesim'
 
-# use git achievements
-alias git='git-achievements'
-
 # scc control
 alias scc-ctrl='ssh emmentaler telnet raclette-bmc 5010'
 alias scc-ssh='ssh user@tomme1.in.barrelfish.org'
