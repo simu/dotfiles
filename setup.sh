@@ -22,6 +22,7 @@ install_config() {
 }
 
 setup_fonts() {
+	mkdir -p ~/.fonts
 	install_config "fonts/otf-powerlinesymbols"
 	install_config "fonts/ttf-sourcecode"
 	mkdir -p ~/.config/fontconfig/conf.d
