@@ -46,8 +46,10 @@ setup_i3wm() {
 	echo "installing helpers"
 	backup_if_exists "local/bin/i3status-wrapper.py"
 	backup_if_exists "local/bin/i3sysctl"
+	backup_if_exists "local/bin/dunst.sh"
 	ln -s $confdir/i3wm/i3status-wrapper.py ~/.local/bin
 	ln -s $confdir/i3wm/i3sysctl ~/.local/bin
+	ln -s $confdir/i3wm/dunst.sh ~/.local/bin
 }
 
 setup_vim() {
