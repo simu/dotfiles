@@ -35,7 +35,8 @@ Bundle 'wting/gitsessions.vim'
 " powerline (statusline++)
 "Bundle 'Lokaltog/powerline'
 " airline (lightweight vim-only powerline
-Bundle 'bling/vim-airline'
+Bundle 'vim-airline/vim-airline'
+Bundle 'vim-airline/vim-airline-themes'
 " fugitive
 Bundle 'tpope/vim-fugitive'
 " jedi: python autocompletion
