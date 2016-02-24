@@ -1,0 +1,19 @@
+#!/bin/bash
+
+cores=$(grep vendor_id /proc/cpuinfo | wc -l)
+
+# this produces too much load on my workstation,
+# just run with threads=cores for now
+#if [ $cores -le 8 ]; then
+#	threads=$(($cores*2))
+#else
+#	threads=$cores
+#fi
+threads=$cores
+
+# todo: if -j in given opts ignore magic
+
+echo "Running make with $threads threads."
+/usr/bin/make -j$threads $@
+
+

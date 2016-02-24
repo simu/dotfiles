@@ -16,9 +16,15 @@ backup_if_exists() {
 }
 
 install_config() {
-	echo "linking $1"
+	echo "linking config $1"
 	backup_if_exists $1
 	ln -s $confdir/$1 ~/.${1}
+}
+
+install_script() {
+	echo "linking script $1"
+	backup_if_exists "local/bin/$1"
+	ln -s $confdir/scripts/$1 ~/.local/bin/${1}
 }
 
 setup_fonts() {
@@ -76,6 +82,7 @@ setup_vim() {
 
 mkdir -p ~/.local/bin
 
+install_script "make-magic"
 install_config "profile"
 install_config "bash_profile"
 install_config "bashrc"
