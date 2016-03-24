@@ -27,6 +27,7 @@
 import sys
 import json
 from subprocess import check_output
+from mpd import MPDClient
 
 def get_governor():
     """ Get the current governor for cpu0, assuming all CPUs use the same. """
@@ -73,6 +74,56 @@ def get_current_nuvola_song():
         return "[n/a]"
     pass
 
+mpd_client = None
+def mpd_reconnect():
+    # open mpd connection
+    global mpd_client
+    mpd_client = MPDClient()
+    mpd_client.timeout = 5
+    mpd_client.idletimeout = None
+    try:
+        mpd_client.connect("localhost", 6600)
+    except:
+        print >>sys.stderr, "could not connect"
+        return False
+
+    print >>sys.stderr, "mpd reconnected"
+    return True
+
+def get_mpd_song():
+    """ Get infos from mpd """
+    global mpd_client
+    try:
+        mpd_client.ping()
+    except:
+        c = mpd_reconnect()
+        if not c:
+            return "[mpd: could not reconnect]"
+    try:
+        mpd_client.command_list_ok_begin()
+        mpd_client.update()
+        mpd_client.status()
+        mpd_client.currentsong()
+        results = mpd_client.command_list_end()
+        state = results[1]['state']
+        state = results[1]['state']
+        artist = None
+        if 'artist' in results[2].keys():
+            artist = results[2]['artist']
+        title = None
+        if 'title' in results[2].keys():
+            title = results[2]['title']
+        if artist is None and title is not None:
+            # assume #Musik stream
+            artist, title = title.split(" | ")[0].split(" - ")
+        if state == "play" or state == "paused":
+            return "[%s] %s - %s" % (state, artist, title)
+        else:
+            return "[n/a]"
+    except:
+        return "[n/a]"
+    pass
+
 def print_line(message):
     """ Non-buffered printing to stdout. """
     sys.stdout.write(message + '\n')
@@ -92,6 +143,9 @@ def read_line():
         sys.exit()
 
 if __name__ == '__main__':
+    # connect to MPD
+    mpd_reconnect()
+
     # Skip the first line which contains the version header.
     print_line(read_line())
 
@@ -110,6 +164,6 @@ if __name__ == '__main__':
         #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
         j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
-        j.insert(0, {'full_text' : get_current_nuvola_song(), 'name' : 'kbmap'})
+        j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
