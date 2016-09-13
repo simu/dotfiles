@@ -32,6 +32,7 @@ if [ -n "$SSH_CONNECTION" ]; then
 		sgd-dalcoi7-09*) export TERM_HAS_AIRLINE_SYMS=1;;
 		stud*-h56*) export TERM_HAS_AIRLINE_SYMS=1;;
 		stud*-h57*) export TERM_HAS_AIRLINE_SYMS=1;;
+		sgn-x201-01*) export TERM_HAS_AIRLINE_SYMS=1;;
 		*) export TERM_HAS_AIRLINE_SYMS=0;;
 	esac
 else
