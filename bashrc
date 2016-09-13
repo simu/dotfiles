@@ -60,13 +60,17 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+if [ -f ~/.local/bash_prompt_config ]; then
+    . ~/.local/bash_prompt_config
+fi
+
 if [ "$color_prompt" = yes ]; then
     #PS1='${debian_chroot:+($debian_chroot)}\D{%Y-%m-%d %H:%m} \[\033[01;10m\]\u@\h\[\033[00m\]:\w \$ '
-    if [[ $HOSTNAME == "violin" ]]; then
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;31m\]\u@\h\[\033[00m\]:\w \$ '
-    else
-	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[00m\]:\w \$ '
+    if [[ x"$HOSTNAME_COLOR" == x"" ]]; then
+        echo "Setting HOSTNAME_COLOR (${HOSTNAME_COLOR}) to default: 36"
+        HOSTNAME_COLOR=36
     fi
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;${HOSTNAME_COLOR}m\]\u@\h\[\033[00m\]:\w \$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
