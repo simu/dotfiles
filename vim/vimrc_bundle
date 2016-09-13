@@ -51,6 +51,10 @@ Bundle 'rust-lang/rust.vim'
 Bundle 'phildawes/racer'
 " jump stack
 Bundle 'tommcdo/vim-kangaroo'
+" align to character
+Bundle 'tommcdo/vim-lion'
+" Puppet stuff
+Bundle 'rodjek/vim-puppet'
 
 call vundle#end()
 "filetype plugin indent on

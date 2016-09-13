@@ -87,6 +87,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.text set ft=mixed
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
+    autocmd BufNewFile,BufRead *.pp set ft=puppet
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -253,7 +254,11 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " clang autocomplete hotfix
-let g:clang_library_path='/usr/lib/llvm-3.4/lib'
+if $HOSTNAME =~# "emmentaler"
+  let g:clang_library_path='/mnt/local/gerbesim/lib'
+else
+  let g:clang_library_path='/usr/lib/llvm-3.4/lib'
+endif
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_macros=1
@@ -309,3 +314,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 let g:syntastic_c_checkers = ['ycm']
 
 let g:netrw_liststyle = 3
+
+" LaTeX wordcount (needs detex which should come with your LaTeX distribution)
+" from http://tex.stackexchange.com/questions/534/is-there-any-way-to-do-a-correct-word-count-of-a-latex-document
+command! -range=% WC <line1>,<line2>w !detex | wc -w
