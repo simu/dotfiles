@@ -124,6 +124,15 @@ def get_mpd_song():
         return "[n/a]"
     pass
 
+def get_running_vms():
+    """Get number of currently running libvirt VMs"""
+    import libvirt
+    conn = libvirt.openReadOnly(None)
+    if conn == None:
+        return
+    return "Online VMs: %d" % conn.numOfDomains()
+    pass
+
 def print_line(message):
     """ Non-buffered printing to stdout. """
     sys.stdout.write(message + '\n')
@@ -165,5 +174,6 @@ if __name__ == '__main__':
         j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
         j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
+        j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
