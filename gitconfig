@@ -5,7 +5,7 @@
 [color]
 	diff = auto
 	status = auto
-	ui = always
+	ui = auto
 
 [rerere]
 	enabled = true
