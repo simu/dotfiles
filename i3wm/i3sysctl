@@ -2,7 +2,8 @@
 # from: https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
 
 lock() {
-    gnome-screensaver-command -l
+    #gnome-screensaver-command -l
+    light-locker-command -l
 }
 
 case "$1" in
@@ -19,10 +20,12 @@ case "$1" in
         lock && systemctl hibernate
         ;;
     reboot)
-        gksudo -- shutdown -r now
+	systemctl reboot
+        #gksudo -- shutdown -r now
         ;;
     shutdown)
-        gksudo -- shutdown -h now
+	systemctl poweroff
+        #gksudo -- shutdown -h now
         ;;
     *)
         echo "Usage: $0 {lock|logout|suspend|hibernate|reboot|shutdown}"

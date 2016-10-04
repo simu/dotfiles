@@ -96,6 +96,6 @@ setup_fonts
 
 setup_i3wm
 
-sudo aptitude install gksu
+sudo aptitude install gksu python-mpd
 
 echo 2 | sudo update-alternatives --config dmenu

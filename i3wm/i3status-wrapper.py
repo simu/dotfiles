@@ -26,6 +26,7 @@
 
 import sys
 import json
+import socket
 from subprocess import check_output
 from mpd import MPDClient
 
@@ -171,9 +172,10 @@ if __name__ == '__main__':
         # insert information into the start of the json, but could be anywhere
         # CHANGE THIS LINE TO INSERT SOMETHING ELSE
         #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
-        j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
+        #j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
-        j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
-        j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
+        if socket.gethostname().startswith('sgd-dalcoi7-09'):
+            j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
+            j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))

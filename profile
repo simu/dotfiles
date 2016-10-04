@@ -7,3 +7,5 @@ if [ -n "$DESKTOP_SESSION" ]; then
 fi
 
 [[ -f $DOTFILES/path ]] && . $DOTFILES/path
+
+export PATH="$HOME/.cargo/bin:$PATH"
