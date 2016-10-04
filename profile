@@ -3,7 +3,7 @@
 DOTFILES=~/.dotfiles/bash
 
 if [ -n "$DESKTOP_SESSION" ]; then
-	export $(gnome-keyring-daemon -s)
+	eval $(gnome-keyring-daemon -s)
 fi
 
 [[ -f $DOTFILES/path ]] && . $DOTFILES/path
