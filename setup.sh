@@ -43,8 +43,8 @@ setup_fonts() {
 setup_i3wm() {
 	mkdir -p ~/.i3/
 	backup_if_exists "i3/config"
-	echo "linking i3 config"
-	ln -s $confdir/i3wm/i3.config ~/.i3/config
+	echo "generating i3 config for `hostname -s`"
+	python $confdir/i3wm/i3confgen.py
 	mkdir -p ~/.config/i3status
 	echo "linking i3status config"
 	backup_if_exists "config/i3status/config"	
@@ -96,6 +96,6 @@ setup_fonts
 
 setup_i3wm
 
-sudo aptitude install gksu python-mpd
+sudo aptitude install gksu python-mpd python-jinja2
 
 echo 2 | sudo update-alternatives --config dmenu
