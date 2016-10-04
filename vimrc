@@ -257,7 +257,7 @@ vnoremap <silent> # :<C-U>
 if $HOSTNAME =~# "emmentaler"
   let g:clang_library_path='/mnt/local/gerbesim/lib'
 else
-  let g:clang_library_path='/usr/lib/llvm-3.4/lib'
+  let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
 endif
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'

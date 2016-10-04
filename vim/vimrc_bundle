@@ -13,8 +13,8 @@ Bundle 'simu/vim-seek'
 " file:line -- allows to open files with appended line and column info
 " (e.g. some-file.c:120:5:)
 Bundle 'file-line'
-" clang complete
-Bundle 'Rip-Rip/clang_complete'
+" clang complete (with python3 support)
+Bundle 'myint/clang_complete'
 " guicolorscheme
 Bundle 'guicolorscheme.vim'
 " supertab
