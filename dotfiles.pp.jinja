@@ -1,0 +1,90 @@
+# vim:ft=puppet
+# Site-configuration
+$home = '{{ homedir }}'
+$conf = '{{ confdir }}'
+
+define mkdir_p($path = $title) {
+  $path_parents = all_parents($path)
+  each ($path_parents) |$dir| {
+    if ! defined (File[$dir]) {
+      file { $dir: ensure => directory }
+    }
+  }
+  file { $path: ensure => directory }
+}
+define config_link($filename = $title, $linkprefix = "${home}/.", $targetdir = "${conf}") {
+  file { "${linkprefix}${filename}":
+    ensure => link,
+    target => "${targetdir}/${filename}"
+  }
+}
+
+# TODO: site-specific screen locking
+class i3config {
+  mkdir_p { "${home}/.i3": }
+  exec { 'generate-i3-config':
+    require => File["${home}/.i3"],
+    command => "/usr/bin/python ${conf}/i3wm/i3confgen.py",
+    environment => [ "HOME=${home}" ]
+  }
+  mkdir_p { "${home}/.local/bin": }
+  $helpers = [ 'i3status-wrapper.py', 'i3sysctl', 'dunst.sh' ]
+  config_link { $helpers:
+    linkprefix => "${home}/.local/bin",
+    targetdir => "${conf}/i3wm/",
+  }
+}
+
+class vimconfig {
+  config_link { 'vimrc': }
+  mkdir_p { "${home}/.vim": }
+  $vim_subdirs = [ 'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
+                   'plugin', 'scripts', 'spell', 'syntax' ]
+  config_link{ $vim_subdirs: }
+  config_link{ 'vim/vimrc_bundle': }
+  mkdir_p { "${home}/.vim/bundle": }
+  vcsrepo { "${home}/.vim/bundle/Vundle.vim":
+    ensure => present,
+    provider => git,
+    source => "https://github.com/VundleVim/Vundle.vim.git"
+  }
+  exec { 'install-bundles':
+    require => Vcsrepo["${home}/.vim/bundle/Vundle.vim"],
+    command => "/usr/bin/vim -u ${home}/.vim/vimrc_bundle +BundleInstall +qa",
+    environment => [ "HOME=${home}" ]
+  }
+}
+
+class fontconfig {
+  mkdir_p { "${home}/.fonts": }
+  config_link { 'fonts/otf-powerlinesymbols': }
+  config_link { 'fonts/ttf-sourcecode': }
+  mkdir_p { "${home}/.config/fontconfig/conf.d": }
+  file { "${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf":
+    ensure => link,
+    target => "${conf}/fonts/10-powerline-symbols.conf"
+  }
+  exec { "rebuild-fc-cache":
+    command => "/usr/bin/fc-cache",
+    environment => [ "HOME=${home}" ],
+    require =>
+    [ File["${home}/.fonts/otf-powerlinesymbols"],
+      File["${home}/.fonts/ttf-sourcecode"],
+      File["${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf"]
+    ]
+  }
+}
+
+node default {
+  include fontconfig
+  include vimconfig
+  include i3config
+
+  config_link { "make-magic":
+    linkprefix => "${home}/.local/bin",
+    targetdir  => "${conf}/scripts/"
+  }
+  $configs = [ "profile", "bash_profile", "bashrc", "inputrc", "gitconfig",
+               "tmux.conf" ]
+  config_link { $configs: }
+}

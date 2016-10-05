@@ -1,1 +1,3 @@
 *.pyc
+# generated puppet manifest
+dotfiles.pp
