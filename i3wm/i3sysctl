@@ -1,13 +1,9 @@
 #!/bin/sh
 # from: https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
 
-lock() {
-    #gnome-screensaver-command -l
-    light-locker-command -l
-}
-
 case "$1" in
     lock)
+        # lock needs to be external command
         lock
         ;;
     logout)

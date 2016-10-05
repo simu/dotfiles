@@ -19,7 +19,6 @@ define config_link($filename = $title, $linkprefix = "${home}/.", $targetdir = "
   }
 }
 
-# TODO: site-specific screen locking
 class i3config {
   mkdir_p { "${home}/.i3": }
   exec { 'generate-i3-config':
@@ -32,6 +31,11 @@ class i3config {
   config_link { $helpers:
     linkprefix => "${home}/.local/bin",
     targetdir => "${conf}/i3wm/",
+  }
+  # per-machine lock script
+  file { "${home}/.local/bin/lock":
+    ensure => link,
+    target => "${conf}/i3wm/lock.${hostname}.sh"
   }
 }
 
