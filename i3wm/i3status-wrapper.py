@@ -35,6 +35,14 @@ def get_governor():
     with open('/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor') as fp:
         return fp.readlines()[0].strip()
 
+def dropbox_installed():
+    """Check if dropbox is running"""
+    try:
+        check_output(["dropbox", "status"])
+        return True
+    except:
+        return False
+
 def get_dropbox_status():
     """ Get current status for dropbox. """
     try:
@@ -172,7 +180,8 @@ if __name__ == '__main__':
         # insert information into the start of the json, but could be anywhere
         # CHANGE THIS LINE TO INSERT SOMETHING ELSE
         #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
-        #j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
+        if dropbox_installed():
+            j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
         if socket.gethostname().startswith('sgd-dalcoi7-09'):
             j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
