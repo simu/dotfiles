@@ -254,11 +254,7 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " clang autocomplete hotfix
-if $HOSTNAME =~# "emmentaler"
-  let g:clang_library_path='/mnt/local/gerbesim/lib'
-else
-  let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
-endif
+let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_macros=1
