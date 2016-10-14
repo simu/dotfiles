@@ -2,6 +2,12 @@
 
 DOTFILES=~/.dotfiles/bash
 
+# start dbus if it's not running yet (see
+# https://bbs.archlinux.org/viewtopic.php?id=45553)
+if test -z "$DBUS_SESSION_BUS_ADDRESS"; then
+	eval `dbus-launch --sh-syntax --exit-with-session`
+fi
+
 if [ -n "$DESKTOP_SESSION" ]; then
 	eval $(gnome-keyring-daemon -s)
 fi
