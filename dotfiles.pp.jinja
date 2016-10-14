@@ -29,8 +29,8 @@ class i3config {
   mkdir_p { "${home}/.local/bin": }
   $helpers = [ 'i3status-wrapper.py', 'i3sysctl', 'dunst.sh' ]
   config_link { $helpers:
-    linkprefix => "${home}/.local/bin",
-    targetdir => "${conf}/i3wm/",
+    linkprefix => "${home}/.local/bin/",
+    targetdir => "${conf}/i3wm",
   }
   # per-machine lock script
   file { "${home}/.local/bin/lock":
@@ -79,16 +79,29 @@ class fontconfig {
   }
 }
 
-node default {
+class common {
   include fontconfig
   include vimconfig
   include i3config
 
   config_link { "make-magic":
-    linkprefix => "${home}/.local/bin",
-    targetdir  => "${conf}/scripts/"
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts"
   }
   $configs = [ "profile", "bash_profile", "bashrc", "inputrc", "gitconfig",
                "tmux.conf" ]
   config_link { $configs: }
+}
+
+node chimaera {
+  include common
+
+  config_link { "setup_trackpoint.sh":
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts"
+  }
+}
+
+node default {
+  include common
 }
