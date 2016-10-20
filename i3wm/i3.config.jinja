@@ -250,7 +250,7 @@ bindsym $mod+space mode "$mode_xkbmap"
 exec --no-startup-id nm-applet
 exec --no-startup-id ibus-daemon
 exec --no-startup-id dropbox start -i
-exec --no-startup-id ~/.local/bin/dunst.sh
+exec --no-startup-id dunst
 {% for prog in startup_programs -%}
 exec --no-startup-id {{ prog }}
 {% endfor %}
