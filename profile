@@ -9,7 +9,6 @@ DOTFILES=~/.dotfiles/bash
 #fi
 
 if [ -n "$DESKTOP_SESSION" ]; then
-	echo "Connecting to gnome-keyring-daemon"
 	eval $(gnome-keyring-daemon -s)
 	export SSH_AUTH_SOCK
 fi
