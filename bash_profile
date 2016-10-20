@@ -2,6 +2,9 @@
 
 DOTFILES=~/.dotfiles/bash
 
+# source generic .profile
+. ~/.profile
+
 export ORIGPATH=$PATH
 
 [[ -f $DOTFILES/path ]] && . $DOTFILES/path
