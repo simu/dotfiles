@@ -117,6 +117,7 @@ if has("autocmd")
     autocmd FileType cpp let g:SuperTabContextDefaultCompletionType="<c-x><c-u>"
     autocmd FileType cpp let c_gnu=1
     autocmd FileType rst set tw=80
+    autocmd FileType gitcommit set spell
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
