@@ -12,10 +12,10 @@ else
 	if [ $? -eq 0 ]; then
 		TP_DEVICE=13
 		# disable touchpad
-		xinput disable 13
+		xinput disable 12
 	fi
 fi
-devinput=$(xinput list-props $TP_DEVICE | grep 258 | cut -d\" -f2)
+devinput=$(xinput list-props $TP_DEVICE | grep "Device Node" | cut -d\" -f2)
 echo "TrackPoint is Device $TP_DEVICE ($devinput)"
 
 xinput enable $TP_DEVICE
