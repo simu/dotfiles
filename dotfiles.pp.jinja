@@ -44,7 +44,10 @@ class vimconfig {
   mkdir_p { "${home}/.vim": }
   $vim_subdirs = [ 'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
                    'plugin', 'scripts', 'spell', 'syntax' ]
-  config_link{ $vim_subdirs: }
+  config_link{ $vim_subdirs:
+    linkprefix => "${home}/.vim",
+    targetdir => "${conf}/vim",
+  }
   config_link{ 'vim/vimrc_bundle': }
   mkdir_p { "${home}/.vim/bundle": }
   vcsrepo { "${home}/.vim/bundle/Vundle.vim":
