@@ -99,6 +99,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
+    autocmd BufNewFile,BufRead *.js set ft=javascript
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -129,6 +130,7 @@ if has("autocmd")
     autocmd FileType cpp let c_gnu=1
     autocmd FileType rst set tw=80
     autocmd FileType gitcommit set spell
+    autocmd FileType javascript set ts=8 et sts=4 sw=4
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
