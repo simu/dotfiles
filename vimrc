@@ -186,7 +186,7 @@ set scrolloff=3
 if has("gui_running")
   :color simu-gcs
 else
-  if $WSL == 1 && $COLORTERM != "mate-terminal"
+  if $WSL == 1 && $COLORTERM == ""
     set bg=dark
     " Windows terminal needs this?
     set t_ut=
