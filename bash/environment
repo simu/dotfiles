@@ -25,6 +25,7 @@ unset LESSCLOSE
 #	export CDPATH=".:/local/gerbesim"
 #fi
 
+export TERM_HAS_AIRLINE_SYMS=0
 # try to classify SSH connections for stuff like vim-airline etc
 if [ -n "$SSH_CONNECTION" ]; then
 	ssh_remote=$(echo $SSH_CONNECTION | cut -f 1 -d' ' | nslookup | grep "name =" | cut -d= -f2 | cut -d' ' -f2)
@@ -38,6 +39,13 @@ if [ -n "$SSH_CONNECTION" ]; then
 else
 	# local, assume we have airline syms.
 	export TERM_HAS_AIRLINE_SYMS=1
+fi
+
+kernel_manufacturer=$(echo `uname -r` |cut -d- -f3)
+if [ $kernel_manufacturer == "Microsoft" ]; then
+	export WSL=1
+else
+	export WSL=0
 fi
 
 [[ -f ~/.local/bash_environment ]] && . ~/.local/bash_environment

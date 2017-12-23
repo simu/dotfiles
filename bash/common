@@ -5,7 +5,7 @@ function prepend
     PATH_CONTENTS=${!PATH_VAR}
 
     if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
-        eval export $PATH_VAR=$PPATH:$PATH_CONTENTS
+        eval 'export $PATH_VAR=$PPATH:"$PATH_CONTENTS"'
     fi
 }
 function append
@@ -15,7 +15,7 @@ function append
     PATH_CONTENTS=${!PATH_VAR}
 
     if [[ "$PATH_CONTENTS" != *"$PPATH"* ]]; then
-        eval export $PATH_VAR=$PATH_CONTENTS:$PPATH
+        eval 'export $PATH_VAR="$PATH_CONTENTS":$PPATH'
     fi
 }
 

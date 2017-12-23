@@ -173,8 +173,15 @@ set scrolloff=3
 if has("gui_running")
   :color simu-gcs
 else
-  :source ~/.vim/bundle/guicolorscheme.vim/plugin/guicolorscheme.vim
-  GuiColorScheme simu-gcs
+  if $WSL == 1 && $COLORTERM != "mate-terminal"
+    set bg=dark
+    " Windows terminal needs this?
+    set t_ut=
+    color xoria256
+  else
+    :source ~/.vim/bundle/guicolorscheme.vim/plugin/guicolorscheme.vim
+    GuiColorScheme simu-gcs
+  endif
 endif
 
 
