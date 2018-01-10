@@ -10,8 +10,8 @@ export ORIGPATH=$PATH
 [[ -f $DOTFILES/path ]] && . $DOTFILES/path
 
 # Get the aliases and functions
-if [ -f ~/.dotfiles/bashrc ]; then
-	. ~/.dotfiles/bashrc
+if [ -f $DOTFILES/bashrc ]; then
+	. $DOTFILES/bashrc
 elif [ -f ~/.bashrc ]; then
 	. ~/.bashrc
 fi
@@ -25,4 +25,3 @@ fi
 
 export PATH
 unset USERNAME
-
