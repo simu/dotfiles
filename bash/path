@@ -1,6 +1,7 @@
 . $DOTFILES/common
 
 # ~/.local/ paths
+prepend PATH $HOME/.cargo/bin
 prepend PATH $HOME/.local/override-bin
 append PATH $HOME/.local/bin
 append PATH $HOME/.local/opt/fast-export
