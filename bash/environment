@@ -52,7 +52,9 @@ fi
 export XENVIRONMENT=~/.dotfiles/Xresources
 
 # multi-login ssh agent, cf, https://superuser.com/a/141233
-check-ssh-agent || export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
-check-ssh-agent || eval "$(ssh-agent -s -a ~/.ssh/ssh-agent.sock)" > /dev/null
+# don't share socket between hosts when using NFS home directory
+ssh_sock_file=~/.ssh/ssh-agent.`hostname -s`.sock
+check-ssh-agent || export SSH_AUTH_SOCK=$ssh_sock_file
+check-ssh-agent || eval "$(ssh-agent -s -a $ssh_sock_file)" > /dev/null
 
 [[ -f ~/.local/bash_environment ]] && . ~/.local/bash_environment
