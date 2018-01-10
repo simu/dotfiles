@@ -12,7 +12,7 @@ export EDITOR=vim
 export VIM=/usr/share/vim
 
 if [[ "$CFLAGS" != *"-std="* ]]; then
-    export CFLAGS="$CFLAGS -std=gnu11 -O2 -Wall -Wshadow -Wmissing-field-initializers -Wredundant-decls -Wstrict-prototypes -Wold-style-definition -Werror"
+    export CFLAGS="$CFLAGS -std=gnu11 -O2 -Wall -Wshadow -Wmissing-field-initializers -Wredundant-decls -Wstrict-prototypes -Wold-style-definition -Werror -ggdb"
 fi
 
 # disable lesspipe stuff, avoids
