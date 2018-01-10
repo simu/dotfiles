@@ -9,3 +9,8 @@ function goto_fault_code()
 	path=$(addr2line -e $1 $2)
 	vim $path
 }
+
+function vimrej ()
+{
+	vim -O ${1}{.rej,}
+}
