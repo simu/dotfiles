@@ -48,4 +48,8 @@ else
 	export WSL=0
 fi
 
+# multi-login ssh agent, cf, https://superuser.com/a/141233
+check-ssh-agent || export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
+check-ssh-agent || eval "$(ssh-agent -s -a ~/.ssh/ssh-agent.sock)" > /dev/null
+
 [[ -f ~/.local/bash_environment ]] && . ~/.local/bash_environment

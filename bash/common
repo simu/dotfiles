@@ -18,4 +18,9 @@ function append
         eval 'export $PATH_VAR="$PATH_CONTENTS":$PPATH'
     fi
 }
-
+function check-ssh-agent()
+{
+	[ -S "$SSH_AUTH_SOCK" ] && {
+		ssh-add -l >& /dev/null || [ $? -ne 2 ];
+	}
+}
