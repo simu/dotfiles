@@ -100,6 +100,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
     autocmd BufNewFile,BufRead *.js set ft=javascript
+    autocmd BufNewFile,BufRead *.tla set ft=tla
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -116,6 +117,7 @@ if has("autocmd")
     autocmd FileType lhaskell set ts=8 sw=4 sts=4 et
     autocmd FileType haskell set ts=8 sw=4 sts=4 et
     autocmd FileType rust set ts=8 sw=4 sts=4 et
+    autocmd FileType tla set et sw=4
     autocmd FileType rust nmap <c-t> <Plug>KangarooPop
     autocmd FileType rust set makeprg=cargo
     "autocmd FileType rust let g:SuperTabContextDefaultCompletionType="<c-x><c-o>"
