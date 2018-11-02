@@ -45,7 +45,7 @@ class vimconfig {
   $vim_subdirs = [ 'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
                    'plugin', 'scripts', 'spell', 'syntax' ]
   config_link{ $vim_subdirs:
-    linkprefix => "${home}/.vim",
+    linkprefix => "${home}/.vim/",
     targetdir => "${conf}/vim",
   }
   config_link{ 'vim/vimrc_bundle': }
@@ -56,7 +56,7 @@ class vimconfig {
     source => "https://github.com/VundleVim/Vundle.vim.git"
   }
   exec { 'install-bundles':
-    require => Vcsrepo["${home}/.vim/bundle/Vundle.vim"],
+    require => [ Vcsrepo["${home}/.vim/bundle/Vundle.vim"], File["${home}/.vim/vimrc_bundle"] ],
     command => "/usr/bin/vim -u ${home}/.vim/vimrc_bundle +BundleInstall +qa",
     environment => [ "HOME=${home}" ]
   }
@@ -82,7 +82,7 @@ class fontconfig {
   }
 }
 
-class common {
+class noi3 {
   include fontconfig
   include vimconfig
   include i3config
@@ -96,6 +96,11 @@ class common {
   config_link { $configs: }
 }
 
+class common {
+  include noi3
+  include i3config
+}
+
 node chimaera {
   include common
 
@@ -103,6 +108,10 @@ node chimaera {
     linkprefix => "${home}/.local/bin/",
     targetdir  => "${conf}/scripts"
   }
+}
+
+node phoenix {
+  include noi3
 }
 
 node default {

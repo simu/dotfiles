@@ -2,7 +2,7 @@
 
 which puppet
 if [ $? -ne 0 -a ! -e /opt/puppetlabs/bin/puppet ]; then
-	wget https://apt.puppetlabs.com/puppetlabs-release-pc1-`lsb_release -c -s`.deb -O puppetlabs-release-repo.deb
+	wget https://apt.puppetlabs.com/puppet-release-`lsb_release -c -s`.deb -O puppetlabs-release-repo.deb
 	sudo dpkg -i puppetlabs-release-repo.deb
 	rm puppetlabs-release-repo.deb
 	sudo apt update
