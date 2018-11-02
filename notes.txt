@@ -1,0 +1,2 @@
+Select default application for xdg-open by mime type:
+$ xdg-mime default atril.desktop application/pdf
