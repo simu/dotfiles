@@ -113,6 +113,16 @@ node phoenix {
   include noi3
 }
 
+node wyvern {
+  include common
+
+  # only wyvern needs custom logout command for now
+  file { "${home}/.local/bin/logout":
+    ensure => link,
+    target => "${conf}/i3wm/logout.wyvern.sh"
+  }
+}
+
 node default {
   include common
 }
