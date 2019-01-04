@@ -68,17 +68,21 @@ class fontconfig {
   config_link { 'fonts/ttf-sourcecode': }
   mkdir_p { "${home}/.config/fontconfig/conf.d": }
   file { "${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf":
-    ensure => link,
-    target => "${conf}/fonts/10-powerline-symbols.conf"
+    ensure  => link,
+    target  => "${conf}/fonts/10-powerline-symbols.conf",
+    require => [ File["${home}/.fonts/otf-powerlinesymbols"],
+                 File["${home}/.fonts/ttf-sourcecode"] ]
   }
+
   exec { "rebuild-fc-cache":
-    command => "/usr/bin/fc-cache",
+    command     => "/usr/bin/fc-cache",
     environment => [ "HOME=${home}" ],
-    require =>
+    subscribe   =>
     [ File["${home}/.fonts/otf-powerlinesymbols"],
       File["${home}/.fonts/ttf-sourcecode"],
       File["${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf"]
-    ]
+    ],
+    refreshonly => true
   }
 }
 
