@@ -94,9 +94,14 @@ class noi3 {
     linkprefix => "${home}/.local/bin/",
     targetdir  => "${conf}/scripts"
   }
-  $configs = [ "profile", "bash_profile", "bashrc", "inputrc", "gitconfig",
+  $configs = [ "profile", "bash_profile", "bashrc", "inputrc",
                "gitignore", "tmux.conf" ]
   config_link { $configs: }
+
+  file { "${home}/.gitconfig":
+    ensure => link,
+    target => "${conf}/gitconfig.${hostname}"
+  }
 }
 
 class common {
