@@ -20,11 +20,6 @@ fi
 unset LESSOPEN
 unset LESSCLOSE
 
-# set CDPATH for workstation
-#if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-#	export CDPATH=".:/local/gerbesim"
-#fi
-
 export TERM_HAS_AIRLINE_SYMS=0
 # try to classify SSH connections for stuff like vim-airline etc
 # get IPv4 for home
