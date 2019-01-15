@@ -115,7 +115,6 @@ def get_mpd_song():
         mpd_client.currentsong()
         results = mpd_client.command_list_end()
         state = results[1]['state']
-        state = results[1]['state']
         artist = None
         if 'artist' in results[2].keys():
             artist = results[2]['artist']
@@ -183,8 +182,8 @@ if __name__ == '__main__':
         if dropbox_installed():
             j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
-        if socket.gethostname().startswith('sgd-dalcoi7-09'):
+        if socket.gethostname().startswith('wyvern'):
             j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
-            j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
+            #j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))

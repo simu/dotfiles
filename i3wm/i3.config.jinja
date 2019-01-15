@@ -181,6 +181,7 @@ bar {
 		#inactive_workspace #333333 #222222 #888888
 		urgent_workspace   #78994c #557728 #ffffff
 	}
+	tray_output primary
 }
 
 # dual-monitor config: use Win+Alt+{h,j,k,l} to move containers/workspaces
@@ -192,7 +193,7 @@ bindsym $mod+$mod2+l move workspace to output right
 
 # use external script to have handy system-mode actions
 # Like the idea but have not got it to work yet
-set $mode_system System (l)ock, (L)ogout, (H)ibernate, (R)eboot, (S)hutdown, (s) System Settings
+set $mode_system System (l)ock, (L)ogout, (H)Sleep, (R)eboot, (S)hutdown, (s) System Settings
 mode "$mode_system" {
 	bindsym l exec --no-startup-id ~/.local/bin/i3sysctl lock, mode "default"
 	bindsym Shift+l exec --no-startup-id ~/.local/bin/i3sysctl logout, mode "default"
