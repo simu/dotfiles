@@ -48,6 +48,15 @@ class i3config {
     target => "${conf}/i3wm/lock.${hostname}.sh"
   }
 
+  # wallpaper slideshow
+  config_link { "next_wallpaper.sh":
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts"
+  }
+  File[ "${home}/.local/bin/next_wallpaper.sh" ] -> Exec[ 'user_crontab' ]
+
+}
+
 class user_crontab {
   $_host_crontab_dir = "${conf}/cron/${hostname}.d"
   exec { 'user_crontab':
