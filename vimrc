@@ -99,6 +99,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
+    autocmd BufNewFile,BufRead *.yml set ft=yaml " is this right?
+    autocmd BufNewFile,BufRead *.yaml set ft=yaml
     autocmd BufNewFile,BufRead *.js set ft=javascript
     autocmd BufNewFile,BufRead *.tla set ft=tla
     autocmd Filetype xml set ts=8 et sts=2 sw=2
@@ -133,6 +135,7 @@ if has("autocmd")
     autocmd FileType rst set tw=80
     autocmd FileType gitcommit set spell
     autocmd FileType javascript set ts=8 et sts=4 sw=4
+    autocmd FileType yaml set ts=2 et sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |

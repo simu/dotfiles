@@ -57,6 +57,8 @@ Bundle 'tommcdo/vim-lion'
 Bundle 'rodjek/vim-puppet'
 " TLA+
 Bundle 'tla.vim'
+" Vagrant
+Bundle 'hashivim/vim-vagrant'
 
 call vundle#end()
 filetype plugin indent on
