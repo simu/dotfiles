@@ -1,3 +1,5 @@
 *.pyc
 # generated puppet manifest
 dotfiles.pp
+# generated Xresources
+Xresources

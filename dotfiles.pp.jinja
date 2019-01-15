@@ -19,6 +19,16 @@ define config_link($filename = $title, $linkprefix = "${home}/.", $targetdir = "
   }
 }
 
+class xresources {
+  file { "${conf}/Xresources": }
+  exec { 'concatenate_xresources':
+    command     => "/bin/bash ${conf}/Xresources.d/compile.sh",
+    environment => [ "CONFDIR=${conf}" ],
+  }
+  config_link { 'Xresources': }
+  File[ "${conf}/Xresources" ] -> File[ "${home}/.Xresources" ]
+}
+
 class i3config {
   mkdir_p { "${home}/.i3": }
   exec { 'generate-i3-config':
@@ -106,6 +116,7 @@ class noi3 {
 
 class common {
   include noi3
+  include xresources
   include i3config
 }
 
