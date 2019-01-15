@@ -47,6 +47,14 @@ class i3config {
     ensure => link,
     target => "${conf}/i3wm/lock.${hostname}.sh"
   }
+
+class user_crontab {
+  $_host_crontab_dir = "${conf}/cron/${hostname}.d"
+  exec { 'user_crontab':
+    command     => "${conf}/cron/merge_crontab.sh",
+    onlyif      => [ "/usr/bin/test -d $_host_crontab_dir && ${conf}/cron/host_needs_crontab.sh" ],
+    environment => [ "USER=${user}" ]
+  }
 }
 
 class vimconfig {
@@ -117,6 +125,7 @@ class noi3 {
 class common {
   include noi3
   include xresources
+  include user_crontab
   include i3config
 }
 
