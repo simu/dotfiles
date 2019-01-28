@@ -3,5 +3,8 @@ $ xdg-mime default atril.desktop application/pdf
 
 Installing applications not trivial because currently puppet apply is being
 run as user
+-> add way to create two puppet files from 1 template; run apps.pp as root?
 
-figure out if we can rewrite i3config generation to only run when necessary
+Figure out if we can rewrite i3config generation to only run when necessary:
+-> Maybe rewrite unconditional execs into two-step execs which use generated
+   as puppet source files to make gen check easier
