@@ -20,7 +20,7 @@
 [mailmap]
 	file = ~/.gitmailmap
 [push]
-	default = matching
+	default = tracking
 
 [core]
 	excludesfile = ~/.gitignore
@@ -29,3 +29,5 @@
 	hg-git-compat = true
 [help]
 	autocorrect = 1
+[grep]
+	lineNumber = true

@@ -103,6 +103,10 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.yaml set ft=yaml
     autocmd BufNewFile,BufRead *.js set ft=javascript
     autocmd BufNewFile,BufRead *.tla set ft=tla
+    autocmd BufNewFile,BufRead *.j2 set ft=yaml.ansible
+    autocmd BufNewFile,BufRead *.json set ft=json
+    " assume that we have jinja snippets in our puppet ruby code
+    autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -136,6 +140,9 @@ if has("autocmd")
     autocmd FileType gitcommit set spell
     autocmd FileType javascript set ts=8 et sts=4 sw=4
     autocmd FileType yaml set ts=2 et sts=2 sw=2
+    autocmd FileType ruby set ts=2 et sts=2 sw=2
+    autocmd FileType yaml.ansible set ts=2 et sts=2 sw=2
+    autocmd FileType json set ts=2 et sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |

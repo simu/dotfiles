@@ -59,6 +59,14 @@ Bundle 'rodjek/vim-puppet'
 Bundle 'tla.vim'
 " Vagrant
 Bundle 'hashivim/vim-vagrant'
+" YAML
+"Bundle 'chase/vim-ansible-yaml'
+" Jinja
+"Bundle 'lepture/vim-jinja'
+" Ansible
+Bundle 'pearofducks/ansible-vim'
+" Mixin syntax ranges
+Bundle 'inkarkat/vim-SyntaxRange'
 
 call vundle#end()
 filetype plugin indent on
