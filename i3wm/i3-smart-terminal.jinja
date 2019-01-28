@@ -1,0 +1,31 @@
+#!/bin/bash
+
+FOCUSED_OUTPUT=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).output')
+
+TERM_ARGS=
+
+HIDPI_ZOOM={{ smart_terminal_hi_dpi_zoom }}
+LODPI_ZOOM={{ smart_terminal_lo_dpi_zoom }}
+
+case $FOCUSED_OUTPUT in
+	# high dpi -> only eDP-1
+	eDP-1*)
+	# set initial zoom level to 1.2
+	TERM_ARGS="--zoom=$HIDPI_ZOOM"	
+	;;
+	# low dpi -> DP-1-1 and DP-2-2
+	DP-1-*)
+	# set initial zoom level to 0.9 on low dpi screens
+	TERM_ARGS="--zoom=$LODPI_ZOOM"	
+	;;
+	# we don't know, don't add extra args, but add message in term
+	*)
+	echo "FOCUSED_OUTPUT=$FOCUSED_OUTPUT; Unknown DPI -> Zoom 1"
+	# TODO
+	;;
+esac
+
+# cannot go through i3-sensible-terminal here, as i3-sensible-terminal selects
+# x-terminal-emulator which is symlinked to mate-terminal.wrapper which eats
+# the --zoom option to be Xterm compliant
+exec "{{ smart_terminal_terminal_command }}" "$TERM_ARGS" "$@"

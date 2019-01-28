@@ -6,7 +6,7 @@ DATADIR=`dirname $0`
 
 siteconfig=`find $DATADIR/parts.d -name "${HOSTNAME}.*"`
 
-OUTFILE=$CONFDIR/Xresources
+OUTFILE=$CONFDIR/generated/Xresources
 
 cat $DATADIR/Xresources > $OUTFILE
 for f in $siteconfig; do

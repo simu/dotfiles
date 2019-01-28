@@ -2,6 +2,7 @@
 # Site-configuration
 $home = '{{ homedir }}'
 $conf = '{{ confdir }}'
+$user = '{{ user }}'
 
 define mkdir_p($path = $title) {
   $path_parents = all_parents($path)
@@ -12,40 +13,66 @@ define mkdir_p($path = $title) {
   }
   file { $path: ensure => directory }
 }
-define config_link($filename = $title, $linkprefix = "${home}/.", $targetdir = "${conf}") {
+define config_link($filename = $title,
+                   $linkprefix = "${home}/.",
+                   $targetdir = "${conf}",
+                   $require = [],
+                  )
+{
   file { "${linkprefix}${filename}":
-    ensure => link,
-    target => "${targetdir}/${filename}"
+    ensure  => link,
+    target  => "${targetdir}/${filename}",
+    require => $require
   }
 }
 
 class xresources {
-  file { "${conf}/Xresources": }
+  file { "${conf}/generated/Xresources": }
   exec { 'concatenate_xresources':
     command     => "/bin/bash ${conf}/Xresources.d/compile.sh",
     environment => [ "CONFDIR=${conf}" ],
+    onlyif      => "/bin/bash ${conf}/Xresources.d/check.sh",
   }
-  config_link { 'Xresources': }
-  File[ "${conf}/Xresources" ] -> File[ "${home}/.Xresources" ]
+  config_link { 'Xresources':
+    targetdir => "${conf}/generated"
+  }
+  File[ "${conf}/generated/Xresources" ] -> File[ "${home}/.Xresources" ]
 }
 
 class i3config {
   mkdir_p { "${home}/.i3": }
   exec { 'generate-i3-config':
-    require => File["${home}/.i3"],
-    command => "/usr/bin/python ${conf}/i3wm/i3confgen.py",
-    environment => [ "HOME=${home}" ]
+    require     => File["${conf}/generated"],
+    command     => "/usr/bin/python ${conf}/i3wm/i3confgen.py",
+    environment => [ "HOME=${home}", "OUTPUT_DIRECTORY=${conf}/generated" ]
   }
-  mkdir_p { "${home}/.local/bin": }
-  $helpers = [ 'i3status-wrapper.py', 'i3sysctl', 'dunst.sh' ]
+  file { "${home}/.i3/config":
+    require   => [ File["${home}/.i3"], Exec['generate-i3-config'] ],
+    ensure     => link,
+    target     => "${conf}/generated/i3config"
+  }
+  $helpers = [ 'i3status-wrapper.py', 'i3sysctl' ]
   config_link { $helpers:
     linkprefix => "${home}/.local/bin/",
-    targetdir => "${conf}/i3wm",
+    targetdir  => "${conf}/i3wm",
+    require   => File["${home}/.local/bin"],
   }
+  config_link { 'i3-smart-terminal':
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/generated",
+    require   => File["${home}/.local/bin"],
+  }
+  config_link { 'dunstrc':
+    linkprefix => "${home}/.config/dunst/",
+    targetdir  => "${conf}/generated",
+    require   => File["${home}/.local/bin"],
+  }
+
   # per-machine lock script
   file { "${home}/.local/bin/lock":
-    ensure => link,
-    target => "${conf}/i3wm/lock.${hostname}.sh"
+    ensure   => link,
+    target   => "${conf}/i3wm/lock.${hostname}.sh",
+    require => File["${home}/.local/bin"],
   }
 
   # wallpaper slideshow
@@ -132,6 +159,12 @@ class noi3 {
 }
 
 class common {
+
+  # create dir for generated files
+  mkdir_p { "${conf}/generated": }
+  # create ~/.local/bin
+  mkdir_p { "${home}/.local/bin": }
+
   include noi3
   include xresources
   include user_crontab

@@ -1,5 +1,3 @@
 *.pyc
-# generated puppet manifest
-dotfiles.pp
-# generated Xresources
-Xresources
+# Everything that's generated
+generated/*

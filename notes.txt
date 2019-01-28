@@ -1,2 +1,7 @@
 Select default application for xdg-open by mime type:
 $ xdg-mime default atril.desktop application/pdf
+
+Installing applications not trivial because currently puppet apply is being
+run as user
+
+figure out if we can rewrite i3config generation to only run when necessary

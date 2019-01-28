@@ -29,9 +29,9 @@ floating_modifier $mod
 workspace_layout stacking
 
 # start a tiled terminal (Win+Enter)
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec {{ smart_terminal_command | default("i3-sensible-terminal") }}
 # start a floating gnome-terminal (Win+t)
-bindsym $mod+t exec {{ floating_terminal_binary }}
+bindsym $mod+t exec {{ smart_terminal_command | default(floating_terminal_command) }} {{ floating_terminal_args }}
 for_window [{{ floating_terminal_window_props }}] floating enable, move scratchpad, scratchpad show;
 for_window [class="Cssh"] floating enable
 for_window [title="Battle.net"] floating enable;
@@ -187,13 +187,22 @@ bar {
 # dual-monitor config: use Win+Alt+{h,j,k,l} to move containers/workspaces
 # from left to right
 bindsym $mod+$mod2+h move workspace to output left
-bindsym $mod+$mod2+j move container to output left
-bindsym $mod+$mod2+k move container to output right
+bindsym $mod+$mod2+j move workspace to output up
+bindsym $mod+$mod2+k move workspace to output down
 bindsym $mod+$mod2+l move workspace to output right
+
+# use TLP to provide battery actions
+set $mode_tlp (c)harge once, (f)ullcharge
+mode "$mode_tlp" {
+	bindsym c exec --no-startup-id ~/.local/bin/i3batctl chargeonce, exec --no-startup-id killall -SIGUSR1 i3status, mode "default"
+	bindsym f exec --no-startup-id ~/.local/bin/i3batctl fullcharge, exec --no-startup-id killall -SIGUSR1 i3status, mode "default"
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
 
 # use external script to have handy system-mode actions
 # Like the idea but have not got it to work yet
-set $mode_system System (l)ock, (L)ogout, (H)Sleep, (R)eboot, (S)hutdown, (s) System Settings
+set $mode_system System (l)ock, (L)ogout, (H)Sleep, (R)eboot, (S)hutdown, (s) System Settings, (b)attery
 mode "$mode_system" {
 	bindsym l exec --no-startup-id ~/.local/bin/i3sysctl lock, mode "default"
 	bindsym Shift+l exec --no-startup-id ~/.local/bin/i3sysctl logout, mode "default"
@@ -201,6 +210,7 @@ mode "$mode_system" {
 	bindsym Shift+r exec --no-startup-id ~/.local/bin/i3sysctl reboot, mode "default"
 	bindsym Shift+s exec --no-startup-id ~/.local/bin/i3sysctl shutdown, mode "default"
 	Bindsym s exec --no-startup-id {{ settings_manager }}, mode "default"
+	bindsym b mode "$mode_tlp"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }

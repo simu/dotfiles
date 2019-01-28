@@ -107,7 +107,7 @@ def get_mpd_song():
     except:
         c = mpd_reconnect()
         if not c:
-            return "[mpd: could not reconnect]"
+            return None
     try:
         mpd_client.command_list_ok_begin()
         mpd_client.update()
@@ -127,19 +127,70 @@ def get_mpd_song():
         if state == "play" or state == "paused":
             return "[%s] %s - %s" % (state, artist, title)
         else:
-            return "[n/a]"
+            return None
     except:
-        return "[n/a]"
+        return None
     pass
 
-def get_running_vms():
+_prev = None
+def get_gpmdp_song():
+    """Get song from Google Play Desktop Music Player"""
+    import os
+    global _prev
+    _json_info_path = os.path.join(os.environ['HOME'], ".config",
+            "Google Play Music Desktop Player", "json_store", "playback.json")
+    try:
+        with open(_json_info_path, "r") as _info_fh:
+            _info = json.load(_info_fh)
+            if not _info['song']['title']:
+                _prev = None
+                return None
+            state = "play" if _info['playing'] else "paused"
+            _prev = "[%s] %s - %s" % (state, _info['song']['artist'], _info['song']['title'])
+            return _prev
+    except:
+        return _prev
+
+def _libvirt_get_running_vms():
     """Get number of currently running libvirt VMs"""
-    import libvirt
-    conn = libvirt.openReadOnly(None)
+    try:
+        import libvirt
+    except:
+        print >>sys.stderr, "No libvirt installed"
+        return None
+    conn = None
+    try:
+        conn = libvirt.openReadOnly(None)
+    except:
+        return None
     if conn == None:
-        return
-    return "Online VMs: %d" % conn.numOfDomains()
-    pass
+        return None
+    return "libvirt VMs: %d" % conn.numOfDomains()
+
+def _vbox_get_running_vms():
+    """Get number of running vbox VMs"""
+    vbox_listrunningvms = None
+    try:
+        vbox_listrunningvms = check_output(["vboxmanage", "list", "runningvms"])
+    except CalledProcessError, e:
+        print >>sys.stderr, "check_output(['vboxmanage', ...]):"
+        e.print_stack_trace()
+        return None
+    if vbox_listrunningvms is None:
+        return None
+    vbox_listrunning_lines = vbox_listrunningvms.strip().split('\n')
+    if vbox_listrunning_lines[0] == '':
+        return "VBox VMs: 0"
+    return "VBox VMs: %d" % len(vbox_listrunning_lines)
+
+def get_running_vms(j):
+    """Get number of running VMs (all providers)"""
+    libvirt_msg = _libvirt_get_running_vms()
+    vbox_msg = _vbox_get_running_vms()
+    if libvirt_msg:
+        j.insert(0, {'full_text' : libvirt_msg, 'name' : 'libvirt_vms'})
+    if vbox_msg:
+        j.insert(0, {'full_text' : vbox_msg, 'name' : 'vbox_vms'})
 
 def print_line(message):
     """ Non-buffered printing to stdout. """
@@ -183,7 +234,12 @@ if __name__ == '__main__':
             j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
         if socket.gethostname().startswith('wyvern'):
-            j.insert(0, {'full_text' : get_mpd_song(), 'name' : 'music'})
-            #j.insert(0, {'full_text' : get_running_vms(), 'name' : 'vms'})
+            mpd_msg = get_mpd_song()
+            if mpd_msg:
+                j.insert(0, {'full_text' : mpd_msg, 'name' : 'mpd'})
+            gpmdp_msg = get_gpmdp_song()
+            if gpmdp_msg:
+                j.insert(0, {'full_text' : gpmdp_msg, 'name': 'gpmdp'})
+            get_running_vms(j)
         # and echo back new encoded json
         print_line(prefix+json.dumps(j))
