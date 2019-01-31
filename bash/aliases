@@ -18,6 +18,8 @@ if [ -d /usr/share/vim/vim73 ]; then
 	alias vless='/usr/share/vim/vim73/macros/less.sh'
 elif [ -d /usr/share/vim/vim74 ]; then
 	alias vless='/usr/share/vim/vim74/macros/less.sh'
+elif [ -d /usr/share/vim/vim80 ]; then
+	alias vless='/usr/share/vim/vim80/macros/less.sh'
 else
 	alias vless='less'
 fi
@@ -26,21 +28,14 @@ alias vl=vless
 # unpack arbitrary archives
 alias x='atool -x'
 
-alias psu='ps -u gerbesim'
-
-# scc control
-alias scc-ctrl='ssh emmentaler telnet raclette-bmc 5010'
-alias scc-ssh='ssh user@tomme1.in.barrelfish.org'
-alias ssh-rebind='source ~/.local/bin/rebind-to-ssh-agent.sh'
+alias psu='ps -u simon'
 
 alias gcc="gcc $CFLAGS"
 
 alias sls='screen -ls'
 
-alias do-update='sudo aptitude update && sudo aptitude full-upgrade -y'
-
 alias pyc='python -c'
 
 alias telnet='telnet -e '
 
-[[ -f /local/gerbesim/.local/bash_aliases ]] && . /local/gerbesim/.local/bash_aliases
+[[ -f ~/.local/bash_aliases ]] && . ~/.local/bash_aliases
