@@ -99,8 +99,9 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
-    autocmd BufNewFile,BufRead *.yml set ft=yaml " is this right?
-    autocmd BufNewFile,BufRead *.yaml set ft=yaml
+    " assume that yaml is mostly for ansible
+    autocmd BufNewFile,BufRead *.yml set ft=yaml.ansible
+    autocmd BufNewFile,BufRead *.yaml set ft=yaml.ansible
     autocmd BufNewFile,BufRead *.js set ft=javascript
     autocmd BufNewFile,BufRead *.tla set ft=tla
     autocmd BufNewFile,BufRead *.j2 set ft=yaml.ansible
