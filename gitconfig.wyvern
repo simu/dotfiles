@@ -7,6 +7,8 @@
 	status = auto
 	ui = auto
 
+[rebase]
+	autosquash = true
 [rerere]
 	enabled = true
 [achievement]
