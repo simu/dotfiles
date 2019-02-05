@@ -124,7 +124,7 @@ def get_mpd_song():
         if artist is None and title is not None:
             # assume #Musik stream
             artist, title = title.split(" | ")[0].split(" - ")
-        if state == "play" or state == "paused":
+        if state == "play" or state == "pause":
             return "[%s] %s - %s" % (state, artist, title)
         else:
             return None
