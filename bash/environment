@@ -64,4 +64,9 @@ if [ $? -eq 0 -a -f $DOTFILES/completion/vagrant.sh ]; then
 	source $DOTFILES/completion/vagrant.sh
 fi
 
+which kubectl 2>&1 >/dev/null
+if [ $? -eq 0 ]; then
+	source <(kubectl completion bash)
+fi
+
 [[ -f ~/.local/bash_environment ]] && . ~/.local/bash_environment
