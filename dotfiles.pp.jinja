@@ -87,7 +87,7 @@ class i3config {
 class user_crontab {
   $_host_crontab_dir = "${conf}/cron/${hostname}.d"
   exec { 'user_crontab':
-    command     => "${conf}/cron/merge_crontab.sh",
+    command     => "${conf}/cron/update_crontab.sh",
     onlyif      => [ "/usr/bin/test -d $_host_crontab_dir && ${conf}/cron/host_needs_crontab.sh" ],
     environment => [ "USER=${user}" ]
   }
