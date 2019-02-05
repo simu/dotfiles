@@ -8,3 +8,5 @@ run as user
 Figure out if we can rewrite i3config generation to only run when necessary:
 -> Maybe rewrite unconditional execs into two-step execs which use generated
    as puppet source files to make gen check easier
+
+Rewrite per-host gitconfig using compile script
