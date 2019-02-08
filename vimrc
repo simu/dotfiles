@@ -73,6 +73,12 @@ set number
 let g:SuperTabDefaultCompletionType = 'context'
 let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 
+function! SetJinjaFt()
+  " expand: grab filename (:t) without last extension (:r) and then the extension (:e) of buffer name (%)
+  let ftype = expand('%:t:r:e') . ".ansible"
+  let &ft = l:ftype
+endfunc
+
 if has("autocmd")
   filetype plugin indent on
   augroup SyntaxSwitching
@@ -99,12 +105,14 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
-    " assume that yaml is mostly for ansible
+    " assume that yaml may contain jinja snippets
     autocmd BufNewFile,BufRead *.yml set ft=yaml.ansible
     autocmd BufNewFile,BufRead *.yaml set ft=yaml.ansible
     autocmd BufNewFile,BufRead *.js set ft=javascript
     autocmd BufNewFile,BufRead *.tla set ft=tla
-    autocmd BufNewFile,BufRead *.j2 set ft=yaml.ansible
+    autocmd BufNewFile,BufRead *.j2 set ft=jinja
+    " use ansible jinja mixin for *.<ext>.j2 -> ft=<ext>.ansible
+    autocmd BufNewFile,BufRead *.*.j2 call SetJinjaFt()
     autocmd BufNewFile,BufRead *.json set ft=json
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
@@ -140,9 +148,11 @@ if has("autocmd")
     autocmd FileType rst set tw=80
     autocmd FileType gitcommit set spell
     autocmd FileType javascript set ts=8 et sts=4 sw=4
+    autocmd FileType yml.ansible set ft=yaml.ansible
     autocmd FileType yaml set ts=2 et sts=2 sw=2
-    autocmd FileType ruby set ts=2 et sts=2 sw=2
     autocmd FileType yaml.ansible set ts=2 et sts=2 sw=2
+    autocmd FileType ruby set ts=2 et sts=2 sw=2
+    autocmd FileType ruby.ansible set ts=2 et sts=2 sw=2
     autocmd FileType json set ts=2 et sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |

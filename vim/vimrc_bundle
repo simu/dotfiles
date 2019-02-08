@@ -67,6 +67,8 @@ Bundle 'hashivim/vim-vagrant'
 Bundle 'pearofducks/ansible-vim'
 " Mixin syntax ranges
 Bundle 'inkarkat/vim-SyntaxRange'
+" TOML highlighting
+Bundle 'cespare/vim-toml'
 
 call vundle#end()
 filetype plugin indent on
