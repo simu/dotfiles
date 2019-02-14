@@ -62,6 +62,11 @@ class i3config {
     targetdir  => "${conf}/generated",
     require   => File["${home}/.local/bin"],
   }
+  config_link { 'lock-screensaver-on-activate.py':
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/i3wm",
+    require   => File["${home}/.local/bin"],
+  }
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
