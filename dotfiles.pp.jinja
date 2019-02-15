@@ -75,10 +75,11 @@ class i3config {
   }
 
   # per-machine lock script
-  file { "${home}/.local/bin/lock":
-    ensure   => link,
-    target   => "${conf}/i3wm/lock.${hostname}.sh",
-    require => File["${home}/.local/bin"],
+  config_link { "lock":
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/i3wm/",
+    sourcename => "lock.${hostname}.sh",
+    require    => File["${home}/.local/bin"],
   }
 
   # wallpaper slideshow
@@ -174,9 +175,8 @@ class noi3 {
                "gitignore", "tmux.conf" ]
   config_link { $configs: }
 
-  file { "${home}/.gitconfig":
-    ensure => link,
-    target => "${conf}/gitconfig.${hostname}"
+  config_link { "gitconfig":
+    sourcename => "gitconfig.${hostname}"
   }
 }
 
@@ -210,9 +210,10 @@ node wyvern {
   include common
 
   # only wyvern needs custom logout command for now
-  file { "${home}/.local/bin/logout":
-    ensure => link,
-    target => "${conf}/i3wm/logout.wyvern.sh"
+  config_link { "logout":
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/i3wm",
+    sourcename => "logout.wyvern.sh",
   }
 }
 
