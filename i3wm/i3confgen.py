@@ -39,3 +39,7 @@ smartterm_bin = os.path.join(GENERATED_DIR, "i3-smart-terminal")
 with open(smartterm_bin, 'w') as i3smartterm:
     generate_config("i3-smart-terminal.jinja", i3smartterm)
 os.chmod(smartterm_bin, 0755)
+
+# networkmanager-dmenu config
+with open(os.path.join(GENERATED_DIR, "networkmanager-dmenu.ini"), 'w') as nmdmenu:
+    generate_config("networkmanager-dmenu.ini.j2", nmdmenu)

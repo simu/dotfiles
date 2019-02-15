@@ -202,7 +202,7 @@ mode "$mode_tlp" {
 
 # use external script to have handy system-mode actions
 # Like the idea but have not got it to work yet
-set $mode_system System (l)ock, (L)ogout, (H)Sleep, (R)eboot, (S)hutdown, (s) System Settings, (b)attery
+set $mode_system System (l)ock, (L)ogout, (H)Sleep, (R)eboot, (S)hutdown, (s) System Settings, (b)attery, (n) network-manager
 mode "$mode_system" {
 	bindsym l exec --no-startup-id ~/.local/bin/i3sysctl lock, mode "default"
 	bindsym Shift+l exec --no-startup-id ~/.local/bin/i3sysctl logout, mode "default"
@@ -211,6 +211,7 @@ mode "$mode_system" {
 	bindsym Shift+s exec --no-startup-id ~/.local/bin/i3sysctl shutdown, mode "default"
 	Bindsym s exec --no-startup-id {{ settings_manager }}, mode "default"
 	bindsym b mode "$mode_tlp"
+	bindsym n exec --no-startup-id ~/.local/opt/networkmanager-dmenu/networkmanager_dmenu, mode "default"
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }

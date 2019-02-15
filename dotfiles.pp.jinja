@@ -13,15 +13,16 @@ define mkdir_p($path = $title) {
   }
   file { $path: ensure => directory }
 }
-define config_link($filename = $title,
+define config_link($targetname = $title,
+                   $sourcename = $title,
                    $linkprefix = "${home}/.",
                    $targetdir = "${conf}",
                    $require = [],
                   )
 {
-  file { "${linkprefix}${filename}":
+  file { "${linkprefix}${targetname}":
     ensure  => link,
-    target  => "${targetdir}/${filename}",
+    target  => "${targetdir}/${sourcename}",
     require => $require
   }
 }
@@ -87,6 +88,22 @@ class i3config {
   }
   File[ "${home}/.local/bin/next_wallpaper.sh" ] -> Exec[ 'user_crontab' ]
 
+  mkdir_p { "${home}/.local/opt": }
+  # custom network manager dmenu control app
+  vcsrepo { "${home}/.local/opt/networkmanager-dmenu":
+    ensure   => present,
+    provider => git,
+    source   => "https://github.com/firecat53/networkmanager-dmenu.git",
+    revision => "v1.1",
+    require  => File[ "${home}/.local/opt" ]
+  }
+  mkdir_p { "${home}/.config/networkmanager-dmenu": }
+  config_link { "config.ini":
+    sourcename => "networkmanager-dmenu.ini",
+    linkprefix => "${home}/.config/networkmanager-dmenu/",
+    targetdir  => "${conf}/generated",
+    require    => File[ "${home}/.config/networkmanager-dmenu" ],
+  }
 }
 
 class user_crontab {
