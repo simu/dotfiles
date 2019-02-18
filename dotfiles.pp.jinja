@@ -77,7 +77,7 @@ class i3config {
   # per-machine lock script
   config_link { "lock":
     linkprefix => "${home}/.local/bin/",
-    targetdir  => "${conf}/i3wm/",
+    targetdir  => "${conf}/i3wm",
     sourcename => "lock.${hostname}.sh",
     require    => File["${home}/.local/bin"],
   }
