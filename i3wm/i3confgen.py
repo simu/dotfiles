@@ -14,6 +14,7 @@ GENERATED_DIR = os.environ['OUTPUT_DIRECTORY']
 FILES =[ ("i3.config.jinja", "i3config", 0644),
          ("dunstrc.jinja", "dunstrc", 0644),
          ("networkmanager-dmenu.ini.j2", "networkmanager-dmenu.ini", 0644),
+         ("xautolock.sh.jinja", "xautolock.sh", 0755),
          ("i3-smart-terminal.jinja", "i3-smart-terminal", 0755) ]
 
 siteconfig = os.path.join(CONFIG_DIR, "i3."+socket.gethostname()+".config")

@@ -264,6 +264,6 @@ exec --no-startup-id dunst
 {% for prog in startup_programs -%}
 exec --no-startup-id {{ prog }}
 {% endfor %}
-{% if autolock_timeout is defined and autolock_locker is defined %}
-exec --no-startup-id xautolock -detectsleep -time {{ autolock_timeout }} -locker "{{ autolock_locker }}" -killer "{{ autolock_killer | default("/bin/true") }}" -killtime {{ autolock_killer_timeout | default("30") }}
+{% if autolock_timeout is defined %}
+exec --no-startup-id ~/.local/bin/xautolock.sh
 {% endif %}
