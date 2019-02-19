@@ -1,11 +1,14 @@
 #!/bin/bash
+#
+# Managed by {{ dotfiles_managed }}
+#
 
 FOCUSED_OUTPUT=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).output')
 
 TERM_ARGS=
 
-HIDPI_ZOOM={{ smart_terminal_hi_dpi_zoom }}
-LODPI_ZOOM={{ smart_terminal_lo_dpi_zoom }}
+HIDPI_ZOOM="{{ smart_terminal_hi_dpi_zoom }}"
+LODPI_ZOOM="{{ smart_terminal_lo_dpi_zoom }}"
 
 case $FOCUSED_OUTPUT in
 	# high dpi -> only eDP-1

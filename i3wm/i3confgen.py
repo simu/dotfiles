@@ -11,9 +11,16 @@ import shutil
 CONFIG_DIR = os.path.dirname(sys.argv[0])
 GENERATED_DIR = os.environ['OUTPUT_DIRECTORY']
 
+FILES =[ ("i3.config.jinja", "i3config", 0644),
+         ("dunstrc.jinja", "dunstrc", 0644),
+         ("networkmanager-dmenu.ini.j2", "networkmanager-dmenu.ini", 0644),
+         ("i3-smart-terminal.jinja", "i3-smart-terminal", 0755) ]
+
 siteconfig = os.path.join(CONFIG_DIR, "i3."+socket.gethostname()+".config")
 with open(siteconfig) as sc:
     siteconfig = json.loads(sc.read())
+
+siteconfig['dotfiles_managed'] = os.path.abspath(sys.argv[0])
 
 def generate_config(template_fname, config_fh):
     global siteconfig
@@ -26,20 +33,9 @@ def generate_config(template_fname, config_fh):
     config_fh.write(template.render(siteconfig).encode('utf-8'))
     config_fh.write('\n')
 
-# i3 config
-with open(os.path.join(GENERATED_DIR, "i3config"), 'w') as c:
-    generate_config("i3.config.jinja", c)
 
-# dunst config
-with open(os.path.join(GENERATED_DIR, "dunstrc"), 'w') as dunstc:
-    generate_config("dunstrc.jinja", dunstc)
-
-# smart terminal customization pass
-smartterm_bin = os.path.join(GENERATED_DIR, "i3-smart-terminal")
-with open(smartterm_bin, 'w') as i3smartterm:
-    generate_config("i3-smart-terminal.jinja", i3smartterm)
-os.chmod(smartterm_bin, 0755)
-
-# networkmanager-dmenu config
-with open(os.path.join(GENERATED_DIR, "networkmanager-dmenu.ini"), 'w') as nmdmenu:
-    generate_config("networkmanager-dmenu.ini.j2", nmdmenu)
+for src,dest,mode in FILES:
+    destfile = os.path.join(GENERATED_DIR, dest)
+    with open(destfile, 'w') as f:
+        generate_config(src, f)
+    os.chmod(destfile, mode)
