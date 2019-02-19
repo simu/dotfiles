@@ -113,6 +113,8 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.j2 set ft=jinja
     " use ansible jinja mixin for *.<ext>.j2 -> ft=<ext>.ansible
     autocmd BufNewFile,BufRead *.*.j2 call SetJinjaFt()
+    " use ansible jinja mixin for *.<ext>.jinja -> ft=<ext>.ansible
+    autocmd BufNewFile,BufRead *.*.jinja call SetJinjaFt()
     autocmd BufNewFile,BufRead *.json set ft=json
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
