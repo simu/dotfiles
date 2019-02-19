@@ -105,12 +105,6 @@ class i3config {
     targetdir  => "${conf}/generated",
     require    => File[ "${home}/.config/networkmanager-dmenu" ],
   }
-  config_link { "autolock":
-    linkprefix => "${home}/.local/bin/",
-    targetdir  => "${conf}/i3wm",
-    sourcename => "autolock.sh",
-    require    => File[ "${home}/.local/bin" ],
-  }
 }
 
 class user_crontab {
