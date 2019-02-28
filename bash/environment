@@ -9,7 +9,8 @@ export LC_PAPER="de_CH.utf8"
 export EDITOR=vim
 
 # assume vim stuff is always in /usr/share/vim
-export VIM=/usr/share/vim
+# Seems unnecessary and breaks vimtutor, -SG,2019-02-21
+# export VIM=/usr/share/vim
 
 if [[ "$CFLAGS" != *"-std="* ]]; then
     export CFLAGS="$CFLAGS -std=gnu11 -O2 -Wall -Wshadow -Wmissing-field-initializers -Wredundant-decls -Wstrict-prototypes -Wold-style-definition -Werror -ggdb"

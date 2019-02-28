@@ -1,9 +1,6 @@
 # make with core detection -- simon, 2013-07-26
 alias make='~/.local/bin/make-magic'
 
-#perlgrep
-alias pgrep="perl -npe"
-
 # alias for git send-email
 alias gsm="readpw | xargs -I{} git send-email --smtp-pass={}"
 

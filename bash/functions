@@ -14,3 +14,5 @@ function vimrej ()
 {
 	vim -O ${1}{.rej,}
 }
+
+[ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
