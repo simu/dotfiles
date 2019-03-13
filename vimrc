@@ -3,17 +3,21 @@ set t_Co=256
 set nocompatible
 set autoread
 set cursorline
-set nocp
-set si
-set showcmd
+" smartindent should be used together with autoindent
+set autoindent
+set smartindent
 syn on
 filetype plugin on
 filetype plugin indent on
 
+" wrap long lines
+set wrap
+" nice marker for wrapped lines
+set showbreak=↪
+
+" source plugin configuration (Vundle)
 source ~/.vim/vimrc_bundle
 
-"powerline setup
-"set rtp+=~/.vim/bundle/powerline/powerline/bindings/vim
 "airline setup
 " show statusline always
 set laststatus=2
@@ -61,13 +65,6 @@ set tw=78
 " enable smart relativenumbers
 set relativenumber
 set number
-
-"function! RelNumbers()
-"  set relativenumber
-"endfunc
-"function! AbsNumbers()
-"  set number
-"endfunc
 
 " default to user completion
 let g:SuperTabDefaultCompletionType = 'context'
@@ -161,32 +158,14 @@ if has("autocmd")
       \   exe "normal! g`\"" |
       \ endif
   augroup END
-
-  " should not be necessary anymore
-  "augroup NumbersAug
-  "  autocmd InsertEnter * :call AbsNumbers()
-  "  autocmd InsertLeave * :call RelNumbers()
-  "  autocmd BufNewFile  * :call RelNumbers()
-  "  autocmd BufReadPost * :call RelNumbers()
-  "augroup End
 endif
 
 " indentation keystrokes in visual
-vnoremap <C-T> >
-vnoremap <C-D> <LT>
-vmap <Tab> <C-T>
-vmap <S-Tab> <C-D>
+vmap <Tab> >
+vmap <S-Tab> <LT>
 
+" follow link with C-f
 map <C-f> <C-]>
-
-map <F20> :bn<CR>
-map <F19> :bp<CR>
-
-" devhelp
-nmap <F2> :!devhelp -s <cword> >/dev/null 2>&1 &<CR><CR>
-" completion generation
-map <F12> :!ctags -R  -I --language-force=c --fields=+aS . >/dev/null 2>&1 &<CR><CR>
-map <C-F12> :!ctags -R  -I --c++-kinds=+p --fields=+iaS --extra=+q . >/dev/null 2>&1 &<CR><CR>
 
 " sudo write
 ca w!! w !sudo tee >/dev/null "%"<CR>
@@ -195,7 +174,7 @@ ca w!! w !sudo tee >/dev/null "%"<CR>
 set list
 set listchars=tab:\ \ ,trail:·
 
-" set tab to insert sw chars
+" set tab to be shiftwidth wide and respect expandtab
 set smarttab
 
 " mouse enabled
@@ -223,9 +202,8 @@ else
 endif
 
 
+" enable search highlighting
 set hlsearch
-" Press Space to turn off highlighting and clear any message already displayed.
-nnoremap <silent><Space> :noh<BAR>:nohlsearch<Bar>:echo<CR>
 
 " Show syntax highlighting groups for word under cursor
 nmap <C-S-P> :call <SID>SynStack()<CR>
@@ -325,12 +303,6 @@ endif
 " for restructuredtext
 noremap <leader>r :!rst2html %>%.html<CR><CR>
 
-" wrap long lines
-set wrap
-
-" nice marker for wrapped lines
-set showbreak=↪
-
 " disable seek.vim falling back to substitute on <count>s
 let g:seek_subst_disable = 1
 
@@ -360,3 +332,6 @@ let g:netrw_liststyle = 3
 " LaTeX wordcount (needs detex which should come with your LaTeX distribution)
 " from http://tex.stackexchange.com/questions/534/is-there-any-way-to-do-a-correct-word-count-of-a-latex-document
 command! -range=% WC <line1>,<line2>w !detex | wc -w
+
+" do showcmd late, as it apparently doesn't work if it's done before airline
+set showcmd
