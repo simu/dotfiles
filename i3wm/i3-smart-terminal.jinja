@@ -9,6 +9,7 @@ TERM_ARGS=
 
 HIDPI_ZOOM="{{ smart_terminal_hi_dpi_zoom }}"
 LODPI_ZOOM="{{ smart_terminal_lo_dpi_zoom }}"
+FALLBACK_ZOOM="{{ smart_terminal_fallback_zoom | default(smart_terminal_lo_dpi_zoom) }}"
 
 case $FOCUSED_OUTPUT in
 	# high dpi -> only eDP-1
@@ -23,8 +24,8 @@ case $FOCUSED_OUTPUT in
 	;;
 	# we don't know, don't add extra args, but add message in term
 	*)
-	echo "FOCUSED_OUTPUT=$FOCUSED_OUTPUT; Unknown DPI -> Zoom 1"
-	# TODO
+	echo "FOCUSED_OUTPUT=$FOCUSED_OUTPUT; fall back on Zoom=$FALLBACK_ZOOM"
+	TERM_ARGS="--zoom=$FALLBACK_ZOOM"
 	;;
 esac
 
