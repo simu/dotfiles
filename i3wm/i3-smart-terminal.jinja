@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 # Managed by {{ dotfiles_managed }}
+# Variables from {{ dotfiles_source }}
 #
 
 FOCUSED_OUTPUT=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).output')

@@ -1,0 +1,33 @@
+#
+# Managed by {{ dotfiles_managed }}
+# Variables from {{ dotfiles_source }}
+#
+[user]
+	name = Simon Gerber
+	email = {{ email | default("gesimu@gmail.com") }}
+
+[color]
+	diff = auto
+	status = auto
+	ui = auto
+
+[rerere]
+	enabled = true
+[achievement]
+	upload = true
+
+[alias]
+	stat = show --stat
+	wstat = diff --stat
+	slog = log --pretty=format:'%Cgreen%h%Creset%x09%ar%x09%Cblue%aN%Creset%x09%s'
+
+[mailmap]
+	file = ~/.gitmailmap
+[push]
+	default = upstream
+
+[core]
+	excludesfile = ~/.gitignore
+
+[help]
+	autocorrect = 1
