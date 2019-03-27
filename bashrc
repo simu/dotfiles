@@ -134,11 +134,6 @@ export HOSTNAME
 #set viewer for texdoc
 export TEXDOCVIEW_pdf="evince %s"
 
-#display for locking
-if [[ $HOSTNAME == "sgd-dalcoi7-09" ]]; then
-[ ${DISPLAY}set != set ] && echo $DISPLAY > /home/gerbesim/.display
-fi
-
 # set TERM
 #if [ "$COLORTERM" == "gnome-terminal" ]; then
 #	export TERM=xterm-256color
