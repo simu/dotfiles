@@ -33,10 +33,12 @@ if [ -n "$SSH_CONNECTION" ]; then
 		stud*-h56*) export TERM_HAS_AIRLINE_SYMS=1;;
 		stud*-h57*) export TERM_HAS_AIRLINE_SYMS=1;;
 		sgn-x201-01*) export TERM_HAS_AIRLINE_SYMS=1;;
+		*.simutech.io*) export TERM_HAS_AIRLINE_SYMS=1;;
 		*) export TERM_HAS_AIRLINE_SYMS=0;;
 	esac
 	case $ssh_client_ip in
 		$HOME_IPV4) export TERM_HAS_AIRLINE_SYMS=1;;
+		192.168.10.*) export TERM_HAS_AIRLINE_SYMS=1;;
 		*) export TERM_HAS_AIRLINE_SYMS=0;;
 	esac
 else
@@ -54,6 +56,7 @@ fi
 # export Xresources to make xterm usable on HiDPI
 export XENVIRONMENT=~/.dotfiles/Xresources
 
+export SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
 # multi-login ssh agent, cf, https://superuser.com/a/141233
 # don't share socket between hosts when using NFS home directory
 ssh_sock_file=~/.ssh/ssh-agent.`hostname -s`.sock
