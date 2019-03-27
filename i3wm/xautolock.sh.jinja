@@ -7,6 +7,4 @@
 exec xautolock \
   -detectsleep \
   -time "{{ autolock_timeout }}" \
-  -locker "{{ autolock_locker }}" \
-  -killtime "{{ autolock_killer_timeout | default('30') }}" \
-  -killer "{{ autolock_killer | default('/bin/true') }}"
+  -locker '"{{ autolock_locker }}"'
