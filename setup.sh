@@ -13,4 +13,4 @@ fi
 sudo apt install git python-mpd python-jinja2
 
 python generate_manifest.py
-/opt/puppetlabs/bin/puppet apply --test dotfiles.pp
+/opt/puppetlabs/bin/puppet apply --test generated/dotfiles.pp
