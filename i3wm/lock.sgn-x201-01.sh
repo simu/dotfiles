@@ -1,2 +1,0 @@
-#!/bin/sh
-gnome-screensaver-command -l
