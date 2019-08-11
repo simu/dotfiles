@@ -12,6 +12,6 @@ if [ $? -ne 0 -a ! -e /opt/puppetlabs/bin/puppet ]; then
 fi
 sudo apt install git python-mpd python-jinja2
 
-mkdir -p `dirname $0`/generated
+mkdir -p $(dirname "$0")/generated
 python generate_manifest.py
 /opt/puppetlabs/bin/puppet apply --test generated/dotfiles.pp

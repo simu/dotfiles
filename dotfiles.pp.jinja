@@ -69,6 +69,7 @@ class i3config {
     targetdir  => "${conf}/i3wm",
     require   => File["${home}/.local/bin"],
   }
+  mkdir_p { "${home}/.config/dunst": }
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
@@ -179,9 +180,16 @@ class fontconfig {
   }
 }
 
-class noi3 {
+class common {
+  # create dir for generated files
+  mkdir_p { "${conf}/generated": }
+  # create ~/.local/bin
+  mkdir_p { "${home}/.local/bin": }
+
   include fontconfig
   include vimconfig
+  include xresources
+  include user_crontab
 
   exec { 'generate-configs':
     require     => File["${conf}/generated"],
@@ -202,21 +210,13 @@ class noi3 {
   }
 }
 
-class common {
-
-  # create dir for generated files
-  mkdir_p { "${conf}/generated": }
-  # create ~/.local/bin
-  mkdir_p { "${home}/.local/bin": }
-
-  include noi3
-  include xresources
-  include user_crontab
+class i3 {
+  include common
   include i3config
 }
 
 node chimaera {
-  include common
+  include i3
 
   config_link { "setup_trackpoint.sh":
     linkprefix => "${home}/.local/bin/",
@@ -225,7 +225,7 @@ node chimaera {
 }
 
 node "phoenix.in.simutech.io" {
-  include common
+  include i3
 
   mkdir_p { "${home}/.config/systemd/user": }
   config_link { "nvidia-temp.service":
@@ -261,7 +261,7 @@ node "phoenix.in.simutech.io" {
 }
 
 node wyvern {
-  include common
+  include i3
 
   # only wyvern needs custom logout command for now
   config_link { "logout":
