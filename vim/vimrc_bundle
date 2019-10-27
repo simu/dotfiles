@@ -59,6 +59,8 @@ Bundle 'rodjek/vim-puppet'
 Bundle 'tla.vim'
 " Vagrant
 Bundle 'hashivim/vim-vagrant'
+" Terraform
+Bundle 'hashivim/vim-terraform'
 " YAML
 "Bundle 'chase/vim-ansible-yaml'
 " Jinja
@@ -71,6 +73,19 @@ Bundle 'inkarkat/vim-SyntaxRange'
 Bundle 'cespare/vim-toml'
 " Go dev
 Bundle 'fatih/vim-go'
+" easy-align
+Bundle 'junegunn/vim-easy-align'
+" jq syntax highlighting
+Bundle 'vito-c/jq.vim'
+" jsonnet
+Bundle 'google/vim-jsonnet'
+" python3 syntax highlighting
+Bundle 'vim-python/python-syntax'
+
+""" Colorschemes
+Bundle 'aonemd/kuroi.vim'
+Bundle 'BarretRen/vim-colorscheme'
+Bundle 'Nequo/vim-allomancer'
 
 call vundle#end()
 filetype plugin indent on

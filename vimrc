@@ -113,11 +113,15 @@ if has("autocmd")
     " use ansible jinja mixin for *.<ext>.jinja -> ft=<ext>.ansible
     autocmd BufNewFile,BufRead *.*.jinja call SetJinjaFt()
     autocmd BufNewFile,BufRead *.json set ft=json
+    autocmd BufNewFile,BufRead *.jsonnet set ft=jsonnet
+    autocmd BufNewFile,BufRead *.libjsonnet set ft=jsonnet
+    autocmd BufNewFile,BufRead *.libsonnet set ft=jsonnet
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
+    autocmd Filetype python let g:python_highlight_all=1
     autocmd Filetype vim set ts=8 et sts=2 sw=2
     autocmd Filetype haskell set ts=8 et sts=2 sw=2
     autocmd Filetype matlab set ts=8 et sts=4 sw=4
@@ -153,6 +157,8 @@ if has("autocmd")
     autocmd FileType ruby set ts=2 et sts=2 sw=2
     autocmd FileType ruby.ansible set ts=2 et sts=2 sw=2
     autocmd FileType json set ts=2 et sts=2 sw=2
+    autocmd FileType jsonnet set ts=2 et sts=2 sw=2
+    autocmd FileType terraform set et ts=2 sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
@@ -278,7 +284,7 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " clang autocomplete hotfix
-let g:clang_library_path='/usr/lib/llvm-3.8/lib/libclang.so.1'
+let g:clang_library_path='/usr/lib/llvm-6.0/lib/libclang.so.1'
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_macros=1
@@ -326,12 +332,18 @@ let g:syntastic_mode_map = { 'mode': 'active',
                            \ 'passive_filetypes': ['puppet'] }
 
 let g:syntastic_c_checkers = ['ycm']
+let g:syntastic_python_checkers = ['pyflakes']
+let g:syntastic_python_pyflakes_exec = 'pyflakes3'
 
 let g:netrw_liststyle = 3
 
 " LaTeX wordcount (needs detex which should come with your LaTeX distribution)
 " from http://tex.stackexchange.com/questions/534/is-there-any-way-to-do-a-correct-word-count-of-a-latex-document
 command! -range=% WC <line1>,<line2>w !detex | wc -w
+
+" easy-align config: start interactive EasyAlign with 'ga' in visual and normal mode
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
 
 " do showcmd late, as it apparently doesn't work if it's done before airline
 set showcmd
