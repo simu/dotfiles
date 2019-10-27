@@ -5,6 +5,7 @@
 [user]
 	name = Simon Gerber
 	email = {{ email | default("gesimu@gmail.com") }}
+	{% if signingkey != ""  %}signingkey = {{ signingkey }}{% endif %}
 
 [color]
 	diff = auto
@@ -31,3 +32,9 @@
 
 [help]
 	autocorrect = 1
+
+[rebase]
+	autosquash = true
+
+[fetch]
+	prune = true
