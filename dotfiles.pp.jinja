@@ -184,7 +184,7 @@ class noi3 {
     targetdir  => "${conf}/scripts"
   }
   $configs = [ "profile", "bash_profile", "bashrc", "inputrc",
-               "gitignore", "tmux.conf" ]
+               "gitignore", "tmux.conf", "tigrc" ]
   config_link { $configs: }
 
   config_link { "gitconfig":
