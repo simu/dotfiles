@@ -118,6 +118,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.libsonnet set ft=jsonnet
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
+    autocmd BufNewFile,BufRead *.adoc,*.asciidoc set ft=asciidoctor
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
     autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
@@ -159,6 +160,7 @@ if has("autocmd")
     autocmd FileType json set ts=2 et sts=2 sw=2
     autocmd FileType jsonnet set ts=2 et sts=2 sw=2
     autocmd FileType terraform set et ts=2 sts=2 sw=2
+    autocmd FileType asciidoctor set et ts=2 sts=2 sw=2 spell
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
@@ -344,6 +346,32 @@ command! -range=% WC <line1>,<line2>w !detex | wc -w
 " easy-align config: start interactive EasyAlign with 'ga' in visual and normal mode
 xmap ga <Plug>(EasyAlign)
 nmap ga <Plug>(EasyAlign)
+
+" asciidoc stuff (from https://github.com/habamax/vim-asciidoctor)
+" Function to create buffer local mappings and add default compiler
+fun! AsciidoctorMappings()
+    nnoremap <buffer> <leader>oo :AsciidoctorOpenRAW<CR>
+    nnoremap <buffer> <leader>op :AsciidoctorOpenPDF<CR>
+    nnoremap <buffer> <leader>oh :AsciidoctorOpenHTML<CR>
+    nnoremap <buffer> <leader>ox :AsciidoctorOpenDOCX<CR>
+    nnoremap <buffer> <leader>ch :Asciidoctor2HTML<CR>
+    nnoremap <buffer> <leader>cp :Asciidoctor2PDF<CR>
+    nnoremap <buffer> <leader>cx :Asciidoctor2DOCX<CR>
+    nnoremap <buffer> <leader>p :AsciidoctorPasteImage<CR>
+    " :make will build pdfs
+    compiler asciidoctor2pdf
+endfun
+
+" Call AsciidoctorMappings for all `*.adoc` and `*.asciidoc` files
+augroup asciidoctor
+    au!
+    au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
+augroup END
+
+let g:asciidoctor_fenced_languages = ['python', 'yaml', 'json']
+let g:asciidoctor_img_paste_command = 'xclip -selection clipboard -t image/png -o > %s%s'
+let g:asciidoctor_img_paste_pattern = 'img_%s_%s.png'
+let g:asciidoctor_pdf_extensions = ['asciidoctor-diagram']
 
 " do showcmd late, as it apparently doesn't work if it's done before airline
 set showcmd

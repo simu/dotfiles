@@ -81,6 +81,8 @@ Bundle 'vito-c/jq.vim'
 Bundle 'google/vim-jsonnet'
 " python3 syntax highlighting
 Bundle 'vim-python/python-syntax'
+" AsciiDoctor
+Bundle 'habamax/vim-asciidoctor'
 
 """ Colorschemes
 Bundle 'aonemd/kuroi.vim'
