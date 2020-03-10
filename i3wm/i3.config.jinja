@@ -217,17 +217,17 @@ bindsym $mod+n exec --no-startup-id ~/.local/opt/networkmanager-dmenu/networkman
 
 # media controls: volume and play/pause google play music (needs firefox
 # plugin which maps ctrl+alt+p to play/pause in gpm).
-set $pa_sink {{ pa_sink }}
-set $mode_vuctrl Volume control (h) -10%, (j) -5%, (k) +5%, (l) +10%, (m) mute, (p)lay/pause, (q) prev, (w) next, pa(v)ucontrol
+set $mode_vuctrl Volume control (h) -10%, (j) -5%, (k) +5%, (l) +10%, (m) mute, (S)elect PA sink, (p)lay/pause, (q) prev, (w) next, pa(v)ucontrol
 #set $mode_vuctrl Volume control (h) -10%, (j) -5%, (k) +5%, (l) +10%, (m) mute, (p)lay/pause (s)top, pa(v)ucontrol
 mode "$mode_vuctrl" {
-	bindsym h exec --no-startup-id pactl set-sink-volume $pa_sink -10%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym j exec --no-startup-id pactl set-sink-volume $pa_sink -5%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym Shift+j exec --no-startup-id pactl set-sink-volume $pa_sink -1%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym Shift+k exec --no-startup-id pactl set-sink-volume $pa_sink +1%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym k exec --no-startup-id pactl set-sink-volume $pa_sink +5%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym l exec --no-startup-id pactl set-sink-volume $pa_sink +10%, exec --no-startup-id killall -SIGUSR1 i3status
-	bindsym m exec --no-startup-id pactl set-sink-mute $pa_sink toggle, exec --no-startup-id killall -SIGUSR1 i3status, mode "default"
+	bindsym h exec --no-startup-id ~/.local/bin/pavolctl volume -- -10%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym j exec --no-startup-id ~/.local/bin/pavolctl volume -- -5%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym Shift+j exec --no-startup-id ~/.local/bin/pavolctl volume -- -1%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym Shift+k exec --no-startup-id ~/.local/bin/pavolctl volume -- +1%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym k exec --no-startup-id ~/.local/bin/pavolctl volume -- +5%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym l exec --no-startup-id ~/.local/bin/pavolctl volume -- +10%, exec --no-startup-id killall -SIGUSR1 i3status
+	bindsym m exec --no-startup-id ~/.local/bin/pavolctl mute toggle, exec --no-startup-id killall -SIGUSR1 i3status, mode "default"
+	bindsym Shift+S exec --no-startup-id ~/.local/bin/pavolctl set_sink, mode "default"
 	#bindsym p exec --no-startup-id ~/.local/bin/google-play-music-ctrl.sh p, mode "default"
 	bindsym p exec --no-startup-id mpc toggle, mode "default", exec --no-startup-id killall -SIGUSR1 i3status
 	bindsym s exec --no-startup-id mpc stop, mode "default", exec --no-startup-id killall -SIGUSR1 i3status
@@ -260,7 +260,6 @@ bindsym $mod+space mode "$mode_xkbmap"
 # startup applications: settings etc.
 exec --no-startup-id nm-applet
 exec --no-startup-id ibus-daemon
-exec --no-startup-id dropbox start -i
 exec --no-startup-id dunst
 {% for prog in startup_programs -%}
 exec --no-startup-id {{ prog }}

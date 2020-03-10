@@ -42,6 +42,7 @@ class xresources {
 
 class i3config {
   mkdir_p { "${home}/.i3": }
+  mkdir_p { "${home}/.config/dunst": }
   exec { 'generate-i3-config':
     require     => File["${conf}/generated"],
     command     => "/usr/bin/python ${conf}/render_jinja.py ${conf}/i3wm/i3.${hostname}.config ${conf}/i3wm/templates",
@@ -52,7 +53,7 @@ class i3config {
     ensure     => link,
     target     => "${conf}/generated/i3config"
   }
-  $helpers = [ 'i3status-wrapper.py', 'i3sysctl' ]
+  $helpers = [ 'i3status-wrapper.py', 'i3sysctl', 'pavolctl' ]
   config_link { $helpers:
     linkprefix => "${home}/.local/bin/",
     targetdir  => "${conf}/i3wm",
@@ -71,7 +72,7 @@ class i3config {
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
-    require   => File["${home}/.local/bin"],
+    require   => File["${home}/.config/dunst"],
   }
 
   # per-machine lock script
