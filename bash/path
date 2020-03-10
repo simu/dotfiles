@@ -2,8 +2,7 @@
 
 # ~/.local/ paths
 prepend PATH $HOME/.cargo/bin
-prepend PATH $HOME/.local/override-bin
-append PATH $HOME/.local/bin
+prepend PATH $HOME/.local/bin
 append PATH $HOME/.local/opt/fast-export
 
 # add .local/lib to LD_LIBRARY_PATH
