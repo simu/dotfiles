@@ -1,3 +1,4 @@
 *.pyc
 # Everything that's generated
 generated/*
+fonts/**/.uuid
