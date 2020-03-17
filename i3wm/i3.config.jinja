@@ -28,8 +28,6 @@ bindsym $mod+Return exec {{ smart_terminal_command | default("i3-sensible-termin
 # start a floating gnome-terminal (Win+t)
 bindsym $mod+t exec {{ smart_terminal_command | default(floating_terminal_command) }} {{ floating_terminal_args }}
 for_window [{{ floating_terminal_window_props }}] floating enable, move scratchpad, scratchpad show;
-for_window [class="Cssh"] floating enable
-for_window [title="Battle.net"] floating enable;
 
 # shift+t to show scratchpad
 bindsym $mod+Shift+t scratchpad show
@@ -38,9 +36,10 @@ bindsym $mod+Shift+t scratchpad show
 for_window [instance="pavucontrol"] floating enable;
 for_window [instance="thunar"] floating enable;
 for_window [instance="file-roller"] floating enable;
-#float preferences /settings windows
-#for_window [title="(?i)preferences"] floating enable;
-#for_window [title="(?i)setting"] floating enable;
+for_window [class="Cssh"] floating enable
+for_window [title="Battle.net"] floating enable;
+for_window [title="Zoom - Free Account"] floating enable;
+for_window [title="Zoom - Free Account"] resize set 376 500;
 
 # kill focused window
 bindsym $mod+Shift+q kill
