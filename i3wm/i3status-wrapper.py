@@ -233,7 +233,7 @@ if __name__ == '__main__':
         if dropbox_installed():
             j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
         j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
-        if socket.gethostname().startswith('wyvern'):
+        if socket.gethostname().split('.')[0] in ['wyvern', 'phoenix']:
             mpd_msg = get_mpd_song()
             if mpd_msg:
                 j.insert(0, {'full_text' : mpd_msg, 'name' : 'mpd'})
