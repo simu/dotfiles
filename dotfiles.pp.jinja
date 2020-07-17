@@ -216,6 +216,18 @@ node chimaera {
 
 node phoenix {
   include common
+
+  mkdir_p { "${home}/.config/systemd/user": }
+  config_link { "nvidia-temp.service":
+    linkprefix => "${home}/.config/systemd/user/",
+    sourcename => "generated/nvidia-temp.service",
+    require    => File["${home}/.config/systemd/user"],
+  }
+  config_link { "nvidia-temp.timer":
+    linkprefix => "${home}/.config/systemd/user/",
+    sourcename => "generated/nvidia-temp.timer",
+    require    => File["${home}/.config/systemd/user"],
+  }
 }
 
 node wyvern {

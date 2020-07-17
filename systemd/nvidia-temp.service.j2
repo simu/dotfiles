@@ -1,0 +1,8 @@
+[Unit]
+Description=Nvidia GPU temperature
+
+[Service]
+ExecStart={{ dotfiles_path }}/scripts/nvidia-temp.sh
+
+[Install]
+WantedBy=default.target

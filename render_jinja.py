@@ -24,6 +24,7 @@ def load_siteconfig(sitecfg_file):
     # inject absolute path of this script as value for "Managed by" blurb
     siteconfig['dotfiles_managed'] = os.path.abspath(sys.argv[0])
     siteconfig['dotfiles_source'] = os.path.abspath(sys.argv[1])
+    siteconfig['dotfiles_path'] = os.path.dirname(siteconfig['dotfiles_managed'])
     return siteconfig
 
 # load list of templates

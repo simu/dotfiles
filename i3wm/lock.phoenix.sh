@@ -1,2 +1,2 @@
 #!/bin/sh
-gnome-screensaver-command -l
+mate-screensaver-command -l

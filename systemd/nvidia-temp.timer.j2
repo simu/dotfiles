@@ -1,0 +1,9 @@
+[Unit]
+Description=Regularly read out Nvidia GPU temperature
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec={{ nvidia_temp_interval }}
+
+[Install]
+WantedBy=timers.target

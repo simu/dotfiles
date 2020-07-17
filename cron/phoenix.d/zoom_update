@@ -1,0 +1,2 @@
+# Check for zoom updates every 4 hours
+47 */4 * * * /usr/bin/sudo ~/.local/bin/zoom-update.sh 2>&1 | logger -t cronjob-zoom-update
