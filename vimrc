@@ -1,4 +1,5 @@
 filetype on
+set exrc
 set t_Co=256
 set nocompatible
 set autoread
