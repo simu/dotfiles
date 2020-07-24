@@ -366,7 +366,7 @@ endfun
 " Call AsciidoctorMappings for all `*.adoc` and `*.asciidoc` files
 augroup asciidoctor
     au!
-    au BufEnter *.adoc,*.asciidoc call AsciidoctorMappings()
+    au FileType asciidoctor call AsciidoctorMappings()
 augroup END
 
 let g:asciidoctor_fenced_languages = ['python', 'yaml', 'json']
