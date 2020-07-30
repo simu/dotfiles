@@ -2,7 +2,6 @@
 
 import click
 import json
-import pathlib
 import os
 import shlex
 import subprocess
@@ -18,6 +17,13 @@ class Record:
 
     def __repr__(self):
         return "Record({!r}, {!r})".format(self.header, self.entries)
+
+    @property
+    def entries_as_dict(self):
+        entries = {}
+        for e in self.entries:
+            entries[e.name] = e.value[0]
+        return entries
 
     @classmethod
     def from_tokens(cls, tokens):
@@ -112,9 +118,9 @@ class PAVolControl:
             sinks_out = subprocess.check_output(sinks_cmd).decode('utf-8')
             parser = _pactl_list_parser()
             tokens = parser.parseString(sinks_out, True)
-            sinks = json.loads(json.dumps(tokens.asList(), default=lambda obj: obj.__dict__))
-            sink_names = [[z['value'] for z in x['entries'] if z['name']=='Name'][0] for x in sinks]
-            sink_descs = [[z['value'] for z in x['entries'] if z['name']=='Description'][0] for x in sinks]
+            sinks = json.loads(json.dumps(tokens.asList(), default=lambda obj: obj.entries_as_dict))
+            sink_names = [x['Name'] for x in sinks]
+            sink_descs = [x['Description'] for x in sinks]
             klass._sinks = list(zip(sink_names, sink_descs))
         return klass._sinks
 
@@ -140,7 +146,7 @@ class PAVolControl:
             print(f"Creating config in {self._cfgpath}")
             PAVolControl.create_initial_config(self._cfgpath)
         with open(self._cfgpath) as cfg:
-            self._config = yaml.load(cfg)
+            self._config = yaml.safe_load(cfg)
         self._sinks = None
 
     @property
@@ -174,7 +180,8 @@ def volume(volctl, amount):
 
 @main.command(short_help='Control mute. ')
 @click.argument('cmd')
-def mute(ctx, cmd):
+@pass_volctl
+def mute(volctl, cmd):
     subprocess.check_call(['pactl', 'set-sink-mute', volctl.sink,
         cmd])
 
