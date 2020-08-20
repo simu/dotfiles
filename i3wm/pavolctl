@@ -119,9 +119,9 @@ class PAVolControl:
             parser = _pactl_list_parser()
             tokens = parser.parseString(sinks_out, True)
             sinks = json.loads(json.dumps(tokens.asList(), default=lambda obj: obj.entries_as_dict))
-            sink_names = [x['Name'] for x in sinks]
-            sink_descs = [x['Description'] for x in sinks]
-            klass._sinks = list(zip(sink_names, sink_descs))
+            klass._sinks = {}
+            for sink in sinks:
+                klass._sinks[sink['Name']] = sink
         return klass._sinks
 
     @classmethod
@@ -131,8 +131,7 @@ class PAVolControl:
         pactl_info = dict([tuple(map(str.strip, x.split(':', 1))) for x in
             pactl_info_lines])
         print(pactl_info['Default Sink'])
-        avail_sinks = [x[0] for x in PAVolControl._available_sinks()]
-        sink = avail_sinks.index(pactl_info['Default Sink'])
+        sink = pactl_info['Default Sink']
         config = {
             'sink': str(sink)
         }
@@ -156,7 +155,7 @@ class PAVolControl:
 
     @property
     def available_sinks(self):
-        return [x[1] for x in PAVolControl._available_sinks()]
+        return PAVolControl._available_sinks()
 
     def set_sink(self, sink):
         self._config['sink'] = sink
@@ -189,17 +188,21 @@ def mute(volctl, cmd):
 @pass_volctl
 def set_sink(volctl):
     sinks = volctl.available_sinks
-    dmenu_cmd = shlex.split(f"dmenu -i -l {len(sinks)} -p 'Select PA Sink'")
+    sink_id_by_desc = {}
+    for s, v in sinks.items():
+        sink_id_by_desc[v['Description']] = s
+    sinkdescs = sink_id_by_desc.keys()
+    dmenu_cmd = shlex.split(f"dmenu -i -l {len(sinkdescs)} -p 'Select PA Sink'")
     try:
         selection = subprocess.check_output(dmenu_cmd, input=('\n'.join([f"{s}"
-            for s in sinks])).encode('utf-8')).decode('utf-8')
+            for s in sinkdescs])).encode('utf-8')).decode('utf-8')
     except subprocess.CalledProcessError as e:
         if e.returncode == 1:
             return
         else:
             raise e
     try:
-        sink = sinks.index(selection.strip())
+        sink = sink_id_by_desc[selection.strip()]
     except ValueError:
         return
     volctl.set_sink(str(sink))
