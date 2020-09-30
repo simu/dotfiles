@@ -64,12 +64,21 @@ if [ -f ~/.local/bash_prompt_config ]; then
     . ~/.local/bash_prompt_config
 fi
 
+_ps1_kubectx() {
+    if [[ x"$KUBECONFIG" != x"" ]]; then
+        echo " [$(basename "$KUBECONFIG" | cut -d '.' -f1)]"
+    else
+        echo ""
+    fi
+}
+
+
 if [ "$color_prompt" = yes ]; then
     #PS1='${debian_chroot:+($debian_chroot)}\D{%Y-%m-%d %H:%m} \[\033[01;10m\]\u@\h\[\033[00m\]:\w \$ '
     if [[ x"$HOSTNAME_COLOR" == x"" ]]; then
         HOSTNAME_COLOR=36
     fi
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;${HOSTNAME_COLOR}m\]\u@\h\[\033[00m\]:\w \$ '
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;${HOSTNAME_COLOR}m\]\u@\h\[\033[00m\]:\w$(_ps1_kubectx) \$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
