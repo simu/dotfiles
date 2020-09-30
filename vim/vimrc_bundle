@@ -86,8 +86,14 @@ Bundle 'habamax/vim-asciidoctor'
 
 """ Colorschemes
 Bundle 'aonemd/kuroi.vim'
-Bundle 'BarretRen/vim-colorscheme'
+Bundle 'BarretRen/barret-vimcolor'
 Bundle 'Nequo/vim-allomancer'
+
+""" EditorConfig
+Bundle 'editorconfig/editorconfig-vim'
+
+""" Python Black code style
+Bundle 'psf/black'
 
 call vundle#end()
 filetype plugin indent on
