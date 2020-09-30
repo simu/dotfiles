@@ -1,0 +1,2 @@
+# Update Vim plugins
+31 9 * * * /usr/bin/vim +BundleInstall! +qa | logger -t cronjob-update-vim-plugins

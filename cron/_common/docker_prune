@@ -1,0 +1,2 @@
+# prune docker system every 6h
+23 */6 * * * /usr/bin/docker system prune -f 2>&1 | logger -t cronjob-docker-prune

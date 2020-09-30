@@ -1,0 +1,2 @@
+# update wallpapers every 15 mins
+*/15 * * * * ~/.local/bin/next_wallpaper.sh ":0" 2>&1 | logger -t cronjob-cycle-wallpaper
