@@ -1,0 +1,10 @@
+#!/bin/bash
+
+readonly BACKLIGHT_CONTROL_DIR={{ backlight_control_dir }}
+readonly BACKLIGHT_MAX=$(cat ${BACKLIGHT_CONTROL_DIR}/max_brightness)
+
+BACKLIGHT_CURR=$(cat ${BACKLIGHT_CONTROL_DIR}/brightness)
+
+BACKLIGHT_FRAC=$(($BACKLIGHT_CURR / $BACKLIGHT_MAX))
+
+echo $BACKLIGHT_FRAC
