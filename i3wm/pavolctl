@@ -6,208 +6,131 @@ import os
 import shlex
 import subprocess
 import yaml
+import pulsectl
 
 from xdg import XDG_CONFIG_HOME
 
-# pactl list parsing from https://gist.github.com/zyga/5534776
-class Record:
-    def __init__(self, header, entries):
-        self.header = header
-        self.entries = entries
+# fix zoomvol:
+# TODO implement
+# pulsectl.list_sink_inputs()
+# pulsectl.list_clients()
+# -> sufficent to find Zoom sink inputs
 
-    def __repr__(self):
-        return "Record({!r}, {!r})".format(self.header, self.entries)
-
-    @property
-    def entries_as_dict(self):
-        entries = {}
-        for e in self.entries:
-            entries[e.name] = e.value[0]
-        return entries
-
-    @classmethod
-    def from_tokens(cls, tokens):
-        return cls(
-            tokens['HEADER'],
-            [token['entry'] for token in tokens['entry-list']])
-
-
-class Entry:
-    def __init__(self, name, value):
-        self.name = name
-        self.value = value
-
-    def __repr__(self):
-        return "Entry({!r}, {!r})".format(self.name, self.value)
-
-    @classmethod
-    def from_tokens(cls, tokens):
-        return cls(tokens['NAME'], tokens['value'])
-
-def _pactl_list_parser():
-    """
-    Get the syntax suitable for parsing `pactl list` output
-    The syntax parses valid text and produces a list of :class:`Record` objects
-    """
-    import pyparsing as p
-    # The syntax uses indenting so a shared indent stack is required to parse
-    # output properly. See indentedBlock() documentation for details
-    indent_stack = [1]
-    # VALUE
-    # VALUE = p.Regex(".+").setResultsName("VALUE")
-    property_value = (
-        p.indentedBlock(
-            p.Word(p.alphanums + ".").setResultsName("PROP_NAME")
-            + p.Suppress('=')
-            + p.QuotedString('"').setResultsName("PROP_VALUE"),
-            indent_stack
-        ).setResultsName("prop-value")
-    )
-    simple_value = p.ungroup(
-        p.Combine(
-            p.Regex(r".*")
-            + p.Optional(
-                p.indentedBlock(p.Regex(".+"), indent_stack)
-            ),
-            joinString='\n',
-            adjacent=False
-        )
-    ).setResultsName("simple-value")
-    value = p.Or(
-        [property_value, simple_value]
-    ).setResultsName("value")
-    # NAME
-    NAME = p.Regex("[^:]+").setResultsName("NAME")
-    # entry: NAME ':' [VALUE] [indented<VALUE>]
-    entry = (
-        NAME + p.Suppress(":") + value
-    ).setResultsName(
-        "entry"
-    ).setParseAction(
-        Entry.from_tokens
-    )
-    # HEADER
-    HEADER = p.restOfLine.setResultsName("HEADER")
-    # record: HEADER '\n' indented<entry>
-    record = (
-        HEADER
-        + p.Suppress(p.lineEnd)
-        + p.indentedBlock(entry, indent_stack).setResultsName("entry-list")
-    ).setResultsName(
-        "record"
-    ).setParseAction(
-        Record.from_tokens
-    )
-    # record_list: record+
-    record_list = p.OneOrMore(
-        record
-    ).setResultsName(
-        "record-list"
-    )
-    syntax = record_list
-    syntax.enablePackrat()
-    return syntax
 
 class PAVolControl:
-    _sinks = None
-
-    @classmethod
-    def _available_sinks(klass):
-        if not klass._sinks:
-            sinks_cmd = shlex.split("pactl list sinks")
-            sinks_out = subprocess.check_output(sinks_cmd).decode('utf-8')
-            parser = _pactl_list_parser()
-            tokens = parser.parseString(sinks_out, True)
-            sinks = json.loads(json.dumps(tokens.asList(), default=lambda obj: obj.entries_as_dict))
-            klass._sinks = {}
-            for sink in sinks:
-                klass._sinks[sink['Name']] = sink
-        return klass._sinks
+    _cur_sink = None
 
     @classmethod
     def create_initial_config(klass, path):
-        pactl_info_lines = subprocess.check_output(shlex.split(
-            "pactl info")).decode('utf-8').strip().split('\n')
-        pactl_info = dict([tuple(map(str.strip, x.split(':', 1))) for x in
-            pactl_info_lines])
-        print(pactl_info['Default Sink'])
-        sink = pactl_info['Default Sink']
-        config = {
-            'sink': str(sink)
-        }
+        sink = self._pulsectl.server_info().default_sink_name
+        config = {"sink": sink}
         os.makedirs(path.parent, exist_ok=True)
-        with open(path, 'w') as cfg:
+        with open(path, "w") as cfg:
             yaml.dump(config, cfg)
 
     def __init__(self):
-        self._cfgpath = XDG_CONFIG_HOME / 'pavolctl' / 'config.yaml'
+        self._cfgpath = XDG_CONFIG_HOME / "pavolctl" / "config.yaml"
         if not self._cfgpath.exists():
             print(f"Creating config in {self._cfgpath}")
             PAVolControl.create_initial_config(self._cfgpath)
         with open(self._cfgpath) as cfg:
             self._config = yaml.safe_load(cfg)
-        self._sinks = None
+        self._pulsectl = pulsectl.Pulse("pavolctl")
 
     @property
     def sink(self):
-        return self._config['sink']
-
+        if not self._cur_sink or self._cur_sink.name != self._config["sink"]:
+            self._cur_sink = list(
+                filter(
+                    lambda s: s.name == self._config["sink"], self._pulsectl.sink_list()
+                )
+            )[0]
+        return self._cur_sink
 
     @property
     def available_sinks(self):
-        return PAVolControl._available_sinks()
+        return self._pulsectl.sink_list()
 
     def set_sink(self, sink):
-        self._config['sink'] = sink
-        with open(self._cfgpath, 'w') as cfg:
+        self._config["sink"] = sink.name
+        with open(self._cfgpath, "w") as cfg:
             yaml.dump(self._config, cfg)
-        subprocess.check_call(shlex.split(f"pactl set-default-sink {sink}"))
+        self._pulsectl.default_set(sink)
+
+    @property
+    def pulsectl(self):
+        return self._pulsectl
+
 
 pass_volctl = click.make_pass_decorator(PAVolControl)
+
 
 @click.group()
 @click.pass_context
 def main(ctx):
     ctx.obj = PAVolControl()
 
-@main.command(short_help='Adjust volume')
-@click.argument('amount')
+
+@main.command(short_help="Adjust volume")
+@click.argument("amount")
 @pass_volctl
 def volume(volctl, amount):
-    subprocess.check_call(['pactl', 'set-sink-volume', volctl.sink,
-        amount])
+    change = '+' in amount or '-' in amount
+    # Convert percentage string into fraction
+    if "%" in amount:
+        amount = amount.strip("%")
+        amount = float(amount)
+        amount = amount / 100.0
+    else:
+        amount = float(amount)
 
-@main.command(short_help='Control mute. ')
-@click.argument('cmd')
+    if change:
+        volctl.pulsectl.volume_change_all_chans(volctl.sink, amount)
+    else:
+        volctl.pulsectl.volume_set_all_chans(volctl.sink, amount)
+
+
+@main.command(short_help="Control mute. ")
+@click.argument("cmd")
 @pass_volctl
 def mute(volctl, cmd):
-    subprocess.check_call(['pactl', 'set-sink-mute', volctl.sink,
-        cmd])
+    _muted = (volctl.sink.mute == 1)
+    if cmd == 'toggle':
+        _muted = not _muted
+    elif cmd == 'true' or cmd == 'mute':
+        _muted = True
+    else:
+        _muted = False
+    volctl.pulsectl.mute(volctl.sink, mute=_muted)
 
-@main.command(short_help='Set sink')
+
+@main.command(short_help="Set sink")
 @pass_volctl
 def set_sink(volctl):
     sinks = volctl.available_sinks
-    sink_id_by_desc = {}
-    for s, v in sinks.items():
-        sink_id_by_desc[v['Description']] = s
-    sinkdescs = sink_id_by_desc.keys()
+    sink_name_by_desc = {}
+    for s in sinks:
+        sink_name_by_desc[s.description] = s
+    sinkdescs = sink_name_by_desc.keys()
     dmenu_cmd = shlex.split(f"dmenu -i -l {len(sinkdescs)} -p 'Select PA Sink'")
     try:
-        selection = subprocess.check_output(dmenu_cmd, input=('\n'.join([f"{s}"
-            for s in sinkdescs])).encode('utf-8')).decode('utf-8')
+        selection = subprocess.check_output(
+            dmenu_cmd, input=("\n".join([f"{s}" for s in sinkdescs])).encode("utf-8")
+        ).decode("utf-8")
     except subprocess.CalledProcessError as e:
         if e.returncode == 1:
             return
         else:
             raise e
     try:
-        sink = sink_id_by_desc[selection.strip()]
+        sink = sink_name_by_desc[selection.strip()]
     except ValueError:
+        print(e)
         return
-    volctl.set_sink(str(sink))
+    volctl.set_sink(sink)
 
-if __name__ == '__main__':
-    main.main(prog_name='pavolctl')
+
+if __name__ == "__main__":
+    main.main(prog_name="pavolctl")
 
 # vim: et sw=4 ts=4 sts=4
