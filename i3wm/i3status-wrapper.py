@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # This script is a simple wrapper which prefixes each i3status line with custom
@@ -30,10 +30,12 @@ import socket
 from subprocess import check_output
 from mpd import MPDClient
 
+
 def get_governor():
     """ Get the current governor for cpu0, assuming all CPUs use the same. """
-    with open('/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor') as fp:
+    with open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") as fp:
         return fp.readlines()[0].strip()
+
 
 def dropbox_installed():
     """Check if dropbox is running"""
@@ -43,13 +45,15 @@ def dropbox_installed():
     except:
         return False
 
+
 def get_dropbox_status():
     """ Get current status for dropbox. """
     try:
         out = check_output(["dropbox", "status"])
-        return out.strip().replace('\n', '|')
+        return out.strip().replace("\n", "|")
     except:
         return "not installed"
+
 
 def get_current_kbmap():
     """ Get current keyboard layout """
@@ -57,22 +61,26 @@ def get_current_kbmap():
         out = check_output(["setxkbmap", "-print"])
         for line in out.splitlines():
             if line.find("symbols") > 0:
-                _, layout, _ = line.split('+', 2)
+                _, layout, _ = line.split("+", 2)
                 return layout
         return ""
     except:
         return "cannot parse kbd layout"
 
+
 def get_current_nuvola_song():
     """ Get nuvolaplayer status """
+
     def str_to_bool(input):
-        return {'true': True, 'false': False}.get(input, False)
+        return {"true": True, "false": False}.get(input, False)
 
     try:
         artist = check_output(["nuvolaplayer3ctl", "track-info", "artist"]).strip()
         title = check_output(["nuvolaplayer3ctl", "track-info", "title"]).strip()
         state = check_output(["nuvolaplayer3ctl", "track-info", "state"]).strip()
-        thumbs_up = check_output(["nuvolaplayer3ctl", "action-state", "thumbs-up"]).strip()
+        thumbs_up = check_output(
+            ["nuvolaplayer3ctl", "action-state", "thumbs-up"]
+        ).strip()
         thumbsym = "(+)" if str_to_bool(thumbs_up) else ""
 
         if state == "playing" or state == "paused":
@@ -83,7 +91,10 @@ def get_current_nuvola_song():
         return "[n/a]"
     pass
 
+
 mpd_client = None
+
+
 def mpd_reconnect():
     # open mpd connection
     global mpd_client
@@ -93,11 +104,12 @@ def mpd_reconnect():
     try:
         mpd_client.connect("localhost", 6600)
     except:
-        print >>sys.stderr, "could not connect"
+        print("could not connect", file=sys.stderr)
         return False
 
-    print >>sys.stderr, "mpd reconnected"
+    print("mpd reconnected", file=sys.stderr)
     return True
+
 
 def get_mpd_song():
     """ Get infos from mpd """
@@ -114,13 +126,13 @@ def get_mpd_song():
         mpd_client.status()
         mpd_client.currentsong()
         results = mpd_client.command_list_end()
-        state = results[1]['state']
+        state = results[1]["state"]
         artist = None
-        if 'artist' in results[2].keys():
-            artist = results[2]['artist']
+        if "artist" in list(results[2].keys()):
+            artist = results[2]["artist"]
         title = None
-        if 'title' in results[2].keys():
-            title = results[2]['title']
+        if "title" in list(results[2].keys()):
+            title = results[2]["title"]
         if artist is None and title is not None:
             # assume #Musik stream
             artist, title = title.split(" | ")[0].split(" - ")
@@ -132,31 +144,45 @@ def get_mpd_song():
         return None
     pass
 
+
 _prev = None
+
+
 def get_gpmdp_song():
     """Get song from Google Play Desktop Music Player"""
     import os
+
     global _prev
-    _json_info_path = os.path.join(os.environ['HOME'], ".config",
-            "Google Play Music Desktop Player", "json_store", "playback.json")
+    _json_info_path = os.path.join(
+        os.environ["HOME"],
+        ".config",
+        "Google Play Music Desktop Player",
+        "json_store",
+        "playback.json",
+    )
     try:
         with open(_json_info_path, "r") as _info_fh:
             _info = json.load(_info_fh)
-            if not _info['song']['title']:
+            if not _info["song"]["title"]:
                 _prev = None
                 return None
-            state = "play" if _info['playing'] else "paused"
-            _prev = "[%s] %s - %s" % (state, _info['song']['artist'], _info['song']['title'])
+            state = "play" if _info["playing"] else "paused"
+            _prev = "[%s] %s - %s" % (
+                state,
+                _info["song"]["artist"],
+                _info["song"]["title"],
+            )
             return _prev
     except:
         return _prev
+
 
 def _libvirt_get_running_vms():
     """Get number of currently running libvirt VMs"""
     try:
         import libvirt
     except:
-        print >>sys.stderr, "No libvirt installed"
+        print("No libvirt installed", file=sys.stderr)
         return None
     conn = None
     try:
@@ -167,35 +193,41 @@ def _libvirt_get_running_vms():
         return None
     return "libvirt VMs: %d" % conn.numOfDomains()
 
+
 def _vbox_get_running_vms():
     """Get number of running vbox VMs"""
     vbox_listrunningvms = None
     try:
-        vbox_listrunningvms = check_output(["vboxmanage", "list", "runningvms"])
-    except CalledProcessError, e:
-        print >>sys.stderr, "check_output(['vboxmanage', ...]):"
+        vbox_listrunningvms = check_output(["vboxmanage", "list", "runningvms"]).decode(
+            "utf-8"
+        )
+    except CalledProcessError as e:
+        print("check_output(['vboxmanage', ...]):", file=sys.stderr)
         e.print_stack_trace()
         return None
     if vbox_listrunningvms is None:
         return None
-    vbox_listrunning_lines = vbox_listrunningvms.strip().split('\n')
-    if vbox_listrunning_lines[0] == '':
+    vbox_listrunning_lines = vbox_listrunningvms.strip().split("\n")
+    if vbox_listrunning_lines[0] == "":
         return "VBox VMs: 0"
     return "VBox VMs: %d" % len(vbox_listrunning_lines)
+
 
 def get_running_vms(j):
     """Get number of running VMs (all providers)"""
     libvirt_msg = _libvirt_get_running_vms()
     vbox_msg = _vbox_get_running_vms()
     if libvirt_msg:
-        j.insert(0, {'full_text' : libvirt_msg, 'name' : 'libvirt_vms'})
+        j.insert(0, {"full_text": libvirt_msg, "name": "libvirt_vms"})
     if vbox_msg:
-        j.insert(0, {'full_text' : vbox_msg, 'name' : 'vbox_vms'})
+        j.insert(0, {"full_text": vbox_msg, "name": "vbox_vms"})
+
 
 def print_line(message):
     """ Non-buffered printing to stdout. """
-    sys.stdout.write(message + '\n')
+    sys.stdout.write(message + "\n")
     sys.stdout.flush()
+
 
 def read_line():
     """ Interrupted respecting reader for stdin. """
@@ -210,7 +242,8 @@ def read_line():
     except KeyboardInterrupt:
         sys.exit()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # connect to MPD
     mpd_reconnect()
 
@@ -221,25 +254,28 @@ if __name__ == '__main__':
     print_line(read_line())
 
     while True:
-        line, prefix = read_line(), ''
+        line, prefix = read_line(), ""
         # ignore comma at start of lines
-        if line.startswith(','):
-            line, prefix = line[1:], ','
+        if line.startswith(","):
+            line, prefix = line[1:], ","
 
         j = json.loads(line)
         # insert information into the start of the json, but could be anywhere
         # CHANGE THIS LINE TO INSERT SOMETHING ELSE
-        #j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
+        # j.insert(0, {'full_text' : '%s' % get_governor(), 'name' : 'gov'})
         if dropbox_installed():
-            j.insert(0, {'full_text' : 'Dropbox: %s' % get_dropbox_status(), 'name' : 'dropbox'})
-        j.insert(0, {'full_text' : 'layout: %s' % get_current_kbmap(), 'name' : 'kbmap'})
-        if socket.gethostname().split('.')[0] in ['wyvern', 'phoenix']:
+            j.insert(
+                0,
+                {"full_text": "Dropbox: %s" % get_dropbox_status(), "name": "dropbox"},
+            )
+        j.insert(0, {"full_text": "layout: %s" % get_current_kbmap(), "name": "kbmap"})
+        if socket.gethostname().split(".")[0] in ["wyvern", "phoenix"]:
             mpd_msg = get_mpd_song()
             if mpd_msg:
-                j.insert(0, {'full_text' : mpd_msg, 'name' : 'mpd'})
+                j.insert(0, {"full_text": mpd_msg, "name": "mpd"})
             gpmdp_msg = get_gpmdp_song()
             if gpmdp_msg:
-                j.insert(0, {'full_text' : gpmdp_msg, 'name': 'gpmdp'})
+                j.insert(0, {"full_text": gpmdp_msg, "name": "gpmdp"})
             get_running_vms(j)
         # and echo back new encoded json
-        print_line(prefix+json.dumps(j))
+        print_line(prefix + json.dumps(j))

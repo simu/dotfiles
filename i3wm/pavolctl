@@ -8,7 +8,13 @@ import subprocess
 import yaml
 import pulsectl
 
-from xdg import XDG_CONFIG_HOME
+from pathlib import Path
+
+try:
+    from xdg import XDG_CONFIG_HOME
+except ImportError:
+    import xdg.BaseDirectory
+    XDG_CONFIG_HOME = Path(xdg.BaseDirectory.xdg_config_home)
 
 # fix zoomvol:
 # TODO implement
