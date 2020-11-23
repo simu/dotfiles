@@ -111,6 +111,14 @@ class i3config {
     targetdir  => "${conf}/generated",
     require  => File[ "${home}/.local/bin" ],
   }
+
+  mkdir_p { "${home}/.config/ncmpc": }
+  config_link { "ncmpc-config":
+    targetname => "config",
+    linkprefix  => "${home}/.config/ncmpc/",
+    sourcename => "ncmpc-config",
+    require  => File[ "${home}/.config/ncmpc" ],
+  }
 }
 
 class user_crontab {
