@@ -27,5 +27,7 @@ done
 # install merged crontab
 crontab "$NEW_CRONTAB"
 
+if [ $? -eq 0 ]; then
 # delete temp file
 rm "$CUR_CRONTAB" "$NEW_CRONTAB"
+fi
