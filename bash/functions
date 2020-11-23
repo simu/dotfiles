@@ -1,18 +1,29 @@
-function iabf()
-{
-	make install && rackboot.sh -b -c $1
-}
-
+# vim: set et sw=2 sts=2 ft=sh:
 function goto_fault_code()
 {
-	# $1==binary, $2=address
-	path=$(addr2line -e $1 $2)
-	vim $path
+  # $1==binary, $2=address
+  path=$(addr2line -e $1 $2)
+  vim $path
 }
 
 function vimrej ()
 {
-	vim -O ${1}{.rej,}
+  vim -O ${1}{.rej,}
+}
+
+function kubectx ()
+{
+  if [ -z "${1}" ]; then
+    echo "Usage: kubectx <context>"
+    return
+  fi
+  kubecfg=$(eval echo "~/${1}.kubeconfig")
+  if [ -f "${kubecfg}" ]; then
+    export KUBECONFIG="${kubecfg}"
+    kubectl get nodes
+  else
+    echo "Unknown kubeconfig ${1}".
+  fi
 }
 
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
