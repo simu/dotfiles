@@ -44,6 +44,8 @@ endif
 " configure colorscheme -- solarized light works ok with my colorscheme
 let g:solarized_termcolors=256
 let g:airline_theme="solarized"
+" keymap needs to be explicitly disabled now. TBD: do we want this
+let g:airline#extensions#keymap#enabled = 0
 " make whitespace warnings use much less space
 let g:airline#extensions#whitespace#trailing_format = 't[%s]'
 let g:airline#extensions#whitespace#mixed_indent_format = 'm[%s]'
