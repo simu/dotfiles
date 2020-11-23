@@ -226,7 +226,7 @@ mode "$mode_vuctrl" {
 	bindsym k exec --no-startup-id ~/.local/bin/pavolctl volume -- +5%, exec --no-startup-id killall -SIGUSR1 i3status
 	bindsym l exec --no-startup-id ~/.local/bin/pavolctl volume -- +10%, exec --no-startup-id killall -SIGUSR1 i3status
 	bindsym m exec --no-startup-id ~/.local/bin/pavolctl mute toggle, exec --no-startup-id killall -SIGUSR1 i3status, mode "default"
-	bindsym Shift+S exec --no-startup-id ~/.local/bin/pavolctl set-sink, mode "default"
+	bindsym Shift+s exec --no-startup-id ~/.local/bin/pavolctl set-sink, mode "default"
 	#bindsym p exec --no-startup-id ~/.local/bin/google-play-music-ctrl.sh p, mode "default"
 	bindsym p exec --no-startup-id mpc toggle, mode "default", exec --no-startup-id killall -SIGUSR1 i3status
 	bindsym s exec --no-startup-id mpc stop, mode "default", exec --no-startup-id killall -SIGUSR1 i3status
