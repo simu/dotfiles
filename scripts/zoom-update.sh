@@ -10,7 +10,7 @@ readonly new_ver="$(dpkg -I /tmp/zoom.deb | grep "^ Version:" | cut -d: -f2 | tr
 
 if [[ "$inst_ver" != "$new_ver" ]]; then
   echo "Updating Zoom from $inst_ver to $new_ver"
-  dpkg -i /tmp/zoom.deb
+  gdebi -n /tmp/zoom.deb
 else
   echo "Zoom already up-to-date: $inst_ver"
 fi
