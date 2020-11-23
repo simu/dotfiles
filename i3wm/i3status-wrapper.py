@@ -58,7 +58,7 @@ def get_dropbox_status():
 def get_current_kbmap():
     """ Get current keyboard layout """
     try:
-        out = check_output(["setxkbmap", "-print"])
+        out = check_output(["setxkbmap", "-print"]).decode("utf-8")
         for line in out.splitlines():
             if line.find("symbols") > 0:
                 _, layout, _ = line.split("+", 2)
