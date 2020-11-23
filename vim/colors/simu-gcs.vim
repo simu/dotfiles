@@ -9,7 +9,8 @@ endif
 let colors_name = "simu"
 
 if version >= 700
-  hi CursorLine guibg=#f6f6f6
+  hi CursorLine cterm=None guibg=#f6f6f6
+  hi CursorLineNr cterm=None guibg=#f6f6f6
   hi CursorColumn guibg=#eaeaea
   hi MatchParen guifg=#404850 guibg=#ffff80 gui=bold
 
