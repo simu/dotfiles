@@ -157,6 +157,7 @@ class fontconfig {
   mkdir_p { "${home}/.fonts": }
   config_link { 'fonts/otf-powerlinesymbols': }
   config_link { 'fonts/ttf-sourcecode': }
+  config_link { 'fonts/ttf-sourcesans': }
   mkdir_p { "${home}/.config/fontconfig/conf.d": }
   file { "${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf":
     ensure  => link,
@@ -171,6 +172,7 @@ class fontconfig {
     subscribe   =>
     [ File["${home}/.fonts/otf-powerlinesymbols"],
       File["${home}/.fonts/ttf-sourcecode"],
+      File["${home}/.fonts/ttf-sourcesans"],
       File["${home}/.config/fontconfig/conf.d/10-powerline-symbols.conf"]
     ],
     refreshonly => true
