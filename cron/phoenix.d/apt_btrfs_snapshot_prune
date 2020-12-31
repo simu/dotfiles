@@ -1,2 +1,2 @@
 # prune old apt-btrfs snapshots 
-37 10 * * MON /usr/bin/apt-btrfs-snapshot delete-older-than 7d 2>&1 | logger -t cronjob-apt-btrfs-prune
+37 10 * * MON /usr/bin/sudo /usr/bin/apt-btrfs-snapshot delete-older-than 7d 2>&1 | logger -t cronjob-apt-btrfs-prune
