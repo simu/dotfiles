@@ -105,6 +105,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.md set ft=markdown
     autocmd BufNewFile,BufRead *.rs set ft=rust
     autocmd BufNewFile,BufRead *.pp set ft=puppet
+    autocmd BufNewFile,BufRead Dockerfile* set ft=dockerfile
     " assume that yaml may contain jinja snippets
     autocmd BufNewFile,BufRead *.yml set ft=yaml.ansible
     autocmd BufNewFile,BufRead *.yaml set ft=yaml.ansible
@@ -115,6 +116,7 @@ if has("autocmd")
     autocmd BufNewFile,BufRead *.*.j2 call SetJinjaFt()
     " use ansible jinja mixin for *.<ext>.jinja -> ft=<ext>.ansible
     autocmd BufNewFile,BufRead *.*.jinja call SetJinjaFt()
+    autocmd BufNewFile,BufRead *.*.jinja2 call SetJinjaFt()
     autocmd BufNewFile,BufRead *.json set ft=json
     autocmd BufNewFile,BufRead *.jsonnet set ft=jsonnet
     autocmd BufNewFile,BufRead *.libjsonnet set ft=jsonnet
@@ -122,10 +124,13 @@ if has("autocmd")
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
     autocmd BufNewFile,BufRead *.adoc,*.asciidoc set ft=asciidoctor
+    autocmd Filetype adoc.ansible set ft=asciidoctor.ansible
+    autocmd Filetype asciidoc.ansible set ft=asciidoctor.ansible
     autocmd Filetype xml set ts=8 et sts=2 sw=2
     autocmd Filetype lisp set ts=8 et sts=2 sw=2
-    autocmd Filetype python set ts=8 et sts=4 sw=4 "tw=79
+    autocmd Filetype python set ts=8 et sts=4 sw=4 tw=100
     autocmd Filetype python let g:python_highlight_all=1
+"    autocmd FileType python let g:black_linelength = 100
     autocmd Filetype vim set ts=8 et sts=2 sw=2
     autocmd Filetype haskell set ts=8 et sts=2 sw=2
     autocmd Filetype matlab set ts=8 et sts=4 sw=4
@@ -163,7 +168,8 @@ if has("autocmd")
     autocmd FileType json set ts=2 et sts=2 sw=2
     autocmd FileType jsonnet set ts=2 et sts=2 sw=2
     autocmd FileType terraform set et ts=2 sts=2 sw=2
-    autocmd FileType asciidoctor set et ts=2 sts=2 sw=2 spell
+    autocmd FileType asciidoctor set et ts=2 sts=2 sw=2 spell tw=0
+    autocmd FileType typescript set et ts=2 sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
@@ -371,10 +377,45 @@ augroup asciidoctor
     au FileType asciidoctor call AsciidoctorMappings()
 augroup END
 
+augroup autoformat
+   autocmd BufWritePre *.libjsonnet call jsonnet#Format()
+   autocmd BufWritePre *.py call black#Black()
+augroup END
+
 let g:asciidoctor_fenced_languages = ['python', 'yaml', 'json']
 let g:asciidoctor_img_paste_command = 'xclip -selection clipboard -t image/png -o > %s%s'
 let g:asciidoctor_img_paste_pattern = 'img_%s_%s.png'
 let g:asciidoctor_pdf_extensions = ['asciidoctor-diagram']
+
+" Jsonnet formatting config
+let g:jsonnet_fmt_options = '--pad-arrays'
+
+" Black options
+let g:black_quiet = 1
+let g:black_skip_magic_trailing_comma = 0
+
+""" Javascript/Typescript config
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  elseif (coc#rpc#ready())
+    call CocActionAsync('doHover')
+  else
+    execute '!' . &keywordprg . " " . expand('<cword>')
+  endif
+endfunction
+
+augroup jsts
+  nmap <silent> gd <Plug>(coc-definition)
+  nmap <silent> gy <Plug>(coc-type-definition)
+  nmap <silent> gi <Plug>(coc-implementation)
+  nmap <silent> gr <Plug>(coc-references)
+
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+  nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+augroup END
 
 " do showcmd late, as it apparently doesn't work if it's done before airline
 set showcmd
