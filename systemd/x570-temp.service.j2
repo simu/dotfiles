@@ -1,0 +1,8 @@
+[Unit]
+Description=Ryzen/X570 temperature
+
+[Service]
+ExecStart={{ dotfiles_path }}/scripts/x570-temp.sh
+
+[Install]
+WantedBy=default.target

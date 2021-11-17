@@ -1,3 +1,5 @@
 gitconfig.j2, gitconfig, 0644
 systemd/nvidia-temp.service.j2, nvidia-temp.service, 0644
 systemd/nvidia-temp.timer.j2, nvidia-temp.timer, 0644
+systemd/x570-temp.service.j2, x570-temp.service, 0644
+systemd/x570-temp.timer.j2, x570-temp.timer, 0644

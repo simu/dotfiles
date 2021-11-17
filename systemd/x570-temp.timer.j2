@@ -1,0 +1,9 @@
+[Unit]
+Description=Regularly read out AMD Ryzen on X570 temperature
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec={{ x570_temp_interval }}
+
+[Install]
+WantedBy=timers.target
