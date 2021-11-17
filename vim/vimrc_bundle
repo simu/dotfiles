@@ -1,99 +1,95 @@
 set nocompatible
 filetype off
 
-" vundle setup: minimal vimrc to run BundleInstall on new system
+" plug setup: minimal vimrc to run PlugInstall on new system
 " also included in normal vimrc using source
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#rc()
+call plug#begin('~/.vim/bundle/')
 
-" vundle selfmanage
-Bundle 'VundleVim/Vundle.vim'
 " seek
-Bundle 'simu/vim-seek'
+Plug 'simu/vim-seek'
 " file:line -- allows to open files with appended line and column info
 " (e.g. some-file.c:120:5:)
-Bundle 'file-line'
+Plug 'vim-scripts/file-line'
 " clang complete (with python3 support)
-Bundle 'myint/clang_complete'
+Plug 'myint/clang_complete'
 " guicolorscheme
-Bundle 'guicolorscheme.vim'
+Plug 'vim-scripts/guicolorscheme.vim'
 " supertab
-Bundle 'ervandew/supertab'
+Plug 'ervandew/supertab'
 " cscope_maps
-Bundle 'simu/cscope_maps'
+Plug 'simu/cscope_maps'
 " YouCompleteMe -- fancy autocompletion that combines clang_complete,
 " SuperTab and some others
-"Bundle 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
 " Syntastic -- in-editor compiler warnings etc.
-Bundle 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 " vim git gutter
-Bundle 'airblade/vim-gitgutter'
+Plug 'airblade/vim-gitgutter'
 " CoVim
-"Bundle 'FredKSchott/CoVim'
+"Plug 'FredKSchott/CoVim'
 " git sessions (restore vim context per branch)
-Bundle 'wting/gitsessions.vim'
+Plug 'wting/gitsessions.vim'
 " powerline (statusline++)
-"Bundle 'Lokaltog/powerline'
+"Plug 'Lokaltog/powerline'
 " airline (lightweight vim-only powerline
-Bundle 'vim-airline/vim-airline'
-Bundle 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " fugitive
-Bundle 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " jedi: python autocompletion
-Bundle 'davidhalter/jedi-vim'
+Plug 'davidhalter/jedi-vim'
 " orgmode
-Bundle 'jceb/vim-orgmode'
-" moinmoin syntax
-Bundle 'moin.vim'
+Plug 'jceb/vim-orgmode'
 " Rust syntax highlighting
-Bundle 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim'
 " Rust completion (racer)
-Bundle 'phildawes/racer'
+Plug 'phildawes/racer'
 " jump stack
-Bundle 'tommcdo/vim-kangaroo'
+Plug 'tommcdo/vim-kangaroo'
 " align to character
-Bundle 'tommcdo/vim-lion'
+Plug 'tommcdo/vim-lion'
 " Puppet stuff
-Bundle 'rodjek/vim-puppet'
-" TLA+
-Bundle 'tla.vim'
+Plug 'rodjek/vim-puppet'
 " Vagrant
-Bundle 'hashivim/vim-vagrant'
+Plug 'hashivim/vim-vagrant'
 " Terraform
-Bundle 'hashivim/vim-terraform'
+Plug 'hashivim/vim-terraform'
 " YAML
-"Bundle 'chase/vim-ansible-yaml'
+"Plug 'chase/vim-ansible-yaml'
 " Jinja
-"Bundle 'lepture/vim-jinja'
+"Plug 'lepture/vim-jinja'
 " Ansible
-Bundle 'pearofducks/ansible-vim'
+Plug 'pearofducks/ansible-vim'
 " Mixin syntax ranges
-Bundle 'inkarkat/vim-SyntaxRange'
+Plug 'inkarkat/vim-SyntaxRange'
 " TOML highlighting
-Bundle 'cespare/vim-toml'
+Plug 'cespare/vim-toml'
 " Go dev
-Bundle 'fatih/vim-go'
+Plug 'fatih/vim-go'
 " easy-align
-Bundle 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align'
 " jq syntax highlighting
-Bundle 'vito-c/jq.vim'
+Plug 'vito-c/jq.vim'
 " jsonnet
-Bundle 'google/vim-jsonnet'
+Plug 'google/vim-jsonnet'
 " python3 syntax highlighting
-Bundle 'vim-python/python-syntax'
+Plug 'vim-python/python-syntax'
 " AsciiDoctor
-Bundle 'habamax/vim-asciidoctor'
+Plug 'habamax/vim-asciidoctor'
 
 """ Colorschemes
-Bundle 'aonemd/kuroi.vim'
-Bundle 'BarretRen/barret-vimcolor'
-Bundle 'Nequo/vim-allomancer'
+Plug 'aonemd/kuroi.vim'
+Plug 'Nequo/vim-allomancer'
 
 """ EditorConfig
-Bundle 'editorconfig/editorconfig-vim'
+Plug 'editorconfig/editorconfig-vim'
 
 """ Python Black code style
-Bundle 'psf/black'
+Plug 'psf/black'
 
-call vundle#end()
+""" JavaScript / TypeScript
+Plug 'pangloss/vim-javascript'
+Plug 'leafgarland/typescript-vim'
+
+call plug#end()
 filetype plugin indent on
