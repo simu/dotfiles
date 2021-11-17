@@ -71,6 +71,10 @@ which kubectl 2>&1 >/dev/null
 if [ $? -eq 0 ]; then
 	source <(kubectl completion bash)
 fi
+which oc 2>&1 >/dev/null
+if [ $? -eq 0 ]; then
+	source <(oc completion bash)
+fi
 
 # fix potentially broken MANPATH variable, e.g. by Pupppet
 export MANPATH=":${MANPATH}"

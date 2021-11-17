@@ -17,6 +17,10 @@ function kubectx ()
     echo "Usage: kubectx <context>"
     return
   fi
+  if [ "${1}" == "--clear" ]; then
+    unset KUBECONFIG
+    return
+  fi
   kubecfg=$(eval echo "~/${1}.kubeconfig")
   if [ -f "${kubecfg}" ]; then
     export KUBECONFIG="${kubecfg}"
