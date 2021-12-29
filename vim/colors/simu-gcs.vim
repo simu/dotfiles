@@ -1,4 +1,3 @@
-
 set background=light
 
 hi clear
@@ -97,6 +96,13 @@ hi DiffChange guibg=#e0e0e0
 hi DiffText guibg=#f0c8c8
 hi DiffAdd guibg=#c0e0d0
 hi DiffDelete guibg=#f0e0b0
+
+" Coc-Nvim
+if hlexists('FgCocWarningFloatBgCocFloating')
+  hi FgCocWarningFloatBgCocFloating guifg=#ffcc99 guibg=#808080
+  hi FgCocHintFloatBgCocFloating guifg=#aaccee guibg=#808080
+  hi FgCocErrorFloatBgCocFloating guifg=#ff9999 guibg=#808080
+endif
 
 " GitGutter
 hi GitGutterAdd guifg=#00aa00 guibg=#eeeeee
