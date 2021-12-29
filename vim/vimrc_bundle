@@ -42,8 +42,6 @@ Plug 'davidhalter/jedi-vim'
 Plug 'jceb/vim-orgmode'
 " Rust syntax highlighting
 Plug 'rust-lang/rust.vim'
-" Rust completion (racer)
-Plug 'phildawes/racer'
 " jump stack
 Plug 'tommcdo/vim-kangaroo'
 " align to character
@@ -85,14 +83,14 @@ Plug 'Nequo/vim-allomancer'
 Plug 'editorconfig/editorconfig-vim'
 
 """ Python Black code style
-Plug 'psf/black'
+Plug 'psf/black', {'branch': 'main'}
 
 """ JavaScript / TypeScript
 Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 
 """ CoC (only for JS/TS for now)
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['javascript', 'typescript'] }
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['javascript', 'typescript', 'rust'] }
 
 call plug#end()
 filetype plugin indent on
