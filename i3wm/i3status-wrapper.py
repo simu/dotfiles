@@ -32,7 +32,7 @@ from mpd import MPDClient
 
 
 def get_governor():
-    """ Get the current governor for cpu0, assuming all CPUs use the same. """
+    """Get the current governor for cpu0, assuming all CPUs use the same."""
     with open("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor") as fp:
         return fp.readlines()[0].strip()
 
@@ -47,7 +47,7 @@ def dropbox_installed():
 
 
 def get_dropbox_status():
-    """ Get current status for dropbox. """
+    """Get current status for dropbox."""
     try:
         out = check_output(["dropbox", "status"])
         return out.strip().replace("\n", "|")
@@ -56,7 +56,7 @@ def get_dropbox_status():
 
 
 def get_current_kbmap():
-    """ Get current keyboard layout """
+    """Get current keyboard layout"""
     try:
         out = check_output(["setxkbmap", "-print"]).decode("utf-8")
         for line in out.splitlines():
@@ -69,7 +69,7 @@ def get_current_kbmap():
 
 
 def get_current_nuvola_song():
-    """ Get nuvolaplayer status """
+    """Get nuvolaplayer status"""
 
     def str_to_bool(input):
         return {"true": True, "false": False}.get(input, False)
@@ -112,7 +112,7 @@ def mpd_reconnect():
 
 
 def get_mpd_song():
-    """ Get infos from mpd """
+    """Get infos from mpd"""
     global mpd_client
     try:
         mpd_client.ping()
@@ -130,6 +130,8 @@ def get_mpd_song():
         artist = None
         if "artist" in list(results[2].keys()):
             artist = results[2]["artist"]
+            if isinstance(artist, list):
+                artist = ", ".join(artist)
         title = None
         if "title" in list(results[2].keys()):
             title = results[2]["title"]
@@ -224,13 +226,13 @@ def get_running_vms(j):
 
 
 def print_line(message):
-    """ Non-buffered printing to stdout. """
+    """Non-buffered printing to stdout."""
     sys.stdout.write(message + "\n")
     sys.stdout.flush()
 
 
 def read_line():
-    """ Interrupted respecting reader for stdin. """
+    """Interrupted respecting reader for stdin."""
     # try reading a line, removing any extra whitespace
     try:
         line = sys.stdin.readline().strip()
