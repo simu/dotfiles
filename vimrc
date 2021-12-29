@@ -16,7 +16,7 @@ set wrap
 " nice marker for wrapped lines
 set showbreak=↪
 
-" source plugin configuration (Vundle)
+" source plugin configuration (vim-plug)
 source ~/.vim/vimrc_bundle
 
 "airline setup
@@ -295,7 +295,7 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " clang autocomplete hotfix
-let g:clang_library_path='/usr/lib/llvm-6.0/lib/libclang.so.1'
+let g:clang_library_path='/usr/lib/x86_64-linux-gnu/libclang-10.so.1'
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_macros=1
@@ -406,15 +406,15 @@ function! s:show_documentation()
 endfunction
 
 augroup jsts
-  nmap <silent> gd <Plug>(coc-definition)
-  nmap <silent> gy <Plug>(coc-type-definition)
-  nmap <silent> gi <Plug>(coc-implementation)
-  nmap <silent> gr <Plug>(coc-references)
+  au FileType javascript,typescript,rust nmap <silent> gd <Plug>(coc-definition)
+  au FileType javascript,typescript,rust nmap <silent> gy <Plug>(coc-type-definition)
+  au FileType javascript,typescript,rust nmap <silent> gi <Plug>(coc-implementation)
+  au FileType javascript,typescript,rust nmap <silent> gr <Plug>(coc-references)
 
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  au FileType javascript,typescript,rust nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-  command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
-  nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
+  au FileType javascript,typescript,rust command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+  au FileType javascript,typescript,rust nnoremap <silent><nowait> <space>a  :<C-u>CocList diagnostics<cr>
 augroup END
 
 " do showcmd late, as it apparently doesn't work if it's done before airline
