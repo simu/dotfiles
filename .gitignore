@@ -2,3 +2,4 @@
 # Everything that's generated
 generated/*
 fonts/**/.uuid
+vim/autoload/plug.vim
