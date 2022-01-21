@@ -40,6 +40,9 @@ for_window [class="Cssh"] floating enable
 for_window [title="Battle.net"] floating enable;
 for_window [title="Zoom - Free Account"] floating enable;
 for_window [title="Zoom - Free Account"] resize set 376 650;
+for_window [title="^zoom$" class="[zoom]*"] floating enable;
+# Don't focust zoom "notifications"
+no_focus [title="^zoom$", class="[zoom]*"]
 
 # kill focused window
 bindsym $mod+Shift+q kill
