@@ -44,6 +44,11 @@ for_window [title="^zoom$" class="[zoom]*"] floating enable;
 # Don't focust zoom "notifications"
 no_focus [title="^zoom$", class="[zoom]*"]
 
+# Only set urgent hint but don't let activated windows steal focus
+# This prevents the mouse from jumping between windows/screens when opening
+# links from outside the browser on a multi-monitor setup.
+focus_on_window_activation urgent
+
 # kill focused window
 bindsym $mod+Shift+q kill
 
