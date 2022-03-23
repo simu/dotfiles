@@ -2,3 +2,4 @@
 "\e[6~": history-search-forward
 set bell-style none
 
+set enable-bracketed-paste on
