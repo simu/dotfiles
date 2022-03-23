@@ -43,6 +43,7 @@ class xresources {
 class i3config {
   mkdir_p { "${home}/.i3": }
   mkdir_p { "${home}/.config/dunst": }
+
   exec { 'generate-i3-config':
     require     => File["${conf}/generated"],
     command     => "/usr/bin/python ${conf}/render_jinja.py ${conf}/i3wm/i3.${hostname}.config ${conf}/i3wm/templates",
@@ -69,7 +70,6 @@ class i3config {
     targetdir  => "${conf}/i3wm",
     require   => File["${home}/.local/bin"],
   }
-  mkdir_p { "${home}/.config/dunst": }
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
