@@ -40,9 +40,9 @@ for_window [class="Cssh"] floating enable
 for_window [title="Battle.net"] floating enable;
 for_window [title="Zoom - Free Account"] floating enable;
 for_window [title="Zoom - Free Account"] resize set 376 650;
-for_window [title="^zoom$" class="[zoom]*"] floating enable;
-# Don't focust zoom "notifications"
-no_focus [title="^zoom$", class="[zoom]*"]
+for_window [title="^zoom\s*$" class="[zoom]*"] floating enable;
+# Don't focus zoom "notifications"
+no_focus [title="^zoom\s*$", class="[zoom]*"]
 
 # Only set urgent hint but don't let activated windows steal focus
 # This prevents the mouse from jumping between windows/screens when opening
