@@ -187,6 +187,9 @@ map <C-f> <C-]>
 " sudo write
 ca w!! w !sudo tee >/dev/null "%"<CR>
 
+" noautocmd write
+ca nw noautocmd w<CR>
+
 " highlight blanks at end of line.
 set list
 set listchars=tab:\ \ ,trail:·
