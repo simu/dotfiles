@@ -61,7 +61,7 @@ Plug 'pearofducks/ansible-vim'
 " Mixin syntax ranges
 Plug 'inkarkat/vim-SyntaxRange'
 " TOML highlighting
-Plug 'cespare/vim-toml'
+Plug 'cespare/vim-toml', {'branch': 'main'}
 " Go dev
 Plug 'fatih/vim-go'
 " easy-align
