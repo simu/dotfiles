@@ -311,7 +311,7 @@ noremap <leader>d :let g:clang_periodic_quickfix=0<CR>
 "let g:SuperTabMappingTabLiteral='<F13>'
 if 1
   " disable preview window
-  set completeopt=menu,menuone,longest
+  set completeopt=menu,menuone
 else
   " If you prefer the Omni-Completion tip window to close when a selection
   " is made, these lines close it on movement in insert mode or when leaving
@@ -396,6 +396,9 @@ let g:jsonnet_fmt_options = '--pad-arrays'
 " Black options
 let g:black_quiet = 1
 let g:black_skip_magic_trailing_comma = 0
+
+" Rust.vim options
+let g:rustfmt_autosave = 1
 
 """ Javascript/Typescript config
 function! s:show_documentation()
