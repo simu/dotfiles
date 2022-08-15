@@ -24,11 +24,14 @@
 # 2, as published by Sam Hocevar. See http://sam.zoy.org/wtfpl/COPYING for more
 # details.
 
+import re
 import sys
 import json
 import socket
 from subprocess import check_output
 from mpd import MPDClient
+
+import humanize
 
 
 def get_governor():
@@ -225,6 +228,41 @@ def get_running_vms(j):
         j.insert(0, {"full_text": vbox_msg, "name": "vbox_vms"})
 
 
+rx_prev = 0
+tx_prev = 0
+
+
+def net_speed(j):
+    """Print enp5s0 speed.
+
+    Inspired by https://github.com/wardi/speedometer/blob/191ac78fd0cf08fc88ccb9c431fc2e53ae470f91/speedometer.py#L599-L620
+    """
+    global rx_prev, tx_prev
+    r = re.compile(r"^\s*" + re.escape("enp5s0") + r":(.*)$", re.MULTILINE)
+
+    f = open("/proc/net/dev")
+    dev_lines = f.read()
+    f.close()
+    match = r.search(dev_lines)
+    if not match:
+        return
+
+    parts = match.group(1).split()
+    rx_now = int(parts[0])
+    tx_now = int(parts[8])
+    text = "RX ?, TX ?"
+    if rx_prev != 0:
+        assert rx_now >= rx_prev
+        rx_speed = humanize.naturalsize((rx_now - rx_prev) / 5, binary=True)
+        tx_speed = humanize.naturalsize((tx_now - tx_prev) / 5, binary=True)
+        rx_speed = rx_speed.replace("Bytes", "B")
+        tx_speed = tx_speed.replace("Bytes", "B")
+        text = f"rx: {rx_speed}/s, tx: {tx_speed}/s"
+    rx_prev = rx_now
+    tx_prev = tx_now
+    j.insert(0, {"full_text": text, "name": "netspeed"})
+
+
 def print_line(message):
     """Non-buffered printing to stdout."""
     sys.stdout.write(message + "\n")
@@ -255,6 +293,8 @@ if __name__ == "__main__":
     # The second line contains the start of the infinite array.
     print_line(read_line())
 
+    hostname = socket.gethostname().split(".")[0]
+
     while True:
         line, prefix = read_line(), ""
         # ignore comma at start of lines
@@ -270,8 +310,10 @@ if __name__ == "__main__":
                 0,
                 {"full_text": "Dropbox: %s" % get_dropbox_status(), "name": "dropbox"},
             )
+        if hostname == "phoenix":
+            net_speed(j)
         j.insert(0, {"full_text": "layout: %s" % get_current_kbmap(), "name": "kbmap"})
-        if socket.gethostname().split(".")[0] in ["wyvern", "phoenix"]:
+        if hostname in ["wyvern", "phoenix"]:
             mpd_msg = get_mpd_song()
             if mpd_msg:
                 j.insert(0, {"full_text": mpd_msg, "name": "mpd"})
