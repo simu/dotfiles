@@ -411,7 +411,19 @@ function! s:show_documentation()
   endif
 endfunction
 
-augroup jsts
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+augroup jstsrs
+  au FileType javascript,typescript,rust inoremap <silent><expr> <TAB>
+        \ pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ coc#refresh()
+  au FileType javascript,typescript,rust inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+  au FileType javascript,typescript,rust inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
   au FileType javascript,typescript,rust nmap <silent> gd <Plug>(coc-definition)
   au FileType javascript,typescript,rust nmap <silent> gy <Plug>(coc-type-definition)
   au FileType javascript,typescript,rust nmap <silent> gi <Plug>(coc-implementation)
