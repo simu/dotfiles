@@ -41,3 +41,7 @@
 
 [advice]
 	skippedCherryPicks = false
+{% if signingkey != ""  %}
+[commit]
+	gpgsign = true
+{% endif %}
