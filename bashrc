@@ -87,10 +87,10 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w"'$(_ps1_kubectx)'"\a\]$PS1"
     ;;
 screen*|tmux*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w"'$(_ps1_kubectx)'"\a\]$PS1"
     PROMPT_COMMAND='SHORT_PWD=${PWD/\/local2\/gerbesim/l2~};SHORT_PWD=${SHORT_PWD/\/local\/gerbesim/l~};SHORT_PWD=${SHORT_PWD/$HOME/\~};echo -ne "\033k$SHORT_PWD\033\\"' ;;
 *)
     ;;
