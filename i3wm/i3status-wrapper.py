@@ -206,6 +206,9 @@ def _vbox_get_running_vms():
         vbox_listrunningvms = check_output(["vboxmanage", "list", "runningvms"]).decode(
             "utf-8"
         )
+    except FileNotFoundError as e:
+        print("vboxmanage not found, skipping...", file=sys.stderr)
+        return None
     except CalledProcessError as e:
         print("check_output(['vboxmanage', ...]):", file=sys.stderr)
         e.print_stack_trace()
