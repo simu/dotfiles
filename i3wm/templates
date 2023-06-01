@@ -1,6 +1,6 @@
-i3.config.jinja, i3config, 0644
-dunstrc.jinja, dunstrc, 0644
-networkmanager-dmenu.ini.j2, networkmanager-dmenu.ini, 0644
-xautolock.sh.jinja, xautolock.sh, 0755
-i3-smart-terminal.jinja, i3-smart-terminal, 0755
-screenctl.j2, screenctl, 0755
+i3.config.jinja, i3config, 0o644
+dunstrc.jinja, dunstrc, 0o644
+networkmanager-dmenu.ini.j2, networkmanager-dmenu.ini, 0o644
+xautolock.sh.jinja, xautolock.sh, 0o755
+i3-smart-terminal.jinja, i3-smart-terminal, 0o755
+screenctl.j2, screenctl, 0o755

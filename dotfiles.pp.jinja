@@ -46,7 +46,7 @@ class i3config {
 
   exec { 'generate-i3-config':
     require     => File["${conf}/generated"],
-    command     => "/usr/bin/python ${conf}/render_jinja.py ${conf}/i3wm/i3.${hostname}.config ${conf}/i3wm/templates",
+    command     => "/usr/bin/python3 ${conf}/render_jinja.py ${conf}/i3wm/i3.${hostname}.config ${conf}/i3wm/templates",
     environment => [ "HOME=${home}", "OUTPUT_DIRECTORY=${conf}/generated" ]
   }
   file { "${home}/.i3/config":
@@ -193,7 +193,7 @@ class common {
 
   exec { 'generate-configs':
     require     => File["${conf}/generated"],
-    command     => "/usr/bin/python ${conf}/render_jinja.py ${conf}/${hostname}.config ${conf}/templates",
+    command     => "/usr/bin/python3 ${conf}/render_jinja.py ${conf}/${hostname}.config ${conf}/templates",
     environment => [ "HOME=${home}", "OUTPUT_DIRECTORY=${conf}/generated" ]
   }
 

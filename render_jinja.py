@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import json
@@ -9,7 +9,7 @@ import sys
 import shutil
 
 if len(sys.argv) < 3:
-    print >>sys.stderr, "Usage: %s siteconfig filesconfig" % sys.argv[0]
+    print("Usage: {sys.argv[0]} siteconfig filesconfig", file=sys.stderr)
     sys.exit(1)
 
 SITECONFIG = os.path.abspath(sys.argv[1])
@@ -41,12 +41,12 @@ def load_templates(filescfg_file):
 def generate_config(template_fname, config_fh):
     global siteconfig
 
-    with open(os.path.join(CONFIG_DIR, template_fname)) as f:
-        fc = ''.join(f.readlines()).decode('utf-8')
+    with open(os.path.join(CONFIG_DIR, template_fname), encoding='utf-8') as f:
+        fc = ''.join(f.readlines())
 
     template = jinja2.Template(fc)
 
-    config_fh.write(template.render(siteconfig).encode('utf-8'))
+    config_fh.write(template.render(siteconfig))
     config_fh.write('\n')
 
 def set_managed_by(sitecfg, source_found):
@@ -69,6 +69,6 @@ FILES = load_templates(TEMPLATES)
 
 for src,dest,mode in FILES:
     destfile = os.path.join(GENERATED_DIR, dest)
-    with open(destfile, 'w') as f:
+    with open(destfile, 'w', encoding='utf-8') as f:
         generate_config(src, f)
     os.chmod(destfile, mode)
