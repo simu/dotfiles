@@ -1,2 +1,2 @@
 #!/bin/sh
-mate-screensaver-command -l
+i3lock
