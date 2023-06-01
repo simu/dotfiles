@@ -51,4 +51,30 @@ function _complete_kubectx ()
 
 complete -F _complete_kubectx kubectx
 
+oc_token() {
+    oc login | grep https | sed -e 's#.*\(https://.*\)#\1#' | xargs x-www-browser --new-tab
+}
+
+oc_login() {
+    if [ -z "$KUBECONFIG" ]; then
+        echo "Select cluster first"
+        return 1
+    fi
+    if [ -z "${https_proxy}" ]; then
+        export https_proxy=$(yq '.clusters[0].cluster."proxy-url"//""' $KUBECONFIG)
+        cleanup_proxy=yes
+    fi
+    if [ -n "${ocp_user}" ]; then
+      oc login -u "${ocp_user}" "$@"
+    else
+      oc login "$@"
+    fi
+    if [ "$https_proxy" != "" ]; then
+        yq -i '.clusters[0].cluster."proxy-url"=env(https_proxy)' $KUBECONFIG
+    fi
+    if [ -n "${cleanup_proxy:-}" ]; then
+        unset https_proxy
+    fi
+}
+
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
