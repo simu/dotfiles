@@ -11,6 +11,12 @@ function vimrej ()
   vim -O ${1}{.rej,}
 }
 
+function _kubectx_proxy ()
+{
+  # Idea: overwrite this function in ~/.local/bash_functions
+  return
+}
+
 function kubectx ()
 {
   if [ -z "${1}" ]; then
@@ -21,8 +27,9 @@ function kubectx ()
     unset KUBECONFIG
     return
   fi
-  kubecfg=$(eval echo "~/.kube/configs/${1%%.kubeconfig}.kubeconfig")
-  legacy_kubecfg=$(eval echo "~/{1}.kubeconfig")
+  local cluster="${1%%.kubeconfig}"
+  local kubecfg=$(eval echo "~/kubeconfigs/${cluster}.kubeconfig")
+  local legacy_kubecfg=$(eval echo "~/${cluster}.kubeconfig")
   if [ -f "${kubecfg}" ]; then
     export KUBECONFIG="${kubecfg}"
   elif [ -f "${legacy_kubecfg}" ]; then
@@ -31,15 +38,15 @@ function kubectx ()
     echo "Unknown kubeconfig ${1}".
     return
   fi
+  _kubectx_proxy "${cluster}"
   kubectl get nodes
 }
 
-function _complete_kubectx()
+function _complete_kubectx ()
 {
   local cluster_list=$(find ~/.kube/configs -name '*.kubeconfig' -printf '%P ' | sed 's/\.kubeconfig//g')
-  local cur
-  cur=${COMP_WORDS[COMP_CWORD]}
-  COMPREPLY=( $(compgen -W "${cluster_list}" -- $cur ) )
+  local cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "${cluster_list} --clear" -- $cur ) )
 }
 
 complete -F _complete_kubectx kubectx
