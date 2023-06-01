@@ -11,11 +11,11 @@ Plug 'simu/vim-seek'
 " (e.g. some-file.c:120:5:)
 Plug 'vim-scripts/file-line'
 " clang complete (with python3 support)
-Plug 'myint/clang_complete'
+Plug 'myint/clang_complete', { 'for': ['c'] }
 " guicolorscheme
 Plug 'vim-scripts/guicolorscheme.vim'
 " supertab
-Plug 'ervandew/supertab'
+"Plug 'ervandew/supertab'
 " cscope_maps
 Plug 'simu/cscope_maps'
 " YouCompleteMe -- fancy autocompletion that combines clang_complete,
@@ -37,7 +37,7 @@ Plug 'vim-airline/vim-airline-themes'
 " fugitive
 Plug 'tpope/vim-fugitive'
 " jedi: python autocompletion
-Plug 'davidhalter/jedi-vim'
+"Plug 'davidhalter/jedi-vim', { 'for': ['python'] }
 " orgmode
 Plug 'jceb/vim-orgmode'
 " Rust syntax highlighting

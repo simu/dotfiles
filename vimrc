@@ -70,8 +70,8 @@ set relativenumber
 set number
 
 " default to user completion
-let g:SuperTabDefaultCompletionType = 'context'
-let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
+"let g:SuperTabDefaultCompletionType = 'context'
+"let g:SuperTabContextDefaultCompletionType = "<c-x><c-u>"
 
 function! SetJinjaFt()
   " expand: grab filename (:t) without last extension (:r) and then the extension (:e) of buffer name (%)
@@ -298,7 +298,7 @@ vnoremap <silent> # :<C-U>
   \gV:call setreg('"', old_reg, old_regtype)<CR>
 
 " clang autocomplete hotfix
-let g:clang_library_path='/usr/lib/x86_64-linux-gnu/libclang-10.so.1'
+let g:clang_library_path='/usr/lib/x86_64-linux-gnu/libclang-14.so.1'
 let g:clang_auto_user_options='path, .clang_complete'
 let g:clang_user_options='|| exit 0'
 let g:clang_complete_macros=1
@@ -411,16 +411,16 @@ function! s:show_documentation()
   endif
 endfunction
 
-function! s:check_back_space() abort
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
 augroup jstsrs
   au FileType javascript,typescript,rust inoremap <silent><expr> <TAB>
-        \ pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ coc#refresh()
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
   au FileType javascript,typescript,rust inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
   au FileType javascript,typescript,rust inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
                               \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
