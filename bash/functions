@@ -21,13 +21,27 @@ function kubectx ()
     unset KUBECONFIG
     return
   fi
-  kubecfg=$(eval echo "~/${1}.kubeconfig")
+  kubecfg=$(eval echo "~/.kube/configs/${1%%.kubeconfig}.kubeconfig")
+  legacy_kubecfg=$(eval echo "~/{1}.kubeconfig")
   if [ -f "${kubecfg}" ]; then
     export KUBECONFIG="${kubecfg}"
-    kubectl get nodes
+  elif [ -f "${legacy_kubecfg}" ]; then
+    export KUBECONFIG="${legacy_kubecfg}"
   else
     echo "Unknown kubeconfig ${1}".
+    return
   fi
+  kubectl get nodes
 }
+
+function _complete_kubectx()
+{
+  local cluster_list=$(find ~/.kube/configs -name '*.kubeconfig' -printf '%P ' | sed 's/\.kubeconfig//g')
+  local cur
+  cur=${COMP_WORDS[COMP_CWORD]}
+  COMPREPLY=( $(compgen -W "${cluster_list}" -- $cur ) )
+}
+
+complete -F _complete_kubectx kubectx
 
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
