@@ -1,3 +1,4 @@
 bind main = !git commit --fixup=%(commit)
 bind main R !git revert -n %(commit)
 set show-untracked = no
+set line-graphics = default
