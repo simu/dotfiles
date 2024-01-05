@@ -52,30 +52,50 @@ function _complete_kubectx ()
 
 complete -F _complete_kubectx kubectx
 
-oc_token() {
-    oc login | grep https | sed -e 's#.*\(https://.*\)#\1#' | xargs x-www-browser --new-tab
+oc_login() {
+  local cleanup_proxy
+  local cleanup_no_proxy
+  if [ -z "$KUBECONFIG" ]; then
+    echo "Select cluster first"
+    return 1
+  fi
+  if [ -z "${https_proxy}" ]; then
+    export https_proxy=$(yq '.clusters[0].cluster."proxy-url"//""' $KUBECONFIG)
+    cleanup_proxy=yes
+  fi
+  if [ -n "${_no_proxy}" ]; then
+    if [ -n "${no_proxy}" ]; then
+      cleanup_no_proxy="${no_proxy}"
+      export no_proxy="${no_proxy},${_no_proxy}"
+    else
+      export no_proxy="${_no_proxy}"
+      cleanup_no_proxy=""
+    fi
+  fi
+  oc login --web "$@"
+  if [ "$https_proxy" != "" ]; then
+    yq -i '.clusters[0].cluster."proxy-url"=env(https_proxy)' $KUBECONFIG
+  fi
+  if [ -n "${cleanup_proxy:-}" ]; then
+    unset https_proxy
+  fi
+  if [ -z "${cleanup_no_proxy:-}" ]; then
+    unset no_proxy
+  else
+    export no_proxy="${cleanup_no_proxy}"
+  fi
 }
 
-oc_login() {
-    if [ -z "$KUBECONFIG" ]; then
-        echo "Select cluster first"
-        return 1
-    fi
-    if [ -z "${https_proxy}" ]; then
-        export https_proxy=$(yq '.clusters[0].cluster."proxy-url"//""' $KUBECONFIG)
-        cleanup_proxy=yes
-    fi
-    if [ -n "${ocp_user}" ]; then
-      oc login -u "${ocp_user}" "$@"
-    else
-      oc login "$@"
-    fi
-    if [ "$https_proxy" != "" ]; then
-        yq -i '.clusters[0].cluster."proxy-url"=env(https_proxy)' $KUBECONFIG
-    fi
-    if [ -n "${cleanup_proxy:-}" ]; then
-        unset https_proxy
-    fi
+oc_login_as_admin() {
+  oc_login
+  echo "Setting impersonation in kubeconfig"
+  yq -i '.users[0].user.as="cluster-admin"' $KUBECONFIG
+}
+
+oc_login_clear_admin() {
+  if [ -f "$KUBECONFIG" ]; then
+    yq -i 'del(.users[0].user.as)' $KUBECONFIG
+  fi
 }
 
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
