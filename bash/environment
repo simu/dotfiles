@@ -22,9 +22,6 @@ unset LESSOPEN
 unset LESSCLOSE
 
 export TERM_HAS_AIRLINE_SYMS=0
-# try to classify SSH connections for stuff like vim-airline etc
-# get IPv4 for home
-HOME_IPV4=`dig +short simusan.duckdns.org`
 if [ -n "$SSH_CONNECTION" ]; then
 	ssh_client_ip=$(echo $SSH_CONNECTION | cut -f 1 -d' ')
 	ssh_remote=$(echo $ssh_client_ip | nslookup | grep "name =" | cut -d= -f2 | cut -d' ' -f2)
@@ -35,7 +32,6 @@ if [ -n "$SSH_CONNECTION" ]; then
 		*) export TERM_HAS_AIRLINE_SYMS=0;;
 	esac
 	case $ssh_client_ip in
-		$HOME_IPV4) export TERM_HAS_AIRLINE_SYMS=1;;
 		192.168.10.*) export TERM_HAS_AIRLINE_SYMS=1;;
 		127.*) export TERM_HAS_AIRLINE_SYMS=1;;
 		*) export TERM_HAS_AIRLINE_SYMS=0;;
