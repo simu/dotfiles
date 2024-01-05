@@ -1,0 +1,26 @@
+diff --git a/bash_profile b/bash_profile
+index 5e8f0f2..c38b85f 100644
+--- a/bash_profile
++++ b/bash_profile
+@@ -1,5 +1,13 @@
+ # .bash_profile
+ 
++# Clean up old startup logs
++find /tmp -maxdepth 1 -name 'bashstart.*.log' -cmin +60 -delete
++
++# Profile startup sequence int /tmp/bashstart.<PID>.log
++PS4='+ $EPOCHREALTIME\011 '
++exec 3>&2 2>/tmp/bashstart.$$.log
++set -x
++#
+ DOTFILES=~/.dotfiles/bash
+ 
+ # source generic .profile
+@@ -25,3 +33,7 @@ fi
+ 
+ export PATH
+ unset USERNAME
++
++# disable profiling once startup sequence is complete
++set +x
++exec 2>&3 3>&-
