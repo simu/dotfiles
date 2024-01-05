@@ -17,6 +17,7 @@ function _kubectx_proxy ()
   return
 }
 
+readonly kubeconfig_dir=~/kubeconfigs
 function kubectx ()
 {
   if [ -z "${1}" ]; then
@@ -28,7 +29,7 @@ function kubectx ()
     return
   fi
   local cluster="${1%%.kubeconfig}"
-  local kubecfg=$(eval echo "~/kubeconfigs/${cluster}.kubeconfig")
+  local kubecfg=$(eval echo "${kubeconfig_dir}/${cluster}.kubeconfig")
   local legacy_kubecfg=$(eval echo "~/${cluster}.kubeconfig")
   if [ -f "${kubecfg}" ]; then
     export KUBECONFIG="${kubecfg}"
@@ -44,7 +45,7 @@ function kubectx ()
 
 function _complete_kubectx ()
 {
-  local cluster_list=$(find ~/.kube/configs -name '*.kubeconfig' -printf '%P ' | sed 's/\.kubeconfig//g')
+  local cluster_list=$(find "${kubeconfig_dir}" -name '*.kubeconfig' -printf '%P ' | sed 's/\.kubeconfig//g')
   local cur=${COMP_WORDS[COMP_CWORD]}
   COMPREPLY=( $(compgen -W "${cluster_list} --clear" -- $cur ) )
 }
