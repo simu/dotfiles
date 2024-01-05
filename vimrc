@@ -170,6 +170,7 @@ if has("autocmd")
     autocmd FileType terraform set et ts=2 sts=2 sw=2
     autocmd FileType asciidoctor set et ts=2 sts=2 sw=2 spell tw=0
     autocmd FileType typescript set et ts=2 sts=2 sw=2
+    autocmd FileType text set foldmethod=marker et spell tw=0 ts=2 sts=2 sw=2
     autocmd BufReadPost *
       \ if line("'\"") > 1 && line("'\"") <= line("$") |
       \   exe "normal! g`\"" |
