@@ -25,3 +25,9 @@ ERP
 config
 ETL
 timestamp
+cloudscale
+keepalived
+CIDR
+SNAT
+ARP
+openshift-sdn
