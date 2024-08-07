@@ -72,7 +72,7 @@ oc_login() {
       cleanup_no_proxy=""
     fi
   fi
-  oc login --web "$@"
+  oc login --web --callback-port 20000 "$@"
   if [ "$https_proxy" != "" ]; then
     yq -i '.clusters[0].cluster."proxy-url"=env(https_proxy)' $KUBECONFIG
   fi
