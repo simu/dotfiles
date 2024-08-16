@@ -38,9 +38,11 @@ for_window [instance="thunar"] floating enable;
 for_window [instance="file-roller"] floating enable;
 for_window [class="Cssh"] floating enable
 for_window [title="Battle.net"] floating enable;
-for_window [title="Zoom - Free Account"] floating enable;
-for_window [title="Zoom - Free Account"] resize set 376 650;
-for_window [title="^zoom\s*$" class="[zoom]*"] floating enable;
+# enable floating windows for Zoom by default
+for_window [class="^zoom$"] floating enable;
+# disable floating windows for Zoom main window and Meeting window
+for_window [title="^Zoom Workplace -"] floating disable;
+for_window [title="^Meeting$"] floating disable;
 # Don't focus zoom "notifications"
 no_focus [title="^zoom\s*$" class="[zoom]*"]
 
@@ -212,6 +214,7 @@ mode "$mode_system" {
 	bindsym Shift+r exec --no-startup-id ~/.local/bin/i3sysctl reboot, mode "default"
 	bindsym Shift+s exec --no-startup-id ~/.local/bin/i3sysctl shutdown, mode "default"
 	Bindsym s exec --no-startup-id {{ settings_manager }}, mode "default"
+	bindsym c exec --no-startup-id flameshot gui, mode "default"
 	bindsym b mode "$mode_tlp"
 	bindsym n exec --no-startup-id ~/.local/opt/networkmanager-dmenu/networkmanager_dmenu, mode "default"
 	bindsym Return mode "default"
