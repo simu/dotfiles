@@ -13,14 +13,14 @@ LODPI_ZOOM="{{ smart_terminal_lo_dpi_zoom }}"
 FALLBACK_ZOOM="{{ smart_terminal_fallback_zoom | default(smart_terminal_lo_dpi_zoom) }}"
 
 case $FOCUSED_OUTPUT in
-	# high dpi -> only eDP-1
-	eDP-1*)
+	# high dpi
+	DP-2|eDP-1*)
 	# set initial zoom level to 1.2
 	TERM_ARGS="--zoom=$HIDPI_ZOOM"	
 	;;
-	# low dpi -> DP-1-1 and DP-2-2
+	# low dpi
 	DP-1-*)
-	# set initial zoom level to 0.9 on low dpi screens
+	# set initial zoom level on low dpi screens
 	TERM_ARGS="--zoom=$LODPI_ZOOM"	
 	;;
 	# we don't know, don't add extra args, but add message in term
