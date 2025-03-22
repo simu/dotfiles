@@ -83,7 +83,7 @@ Plug 'Nequo/vim-allomancer'
 Plug 'editorconfig/editorconfig-vim'
 
 """ Python Black code style
-Plug 'psf/black', {'branch': 'main'}
+Plug 'psf/black', {'branch': 'stable'}
 
 """ JavaScript / TypeScript
 Plug 'pangloss/vim-javascript'
