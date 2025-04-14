@@ -9,7 +9,7 @@ DOTFILES=~/.dotfiles/bash
 #fi
 
 if [ -n "$DESKTOP_SESSION" ]; then
-	eval $(gnome-keyring-daemon -s)
+	eval $(gnome-keyring-daemon -s 2>/dev/null)
 	export SSH_AUTH_SOCK
 fi
 
