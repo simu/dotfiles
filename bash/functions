@@ -98,4 +98,12 @@ oc_login_clear_admin() {
   fi
 }
 
+hubble_forward_admin() {
+  if [ ! -f "$KUBECONFIG" ]; then
+    echo "Must set $KUBECONFIG for this command"
+    exit 1
+  fi
+  cilium hubble port-forward -n cilium --as=cluster-admin &
+}
+
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
