@@ -11,7 +11,7 @@ Plug 'simu/vim-seek'
 " (e.g. some-file.c:120:5:)
 Plug 'vim-scripts/file-line'
 " clang complete (with python3 support)
-Plug 'myint/clang_complete', { 'for': ['c'] }
+"Plug 'myint/clang_complete', { 'for': ['c'] }
 " guicolorscheme
 Plug 'vim-scripts/guicolorscheme.vim'
 " supertab
