@@ -3,6 +3,7 @@
 $home = '{{ homedir }}'
 $conf = '{{ confdir }}'
 $user = '{{ user }}'
+$hostname = $facts['networking']['hostname']
 
 define mkdir_p($path = $title) {
   $path_parents = all_parents($path)
