@@ -135,8 +135,10 @@ class user_crontab {
 class vimconfig {
   config_link { 'vimrc': }
   mkdir_p { "${home}/.vim": }
-  $vim_subdirs = [ 'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
-                   'plugin', 'scripts', 'spell', 'syntax' ]
+  $vim_subdirs = [
+    'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
+    'plugin', 'scripts', 'spell', 'syntax', 'coc-settings.json'
+  ]
   config_link{ $vim_subdirs:
     linkprefix => "${home}/.vim/",
     targetdir => "${conf}/vim",
