@@ -202,8 +202,9 @@ set smarttab
 " mouse enabled
 set mouse=a
 
-" make mouse stuff work in screen
-set ttymouse=xterm2
+" make mouse work in screen/tmux. This should be the default in vim9 but set
+" it anyway.
+set ttymouse=sgr
 
 " scroll offset
 set scrolloff=3
