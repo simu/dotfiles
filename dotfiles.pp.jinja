@@ -284,6 +284,15 @@ node wyvern {
   }
 }
 
+node sphinx, "sphinx.in.simutech.io" {
+  include i3
+
+  config_link { "zoom-update.sh":
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts"
+  }
+}
+
 node default {
   include common
 }

@@ -2,7 +2,8 @@
 
 readonly deb_url="https://zoom.us/client/latest/zoom_amd64.deb"
 
-readonly inst_ver="$(dpkg -s zoom | grep "^Version:" | cut -d: -f2 | tr -d " ")"
+readonly inst_ver="$(dpkg -s zoom || echo "" | grep "^Version:" | cut -d: -f2 | tr -d " ")"
+echo $inst_ver
 
 curl -L -o/tmp/zoom.deb "$deb_url" 2>/dev/null
 

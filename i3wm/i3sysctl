@@ -1,6 +1,8 @@
 #!/bin/sh
 # from: https://wiki.archlinux.org/index.php/i3#Shutdown.2C_reboot.2C_lock_screen
 
+readonly wm_msg=swaymsg
+
 case "$1" in
     lock)
         # lock needs to be external command
@@ -10,7 +12,7 @@ case "$1" in
         if [ -x .local/bin/logout ]; then
             logout
         else
-            i3-msg exit
+            $wm_msg exit
         fi
         ;;
     suspend)
