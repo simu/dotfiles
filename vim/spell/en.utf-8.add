@@ -32,3 +32,6 @@ SNAT
 ARP
 openshift-sdn
 DockerHub
+kapicorp
+reclass
+kapitan
