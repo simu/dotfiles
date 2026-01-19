@@ -89,7 +89,7 @@ oc_login() {
 oc_login_as_admin() {
   oc_login
   echo "Setting impersonation in kubeconfig"
-  yq -i '.users[0].user.as="cluster-admin"' $KUBECONFIG
+  yq -i '.users[0].user.as="system:admin"' $KUBECONFIG
 }
 
 oc_login_clear_admin() {
@@ -103,7 +103,7 @@ hubble_forward_admin() {
     echo "Must set $KUBECONFIG for this command"
     exit 1
   fi
-  cilium hubble port-forward -n cilium --as=cluster-admin &
+  cilium hubble port-forward -n cilium --as=system:admin &
 }
 
 [ -f ~/.local/bash_functions ] && . ~/.local/bash_functions
