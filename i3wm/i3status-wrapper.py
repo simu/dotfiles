@@ -32,6 +32,7 @@ from subprocess import check_output
 from mpd import MPDClient
 
 import humanize
+import requests
 
 
 def get_governor():
@@ -182,6 +183,39 @@ def get_gpmdp_song():
         return _prev
 
 
+_tidal_hifi_port = 0
+
+
+def get_tidal_hifi_song():
+    global _tidal_hifi_port
+    if _tidal_hifi_port == 0:
+        try:
+            with open(
+                Path.home() / ".config" / "tidal-hifi" / "config.json",
+                "r",
+                encoding="utf-8",
+            ) as cfg:
+                config = json.load(cfg)
+                _tidal_hifi_port = config["apiSettings"]["port"]
+        except:
+            _tidal_hifi_port = 47836
+    try:
+        resp = requests.get(f"http://localhost:{_tidal_hifi_port}/current")
+        resp.raise_for_status()
+
+        song = resp.json()
+        if not song["title"]:
+            return None
+        state = "play" if song["player"]["status"] == "playing" else "paused"
+        return "[%s] %s - %s" % (
+            state,
+            song["artists"].split(",")[0],
+            song["title"],
+        )
+    except:
+        return None
+
+
 def _libvirt_get_running_vms():
     """Get number of currently running libvirt VMs"""
     try:
@@ -323,6 +357,9 @@ if __name__ == "__main__":
             gpmdp_msg = get_gpmdp_song()
             if gpmdp_msg:
                 j.insert(0, {"full_text": gpmdp_msg, "name": "gpmdp"})
+            tidal_msg = get_tidal_hifi_song()
+            if tidal_msg:
+                j.insert(0, {"full_text": tidal_msg, "name": "tidal"})
             get_running_vms(j)
         # and echo back new encoded json
         print_line(prefix + json.dumps(j))
