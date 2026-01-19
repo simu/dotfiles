@@ -385,7 +385,7 @@ augroup END
 
 augroup autoformat
    autocmd BufWritePre *.libjsonnet call jsonnet#Format()
-   autocmd BufWritePre *.py call black#Black()
+   autocmd BufWritePre *.py,*.pyi call black#Black()
 augroup END
 
 let g:asciidoctor_fenced_languages = ['python', 'yaml', 'json']
