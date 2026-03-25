@@ -28,7 +28,7 @@ import re
 import sys
 import json
 import socket
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 from mpd import MPDClient
 
 import humanize
@@ -244,8 +244,7 @@ def _vbox_get_running_vms():
         print("vboxmanage not found, skipping...", file=sys.stderr)
         return None
     except CalledProcessError as e:
-        print("check_output(['vboxmanage', ...]):", file=sys.stderr)
-        e.print_stack_trace()
+        print(e, file=sys.stderr)
         return None
     if vbox_listrunningvms is None:
         return None
