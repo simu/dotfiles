@@ -71,6 +71,11 @@ class i3config {
     targetdir  => "${conf}/i3wm",
     require   => File["${home}/.local/bin"],
   }
+  config_link { 'tidalctl':
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts",
+    require    =>  File["${home}/.local/bin"]
+  }
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
