@@ -3,6 +3,7 @@
 $home = '{{ homedir }}'
 $conf = '{{ confdir }}'
 $user = '{{ user }}'
+$hostname = $facts['networking']['hostname']
 
 define mkdir_p($path = $title) {
   $path_parents = all_parents($path)
@@ -70,6 +71,11 @@ class i3config {
     targetdir  => "${conf}/i3wm",
     require   => File["${home}/.local/bin"],
   }
+  config_link { 'tidalctl':
+    linkprefix => "${home}/.local/bin/",
+    targetdir  => "${conf}/scripts",
+    require    =>  File["${home}/.local/bin"]
+  }
   config_link { 'dunstrc':
     linkprefix => "${home}/.config/dunst/",
     targetdir  => "${conf}/generated",
@@ -134,8 +140,10 @@ class user_crontab {
 class vimconfig {
   config_link { 'vimrc': }
   mkdir_p { "${home}/.vim": }
-  $vim_subdirs = [ 'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
-                   'plugin', 'scripts', 'spell', 'syntax' ]
+  $vim_subdirs = [
+    'autoload', 'colors', 'ftdetect', 'ftplugin', 'indent',
+    'plugin', 'scripts', 'spell', 'syntax', 'coc-settings.json'
+  ]
   config_link{ $vim_subdirs:
     linkprefix => "${home}/.vim/",
     targetdir => "${conf}/vim",

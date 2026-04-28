@@ -124,6 +124,7 @@ if has("autocmd")
     " assume that we have jinja snippets in our puppet ruby code
     autocmd BufNewFile,BufRead *puppet*/*.rb set ft=ruby.ansible
     autocmd BufNewFile,BufRead *.adoc,*.asciidoc set ft=asciidoctor
+    autocmd BufNewFile,BufRead *.ign set ft=json
     autocmd Filetype adoc.ansible set ft=asciidoctor.ansible
     autocmd Filetype asciidoc.ansible set ft=asciidoctor.ansible
     autocmd Filetype xml set ts=8 et sts=2 sw=2
@@ -201,8 +202,9 @@ set smarttab
 " mouse enabled
 set mouse=a
 
-" make mouse stuff work in screen
-set ttymouse=xterm2
+" make mouse work in screen/tmux. This should be the default in vim9 but set
+" it anyway.
+set ttymouse=sgr
 
 " scroll offset
 set scrolloff=3
@@ -372,7 +374,7 @@ fun! AsciidoctorMappings()
     nnoremap <buffer> <leader>cx :Asciidoctor2DOCX<CR>
     nnoremap <buffer> <leader>p :AsciidoctorPasteImage<CR>
     " :make will build pdfs
-    compiler asciidoctor2pdf
+    compiler asciidoctor2html
 endfun
 
 " Call AsciidoctorMappings for all `*.adoc` and `*.asciidoc` files
@@ -383,7 +385,7 @@ augroup END
 
 augroup autoformat
    autocmd BufWritePre *.libjsonnet call jsonnet#Format()
-   autocmd BufWritePre *.py call black#Black()
+   autocmd BufWritePre *.py,*.pyi call black#Black()
 augroup END
 
 let g:asciidoctor_fenced_languages = ['python', 'yaml', 'json']
@@ -397,6 +399,7 @@ let g:jsonnet_fmt_options = '--pad-arrays'
 " Black options
 let g:black_quiet = 1
 let g:black_skip_magic_trailing_comma = 0
+let g:black_use_virtualenv = 1
 
 " Rust.vim options
 let g:rustfmt_autosave = 1

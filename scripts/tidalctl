@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+
+import json
+import requests
+
+from pathlib import Path
+
+ACTIONS = ["toggle", "stop", "prev", "next"]
+
+
+TIDAL_HIFI_PORT=47836
+with open(Path.home() / ".config"/ "tidal-hifi" / "config.json", "r", encoding='utf-8') as cfg:
+    config = json.load(cfg)
+    TIDAL_HIFI_PORT=config["apiSettings"]["port"]
+
+def action(a: str):
+    match a:
+        case "toggle":
+            requests.post(f"http://localhost:{TIDAL_HIFI_PORT}/player/playpause")
+        case "stop":
+            requests.post(f"http://localhost:{TIDAL_HIFI_PORT}/player/pause")
+        case "next":
+            requests.post(f"http://localhost:{TIDAL_HIFI_PORT}/player/next")
+        case "prev":
+            requests.post(f"http://localhost:{TIDAL_HIFI_PORT}/player/previous")
+
+def usage(prog: str):
+    print(f"usage: {prog} <{'|'.join(ACTIONS)}>")
+
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) != 2 or sys.argv[1] not in ACTIONS:
+        usage(sys.argv[0])
+        sys.exit(1)
+    action(sys.argv[1])
