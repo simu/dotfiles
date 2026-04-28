@@ -90,7 +90,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'leafgarland/typescript-vim'
 
 """ CoC (only for JS/TS for now)
-Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['javascript', 'typescript', 'rust', 'go'] }
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'for': ['javascript', 'typescript', 'rust', 'go', 'jsonnet'] }
 
 call plug#end()
 filetype plugin indent on
